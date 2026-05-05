@@ -31,10 +31,12 @@ export function useOrderChrome(config: OrderChrome) {
     throw new Error("useOrderChrome must be used inside <OrderShell />");
   }
   const { setChrome } = ctx;
+  const configFooterKey = config.footerKey;
+  const configFooter = config.footer;
+  const configInsuranceCopy = config.insuranceCopy;
   useEffect(() => {
-    setChrome(config);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
+    setChrome({ footerKey: configFooterKey, footer: configFooter, insuranceCopy: configInsuranceCopy });
+  }, [setChrome, configFooterKey, configFooter, configInsuranceCopy]);
 }
 
 export function OrderShell() {
