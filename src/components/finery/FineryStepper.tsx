@@ -9,7 +9,6 @@ const TOTAL_STEPS = 3;
 
 export function FineryStepper({ step, className }: FineryStepperProps) {
   return (
-    <div className={cn("flex w-full gap-1", className)}>
     <div className={cn("flex w-full gap-[6px]", className)}>
       {Array.from({ length: TOTAL_STEPS }).map((_, i) => {
         const filled = i + 1 <= step;
