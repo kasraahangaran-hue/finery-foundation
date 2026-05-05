@@ -19,6 +19,32 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        finery: {
+          purple: {
+            100: '#FAF4FF',
+            200: '#F0DCFF',
+            300: '#A86CD6',
+            400: '#4B1574',
+          },
+          teal: {
+            100: '#F4FFFD',
+            200: '#D8FFF8',
+            300: '#D2F0EB',
+            350: '#55BBAA',
+            400: '#2EA692',
+          },
+          beige: {
+            100: '#FFFEFC',
+            200: '#FBF9F6',
+            300: '#FBF2E5',
+            400: '#472C05',
+          },
+          textSecondary: '#625964',
+          warning: '#E57C23',
+          warningFaded: '#FFEEDF',
+          disabledBg: '#DFDBDB',
+          disabledText: '#AAA7AE',
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -57,6 +83,10 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+      },
+      fontFamily: {
+        display: ['"Inria Serif"', 'serif'],
+        sans: ['Inter', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
