@@ -6,7 +6,11 @@ import { haptics } from "@/utils/haptics";
 /**
  * FineryButton — primary CTA, outline, and tiny back-button variants.
  *
- * TODO(design): confirm exact heights/padding/radius vs Figma when available.
+ * Dimensions match laundry baseline:
+ *   - primary/outline: h-[42px] rounded-[8px] text-sm font-bold
+ *     (font-bold is Inria's closest match to laundry's font-semibold;
+ *      Inria Serif doesn't load weight 600)
+ *   - tiny: h-[42px] w-12 rounded-[8px] (48×42, matches laundry BackButton bordered)
  */
 
 type Variant = "primary" | "outline" | "tiny";
@@ -17,24 +21,24 @@ interface FineryButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const baseClasses =
-  "press-effect flex items-center justify-center font-display transition-colors disabled:cursor-not-allowed";
+  "press-effect inline-flex items-center justify-center font-display transition-colors disabled:cursor-not-allowed";
 
 const variantClasses: Record<Variant, string> = {
   primary: cn(
-    "h-[42px] w-full rounded-[8px] text-[14px] font-normal",
+    "h-[42px] flex-1 rounded-[8px] text-sm font-bold",
     "bg-finery-purple-400 text-finery-beige-100",
     "hover:bg-finery-purple-400/90",
     "disabled:bg-finery-disabledBg disabled:text-finery-disabledText",
   ),
   outline: cn(
-    "h-[42px] w-full rounded-[8px] text-[14px] font-normal",
+    "h-[42px] flex-1 rounded-[8px] text-sm font-bold",
     "bg-finery-beige-100 text-finery-purple-400",
     "border border-finery-purple-400",
     "hover:bg-finery-beige-100/80",
     "disabled:bg-finery-disabledBg disabled:text-finery-disabledText disabled:border-finery-disabledBg",
   ),
   tiny: cn(
-    "h-[42px] w-[42px] rounded-[8px]",
+    "h-[42px] w-12 shrink-0 rounded-[8px]",
     "bg-finery-beige-100 text-finery-purple-400",
     "border border-finery-purple-400",
     "hover:bg-finery-beige-100/80",
@@ -59,7 +63,7 @@ export const FineryButton = forwardRef<HTMLButtonElement, FineryButtonProps>(
         className={cn(baseClasses, variantClasses[variant], className)}
         {...rest}
       >
-        {variant === "tiny" ? <ChevronLeft className="h-4 w-4" /> : children}
+        {variant === "tiny" ? (children ?? <ChevronLeft className="h-5 w-5" />) : children}
       </button>
     );
   },

@@ -92,7 +92,7 @@ export default function OrderStep1() {
   return (
     <div className="flex flex-col">
       <div className="px-6 pt-[18px]">
-        <h1 className="font-display text-[26px] font-bold leading-[30px] text-finery-purple-400">
+        <h1 className="font-display text-[20px] font-bold leading-[28px] text-finery-purple-400">
           The Finery® Order
         </h1>
 

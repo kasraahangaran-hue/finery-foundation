@@ -127,24 +127,24 @@ function AddressRow({
         }
       }}
       className={cn(
-        "press-effect relative cursor-pointer rounded-[8px] p-4",
+        "press-effect relative cursor-pointer rounded-[8px] border bg-white p-4",
         selected
-          ? "border border-finery-purple-400 bg-finery-teal-300"
-          : "bg-white",
+          ? "border-finery-purple-400 bg-finery-teal-300"
+          : "border-finery-disabledBg",
       )}
     >
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-1">
-          <span className="font-sans text-[11px] font-medium uppercase tracking-[0.6px] text-finery-textSecondary">
+          <span className="font-sans text-[11px] font-light tracking-[0.3px] text-finery-textSecondary">
             {lines.primaryLabel}
           </span>
           <span className="font-sans text-[14px] font-semibold text-finery-purple-400">
             {lines.primaryValue}
           </span>
-          <span className="mt-1 font-sans text-[11px] font-medium uppercase tracking-[0.6px] text-finery-textSecondary">
+          <span className="mt-1 font-sans text-[11px] font-light tracking-[0.3px] text-finery-textSecondary">
             {lines.secondaryLabel}
           </span>
-          <span className="font-sans text-[14px] font-semibold text-finery-purple-400">
+          <span className="font-sans text-[14px] font-normal text-finery-purple-400">
             {lines.secondaryValue}
           </span>
         </div>
@@ -159,7 +159,7 @@ function AddressRow({
               aria-label="Delete address"
               className="press-effect flex h-8 w-8 items-center justify-center rounded-full"
             >
-              <Trash2 className="h-4 w-4 text-finery-textSecondary" />
+              <Trash2 className="h-4 w-4 text-finery-purple-400" />
             </button>
           )}
           <button
