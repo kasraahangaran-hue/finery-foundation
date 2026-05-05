@@ -29,12 +29,10 @@ export default function OrderStep1() {
   const hasDelivery = deliveryTimesAcknowledged;
 
   const addressState: FineryWidgetRowState = hasAddress ? "populated" : "current";
-  const pickupState: FineryWidgetRowState = !hasAddress
-    ? "disabled"
-    : hasPickup
-      ? "populated"
-      : "current";
-  const deliveryState: FineryWidgetRowState = !hasPickup
+  // Pickup auto-populates from the moment address is set — never "current".
+  const pickupState: FineryWidgetRowState = !hasAddress ? "disabled" : "populated";
+  // Delivery gates on address (since pickup auto-fills with address).
+  const deliveryState: FineryWidgetRowState = !hasAddress
     ? "disabled"
     : hasDelivery
       ? "populated"
