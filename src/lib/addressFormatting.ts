@@ -1,29 +1,65 @@
-import type { Address } from "@/stores/orderStore";
+import type { Address, AddressType } from "@/stores/orderStore";
+
+export const ADDRESS_TYPE_LABEL: Record<AddressType, string> = {
+  apartment: "Apartment",
+  villa: "Villa",
+  hotel: "Hotel",
+  office: "Office",
+};
 
 /**
- * Format an Address into one or two display lines for cards/rows.
+ * One-line summary of an address for compact display (used on S1 row subtitle).
  */
-export function addressCardLines(address: Address): { line1: string; line2?: string } {
+export function summarizeAddress(address: Address): string {
+  switch (address.type) {
+    case "apartment":
+      return `${address.fields.aptNumber}, ${address.fields.building}`;
+    case "office":
+      return `${address.fields.officeNumber}, ${address.fields.building}`;
+    case "villa":
+      return `Villa ${address.fields.villaNumber}, ${address.fields.community}`;
+    case "hotel":
+      return `Room ${address.fields.roomNumber}, ${address.fields.hotelName}`;
+  }
+}
+
+/**
+ * Four-field card lines for the Select Address sheet listing cards.
+ */
+export function addressCardLines(address: Address): {
+  primaryLabel: string;
+  primaryValue: string;
+  secondaryLabel: string;
+  secondaryValue: string;
+} {
   switch (address.type) {
     case "apartment":
       return {
-        line1: `${address.fields.building}, ${address.fields.aptNumber}`,
-        line2: address.formattedAddress,
-      };
-    case "villa":
-      return {
-        line1: `${address.fields.community}, Villa ${address.fields.villaNumber}`,
-        line2: address.formattedAddress,
-      };
-    case "hotel":
-      return {
-        line1: `${address.fields.hotelName}, Room ${address.fields.roomNumber}`,
-        line2: address.formattedAddress,
+        primaryLabel: "Apartment",
+        primaryValue: address.fields.building,
+        secondaryLabel: "Apt. #",
+        secondaryValue: address.fields.aptNumber,
       };
     case "office":
       return {
-        line1: `${address.fields.building}, Office ${address.fields.officeNumber}`,
-        line2: address.formattedAddress,
+        primaryLabel: "Office",
+        primaryValue: address.fields.building,
+        secondaryLabel: "Office #",
+        secondaryValue: address.fields.officeNumber,
+      };
+    case "villa":
+      return {
+        primaryLabel: "Villa",
+        primaryValue: address.fields.community,
+        secondaryLabel: "Villa #",
+        secondaryValue: address.fields.villaNumber,
+      };
+    case "hotel":
+      return {
+        primaryLabel: "Hotel",
+        primaryValue: address.fields.hotelName,
+        secondaryLabel: "Room #",
+        secondaryValue: address.fields.roomNumber,
       };
   }
 }
