@@ -127,7 +127,7 @@ function AddressRow({
         }
       }}
       className={cn(
-        "press-effect relative cursor-pointer rounded-[8px] border bg-white p-4",
+        "press-effect relative cursor-pointer border bg-white p-4",
         selected
           ? "border-finery-purple-400 bg-finery-teal-300"
           : "border-finery-disabledBg",
@@ -157,7 +157,7 @@ function AddressRow({
                 onDelete();
               }}
               aria-label="Delete address"
-              className="press-effect flex h-8 w-8 items-center justify-center rounded-full"
+              className="press-effect flex h-8 w-8 items-center justify-center"
             >
               <Trash2 className="h-4 w-4 text-finery-purple-400" />
             </button>
@@ -168,7 +168,7 @@ function AddressRow({
               onEdit();
             }}
             aria-label="Edit address"
-            className="press-effect flex h-8 w-8 items-center justify-center rounded-full"
+            className="press-effect flex h-8 w-8 items-center justify-center"
           >
             <Pencil className="h-4 w-4 text-finery-purple-400" />
           </button>
