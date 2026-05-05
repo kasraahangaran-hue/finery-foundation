@@ -75,6 +75,7 @@ export interface OrderState {
   selectedAddressId: string | null;
   pendingAddressDraft: PendingAddressDraft | null;
   pickupSlot: PickupSlot | null;
+  deliveryTimesAcknowledged: boolean;
   notes: Note[];
   payment: PaymentState | null;
   promocode: string | null;
@@ -87,6 +88,7 @@ export interface OrderState {
   devSetHasSavedAddress: (hasSaved: boolean) => void;
   setPendingAddressDraft: (d: PendingAddressDraft | null) => void;
   setPickupSlot: (s: PickupSlot | null) => void;
+  setDeliveryTimesAcknowledged: (v: boolean) => void;
   setNotes: (notes: Note[]) => void;
   setPayment: (p: PaymentState | null) => void;
   setPromocode: (c: string | null) => void;
@@ -111,6 +113,7 @@ const initialState = {
   selectedAddressId: SEED_ADDRESS.id,
   pendingAddressDraft: null,
   pickupSlot: null,
+  deliveryTimesAcknowledged: false,
   notes: [] as Note[],
   payment: null,
   promocode: null,
@@ -155,6 +158,8 @@ export const useOrderStore = create<OrderState>()(
         ),
       setPendingAddressDraft: (d) => set({ pendingAddressDraft: d }),
       setPickupSlot: (pickupSlot) => set({ pickupSlot }),
+      setDeliveryTimesAcknowledged: (deliveryTimesAcknowledged) =>
+        set({ deliveryTimesAcknowledged }),
       setNotes: (notes) => set({ notes }),
       setPayment: (payment) => set({ payment }),
       setPromocode: (promocode) => set({ promocode }),
@@ -166,6 +171,7 @@ export const useOrderStore = create<OrderState>()(
           selectedAddressId: state.selectedAddressId,
           pendingAddressDraft: null,
           pickupSlot: null,
+          deliveryTimesAcknowledged: false,
           notes: [],
           payment: null,
           promocode: null,
@@ -179,6 +185,7 @@ export const useOrderStore = create<OrderState>()(
         addresses: s.addresses,
         selectedAddressId: s.selectedAddressId,
         pickupSlot: s.pickupSlot,
+        deliveryTimesAcknowledged: s.deliveryTimesAcknowledged,
         notes: s.notes,
         payment: s.payment,
         promocode: s.promocode,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageCircle, DollarSign, MapPin, Clock, Truck } from "lucide-react";
+import { MessageCircle, DollarSign } from "lucide-react";
 import { FineryButton } from "@/components/finery/FineryButton";
 import { FineryHeader } from "@/components/finery/FineryHeader";
 import { FineryFooter } from "@/components/finery/FineryFooter";
@@ -67,48 +67,55 @@ export default function DevAtoms() {
           <SubLabel>Pairs with primary CTA in the sticky footer of S8.</SubLabel>
         </Section>
 
-        <Section title="FineryWidgetRow — active">
+        <Section title="FineryWidgetRow — current">
           <FineryWidgetRow
-            variant="active"
-            icon={<MapPin className="h-5 w-5" />}
+            state="current"
+            icon="address"
             title="Add Address"
-            onClick={() => console.log("[DevAtoms] active row tapped")}
+            onPress={() => console.log("[DevAtoms] current address row tapped")}
           />
           <FineryWidgetRow
-            variant="active"
-            icon={<Clock className="h-5 w-5" />}
+            state="current"
+            icon="pickup"
             title="Schedule Collection"
-            subtitle="Mon, 12 May • 9:00–11:00"
-            onClick={() => console.log("[DevAtoms] active row w/subtitle tapped")}
+            onPress={() => console.log("[DevAtoms] current pickup row tapped")}
           />
         </Section>
 
-        <Section title="FineryWidgetRow — locked">
+        <Section title="FineryWidgetRow — disabled">
           <FineryWidgetRow
-            variant="locked"
-            icon={<Clock className="h-5 w-5" />}
+            state="disabled"
+            icon="pickup"
             title="Schedule Collection"
           />
           <FineryWidgetRow
-            variant="locked"
-            icon={<Truck className="h-5 w-5" />}
+            state="disabled"
+            icon="delivery"
             title="View Delivery Times"
-            subtitle="Add address first"
           />
         </Section>
 
-        <Section title="FineryWidgetRow — summary">
+        <Section title="FineryWidgetRow — populated">
           <FineryWidgetRow
-            variant="summary"
-            icon={<MapPin className="h-5 w-5" />}
-            title="Apt 3, The Address Tower"
-            subtitle="Downtown Dubai"
+            state="populated"
+            icon="address"
+            title="Address"
+            subtitle="Al Ferdous 4, Office 118"
+            onPress={() => console.log("[DevAtoms] populated address row tapped")}
           />
           <FineryWidgetRow
-            variant="summary"
-            icon={<Clock className="h-5 w-5" />}
-            title="Pick up in person"
-            subtitle="Mon, 12 May • 9:00–11:00"
+            state="populated"
+            icon="pickup"
+            title="Pickup in Person"
+            subtitle="Today, 05:00 pm - 06:00 pm"
+            onPress={() => console.log("[DevAtoms] populated pickup row tapped")}
+          />
+          <FineryWidgetRow
+            state="populated"
+            icon="delivery"
+            title="Delivery"
+            subtitle="After assessment, our team will call you"
+            onPress={() => console.log("[DevAtoms] populated delivery row tapped")}
           />
         </Section>
 
@@ -120,7 +127,7 @@ export default function DevAtoms() {
         <div className="h-32" />
       </main>
 
-      <FineryFooter insuranceNote="All items are insured up to AED 5,000 per order." animate>
+      <FineryFooter animate>
         <FineryButton variant="tiny" />
         <FineryButton>Place Order</FineryButton>
       </FineryFooter>

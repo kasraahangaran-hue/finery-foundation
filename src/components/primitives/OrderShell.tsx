@@ -1,18 +1,21 @@
 import { type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { FineryHeader } from "@/components/finery/FineryHeader";
 import { FineryFooter } from "@/components/finery/FineryFooter";
-import { FineryStepper } from "@/components/finery/FineryStepper";
+
+/**
+ * OrderShell — page chrome for the Finery order flow.
+ *
+ * Finery has NO top app bar. Each page renders its own title inline as the
+ * first content element. The shell only provides:
+ *   - Status-bar safe area at top
+ *   - Outlet for the current page
+ *   - Optional sticky footer with insurance strip + CTA row
+ */
 
 export interface OrderChrome {
-  title: string;
-  step?: 1 | 2 | 3;
-  onBack?: () => void;
-  cta?: ReactNode;
-  footerAboveSlot?: ReactNode;
-  trailingSlot1?: ReactNode;
-  trailingSlot2?: ReactNode;
-  ctaKey?: string;
+  footer?: ReactNode;
+  footerKey?: string;
+  insuranceCopy?: ReactNode | null;
 }
 
 interface ChromeContextValue {
@@ -42,35 +45,21 @@ export function OrderShell() {
   const value = useMemo(() => ({ chrome, setChrome }), [chrome, setChrome]);
   const location = useLocation();
 
-  const title = chrome?.title ?? "";
-  const step = chrome?.step;
-  const showProgress = typeof step === "number";
-  const ctaKey = chrome?.ctaKey ?? location.pathname;
+  const footerKey = chrome?.footerKey ?? location.pathname;
 
   return (
     <ChromeContext.Provider value={value}>
       <div className="flex min-h-[100dvh] flex-col bg-finery-beige-200">
-        <FineryHeader
-          title={title}
-          onBack={chrome?.onBack}
-          trailingSlot1={chrome?.trailingSlot1}
-          trailingSlot2={chrome?.trailingSlot2}
-        />
+        <div className="pt-safe" />
 
-        {showProgress && (
-          <div className="px-6 pb-2">
-            <FineryStepper step={step} />
-          </div>
-        )}
-
-        <div key={location.pathname} className="animate-page-in flex-1 px-6 pb-4 pt-3">
+        <div key={location.pathname} className="animate-page-in flex-1">
           <Outlet />
         </div>
 
-        {chrome?.cta && (
-          <FineryFooter insuranceNote={chrome.footerAboveSlot}>
-            <div key={ctaKey} className="w-full animate-page-in">
-              {chrome.cta}
+        {chrome?.footer && (
+          <FineryFooter insuranceCopy={chrome.insuranceCopy}>
+            <div key={footerKey} className="w-full animate-page-in">
+              {chrome.footer}
             </div>
           </FineryFooter>
         )}

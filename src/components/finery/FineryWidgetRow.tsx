@@ -1,107 +1,102 @@
-import type { ReactNode } from "react";
-import { ChevronRight } from "lucide-react";
+import { Plus, Pencil, Home, Package, ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { haptics } from "@/utils/haptics";
 
 /**
- * FineryWidgetRow — 66px tappable row with active/locked/summary variants.
+ * FineryWidgetRow — three-state row used on S1 Logistics screen.
  *
- * TODO(design): many visual decisions are guesses — revisit with Figma.
+ * State model (matches Figma):
+ *   - disabled:  blocked until prior row is populated. Grey (#DFDBDB) text+icon.
+ *                bg = beige.200 (page bg). No trailing icon. Not tappable.
+ *   - current:   the next thing for the user to do. Purple text+icon.
+ *                bg = beige.300 (warm tint, draws the eye). Trailing `+`.
+ *   - populated: data captured for this row. Purple text+icon.
+ *                bg = beige.200 (page bg). Subtitle visible. Trailing pencil.
  */
 
-type Variant = "active" | "locked" | "summary";
+export type FineryWidgetRowState = "disabled" | "current" | "populated";
+export type FineryWidgetRowIcon = "address" | "pickup" | "delivery";
 
 interface FineryWidgetRowProps {
-  variant: Variant;
-  icon?: ReactNode;
+  state: FineryWidgetRowState;
+  icon: FineryWidgetRowIcon;
   title: string;
   subtitle?: string;
-  trailing?: ReactNode;
-  onClick?: () => void;
+  onPress?: () => void;
   className?: string;
 }
 
-const variantSurface: Record<Variant, string> = {
-  active: "bg-finery-beige-300",
-  locked: "bg-finery-beige-200",
-  summary: "bg-finery-beige-100",
-};
-
-const variantTitleColor: Record<Variant, string> = {
-  active: "text-finery-purple-400",
-  locked: "text-finery-disabledText",
-  summary: "text-finery-textSecondary",
-};
-
-const variantIconColor: Record<Variant, string> = {
-  active: "text-finery-purple-400",
-  locked: "text-finery-disabledText",
-  summary: "text-finery-textSecondary",
+const ICON_MAP: Record<FineryWidgetRowIcon, typeof Home> = {
+  address: Home,
+  pickup: Package,
+  delivery: ShoppingBag,
 };
 
 export function FineryWidgetRow({
-  variant,
+  state,
   icon,
   title,
   subtitle,
-  trailing,
-  onClick,
+  onPress,
   className,
 }: FineryWidgetRowProps) {
-  const isInteractive = variant === "active" && Boolean(onClick);
+  const isDisabled = state === "disabled";
+  const isCurrent = state === "current";
+  const isPopulated = state === "populated";
+  const isInteractive = !isDisabled && Boolean(onPress);
 
-  const handleClick = () => {
+  const handlePress = () => {
     if (!isInteractive) return;
     haptics.light();
-    onClick?.();
+    onPress?.();
   };
 
-  const defaultTrailing: ReactNode = (() => {
-    if (variant === "summary") return null;
-    return (
-      <ChevronRight className={cn("h-5 w-5", variantIconColor[variant])} />
-    );
-  })();
-
+  const Icon = ICON_MAP[icon];
   const Tag = isInteractive ? "button" : "div";
+
+  const bg = isCurrent ? "bg-finery-beige-300" : "bg-finery-beige-200";
+  const fg = isDisabled ? "text-finery-disabledBg" : "text-finery-purple-400";
+  const py = subtitle ? "py-[13px]" : "py-[22px]";
+
+  const trailing = isCurrent ? (
+    <Plus className="h-3.5 w-3.5 text-finery-purple-400" strokeWidth={2.5} />
+  ) : isPopulated ? (
+    <Pencil className="h-3.5 w-3.5 text-finery-purple-400" />
+  ) : null;
 
   return (
     <Tag
       type={isInteractive ? "button" : undefined}
-      onClick={isInteractive ? handleClick : undefined}
+      onClick={isInteractive ? handlePress : undefined}
       className={cn(
-        "flex h-[66px] w-full items-center gap-3 rounded-[var(--radius)] px-4 text-left",
-        variantSurface[variant],
+        "flex w-full items-center gap-4 px-6 text-left",
+        bg,
+        py,
         isInteractive && "press-effect",
-        variant === "locked" && "cursor-not-allowed",
         className,
       )}
     >
-      {icon ? (
-        <span className={cn("flex h-6 w-6 shrink-0 items-center justify-center", variantIconColor[variant])}>
-          {icon}
-        </span>
-      ) : null}
+      <span className={cn("flex h-[22px] w-[22px] shrink-0 items-center justify-center", fg)}>
+        <Icon className="h-5 w-5" />
+      </span>
 
       <span className="flex min-w-0 flex-1 flex-col">
         <span
           className={cn(
-            "font-display text-[16px] font-bold leading-[20px] truncate",
-            variantTitleColor[variant],
+            "font-display text-[16px] font-bold leading-[17px] tracking-[0.4px] truncate",
+            fg,
           )}
         >
           {title}
         </span>
         {subtitle ? (
-          <span className="font-sans text-[12px] font-normal leading-[16px] text-finery-textSecondary truncate">
+          <span className="font-sans text-[12px] font-light leading-[18px] tracking-[0.1px] text-finery-textSecondary">
             {subtitle}
           </span>
         ) : null}
       </span>
 
-      <span className="flex shrink-0 items-center">
-        {trailing !== undefined ? trailing : defaultTrailing}
-      </span>
+      {trailing ? <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center">{trailing}</span> : null}
     </Tag>
   );
 }
