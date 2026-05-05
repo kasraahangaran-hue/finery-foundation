@@ -2,21 +2,27 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * FineryFooter — sticky bottom band with optional insurance disclaimer.
+ * FineryFooter — sticky bottom band.
  *
- * TODO(design): confirm insurance disclaimer copy + exact bg shade vs Figma.
+ * Layout (top to bottom):
+ *   1. Insurance strip — purple.200 bg, 30px tall, Roboto 13/18, centered
+ *   2. Button row — beige.300 bg, holds tiny back button + main CTA
  */
 
 interface FineryFooterProps {
   children: ReactNode;
-  insuranceNote?: ReactNode;
+  insuranceCopy?: ReactNode | null;
   animate?: boolean;
   className?: string;
 }
 
+const DEFAULT_INSURANCE: ReactNode = (
+  <>Insurance protection up to AED 10,000</>
+);
+
 export function FineryFooter({
   children,
-  insuranceNote,
+  insuranceCopy = DEFAULT_INSURANCE,
   animate = false,
   className,
 }: FineryFooterProps) {
@@ -28,13 +34,15 @@ export function FineryFooter({
         className,
       )}
     >
-      {insuranceNote ? (
-        <div className="bg-finery-purple-200 px-6 py-2 text-center font-sans text-[12px] leading-[16px] text-finery-purple-400">
-          {insuranceNote}
+      {insuranceCopy ? (
+        <div className="flex h-[30px] items-center justify-center bg-finery-purple-200 px-6" style={{ fontFamily: 'Roboto, sans-serif' }}>
+          <span className="text-[13px] leading-[18px] text-finery-purple-400">
+            {insuranceCopy}
+          </span>
         </div>
       ) : null}
 
-      <div className="flex items-center gap-2 px-6 py-3">{children}</div>
+      <div className="flex items-center gap-2 bg-finery-beige-300 px-6 py-3">{children}</div>
     </footer>
   );
 }

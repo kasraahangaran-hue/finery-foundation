@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PlaceholderPage from "@/pages/PlaceholderPage";
 import DevAtoms from "@/pages/DevAtoms";
+import OrderStep1 from "@/pages/finery/OrderStep1";
 import { OrderShell } from "@/components/primitives/OrderShell";
 import { StateInspector } from "@/components/dev/StateInspector";
 
@@ -8,7 +9,7 @@ const AppRouter = () => (
   <BrowserRouter>
     <Routes>
       <Route element={<OrderShell />}>
-        <Route path="/" element={<PlaceholderPage name="Logistics" />} />
+        <Route path="/" element={<OrderStep1 />} />
         <Route path="/order/instructions" element={<PlaceholderPage name="Instructions" />} />
         <Route path="/order/last-step" element={<PlaceholderPage name="LastStep" />} />
       </Route>
