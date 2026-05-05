@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  * BottomSheetShell — Finery-themed bottom sheet primitive.
  *
  * Dimensions match laundry baseline:
- *   - max-h-[92vh] rounded-t-[24px]
+ *   - max-h-[92vh] rounded-t-none
  *   - Header: px-6 pt-4
  *   - Body:   flex-1 overflow-y-auto no-scrollbar px-6 pt-2 pb-4
  *   - Footer: px-6 pt-3 pb-4
@@ -58,7 +58,7 @@ export function BottomSheetShell({
   };
 
   const primaryBtnClass = cn(
-    "press-effect h-[42px] w-full rounded-[8px] bg-finery-purple-400 text-finery-beige-100",
+    "press-effect h-[42px] w-full bg-finery-purple-400 text-finery-beige-100",
     "font-display text-sm font-bold transition-colors hover:bg-finery-purple-400/90",
     "flex items-center justify-center",
     "disabled:bg-finery-disabledBg disabled:text-finery-disabledText disabled:cursor-not-allowed",
@@ -66,7 +66,7 @@ export function BottomSheetShell({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="border-none rounded-t-[24px] max-h-[92vh] bg-finery-beige-200">
+      <DrawerContent className="border-none rounded-t-none max-h-[92vh] bg-finery-beige-200">
         <div className="flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between px-6 pt-4">
@@ -107,7 +107,7 @@ export function BottomSheetShell({
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => fire(onBack ?? (() => onOpenChange(false)))}
-                    className="press-effect flex h-[42px] w-12 shrink-0 items-center justify-center rounded-[8px] border border-finery-purple-400 bg-finery-beige-100"
+                    className="press-effect flex h-[42px] w-12 shrink-0 items-center justify-center border border-finery-purple-400 bg-finery-beige-100"
                     aria-label="Back"
                   >
                     <ArrowLeft className="h-5 w-5 text-finery-purple-400" />
