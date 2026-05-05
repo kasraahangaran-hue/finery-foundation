@@ -58,6 +58,13 @@ export interface PickupSlot {
   window: string;
 }
 
+// Default placeholder slot — the earliest no-surcharge window for "now".
+// Real slot computation (zone-aware, time-of-day-aware) comes in Block 3C.
+export const DEFAULT_PICKUP_SLOT: PickupSlot = {
+  date: "Today",
+  window: "05:00 pm - 06:00 pm",
+};
+
 export interface Note {
   id: string;
   photoUrl: string | null;
@@ -130,6 +137,8 @@ export const useOrderStore = create<OrderState>()(
           addresses: [...state.addresses, a],
           selectedAddressId: a.id,
           pendingAddressDraft: null,
+          // Auto-fill pickup with the default slot for any new address.
+          pickupSlot: DEFAULT_PICKUP_SLOT,
         })),
       updateAddress: (a) =>
         set((state) => ({
@@ -143,17 +152,25 @@ export const useOrderStore = create<OrderState>()(
             addresses: state.addresses.filter((x) => x.id !== id),
           };
         }),
-      selectAddress: (id) => set({ selectedAddressId: id }),
+      selectAddress: (id) =>
+        set(() => ({
+          selectedAddressId: id,
+          // Reset pickup to the default slot whenever the user changes address.
+          pickupSlot: id != null ? DEFAULT_PICKUP_SLOT : null,
+        })),
       devSetHasSavedAddress: (hasSaved) =>
         set(() =>
           hasSaved
             ? {
                 addresses: [SEED_ADDRESS],
                 selectedAddressId: SEED_ADDRESS.id,
+                pickupSlot: DEFAULT_PICKUP_SLOT,
               }
             : {
                 addresses: [],
                 selectedAddressId: null,
+                pickupSlot: null,
+                deliveryTimesAcknowledged: false,
               },
         ),
       setPendingAddressDraft: (d) => set({ pendingAddressDraft: d }),

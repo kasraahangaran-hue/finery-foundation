@@ -2,14 +2,9 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SlidersHorizontal } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-import { useOrderStore, type FlowType, type PickupSlot } from "@/stores/orderStore";
+import { useOrderStore, type FlowType } from "@/stores/orderStore";
 import { cn } from "@/lib/utils";
 import { haptics } from "@/utils/haptics";
-
-const STUB_PICKUP_SLOT: PickupSlot = {
-  date: "Today",
-  window: "05:00 pm - 06:00 pm",
-};
 
 const FLOW_TYPE_OPTIONS: Array<{
   value: FlowType;
@@ -37,7 +32,6 @@ function StateInspectorInner() {
   const store = useOrderStore();
   const flowType = store.flowType;
   const hasSavedAddress = store.addresses.length > 0;
-  const hasPickup = store.pickupSlot !== null;
   const deliveryAck = store.deliveryTimesAcknowledged;
 
   const [pendingReset, setPendingReset] = useState(false);
@@ -48,10 +42,6 @@ function StateInspectorInner() {
 
   const onToggleSavedAddress = () => {
     store.devSetHasSavedAddress(!hasSavedAddress);
-  };
-
-  const onTogglePickup = () => {
-    store.setPickupSlot(hasPickup ? null : STUB_PICKUP_SLOT);
   };
 
   const onToggleDeliveryAck = () => {
@@ -142,6 +132,7 @@ function StateInspectorInner() {
                 </p>
                 <p className="text-[11px] text-muted-foreground">
                   Simulate whether the user has a saved address.
+                  Toggling this also auto-fills the pickup slot.
                 </p>
                 <button
                   type="button"
@@ -157,31 +148,6 @@ function StateInspectorInner() {
                   <span className={cn(
                     "h-3 w-3 rounded-full",
                     hasSavedAddress ? "bg-finery-teal-400" : "bg-finery-disabledBg",
-                  )} />
-                </button>
-              </div>
-
-              <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wider text-finery-purple-400">
-                  Pickup Slot
-                </p>
-                <p className="text-[11px] text-muted-foreground">
-                  Simulate whether the user has chosen a pickup time.
-                </p>
-                <button
-                  type="button"
-                  onClick={onTogglePickup}
-                  className={cn(
-                    "press-effect flex h-[36px] w-full items-center justify-between rounded-md border bg-background px-3 text-sm font-medium transition-colors",
-                    hasPickup
-                      ? "border-finery-purple-400 text-foreground"
-                      : "border-border text-foreground hover:border-finery-purple-400/40",
-                  )}
-                >
-                  <span>{hasPickup ? "Pickup scheduled" : "No pickup slot"}</span>
-                  <span className={cn(
-                    "h-3 w-3 rounded-full",
-                    hasPickup ? "bg-finery-teal-400" : "bg-finery-disabledBg",
                   )} />
                 </button>
               </div>
