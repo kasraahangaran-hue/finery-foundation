@@ -58,12 +58,19 @@ function StateInspectorInner() {
     navigate("/");
   };
 
+  // Hide entirely on full-screen routes that have no corner-safe zones for
+  // a dev FAB (e.g. the map screen).
+  const HIDDEN_ON_ROUTES = ["/address/map"];
+  if (HIDDEN_ON_ROUTES.includes(location.pathname)) {
+    return null;
+  }
+
   return (
     <>
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="press-effect fixed bottom-4 left-4 z-[100] flex h-10 w-10 items-center justify-center rounded-full bg-finery-purple-400 text-finery-beige-100 shadow-lg"
+        className="press-effect fixed top-[max(env(safe-area-inset-top),12px)] right-4 z-[100] flex h-10 w-10 items-center justify-center rounded-full bg-finery-purple-400 text-finery-beige-100 shadow-lg"
         aria-label="Open State Inspector"
       >
         <SlidersHorizontal className="h-5 w-5" />
