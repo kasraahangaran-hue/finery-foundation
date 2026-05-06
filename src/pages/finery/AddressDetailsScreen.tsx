@@ -11,7 +11,7 @@ import type {
   VillaFields,
 } from "@/stores/orderStore";
 
-const TYPES: AddressType[] = ["office", "hotel", "villa", "apartment"];
+const TYPES: AddressType[] = ["apartment", "villa", "hotel", "office"];
 
 const TYPE_TITLE: Record<AddressType, string> = {
   apartment: "Apartment Details",
