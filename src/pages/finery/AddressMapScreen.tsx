@@ -318,18 +318,9 @@ export default function AddressMapScreen() {
         <RawSvg svg={locationPinSvg} className="h-12 w-auto" />
       </div>
 
-      {/* Top: back + search */}
-      <div className="absolute left-0 right-0 top-0 z-30 flex flex-col px-4 pt-[max(env(safe-area-inset-top),1.5rem)]">
-        <div className="flex items-center gap-2 bg-white px-3 py-2 shadow-md">
-          <button
-            type="button"
-            onClick={onBack}
-            aria-label="Back"
-            className="press-effect flex h-8 w-8 shrink-0 items-center justify-center"
-          >
-            <ChevronLeft className="h-5 w-5 text-finery-purple-400" />
-          </button>
-          <Search className="h-4 w-4 shrink-0 text-finery-textSecondary" />
+      {/* Top: search bar — back lives in the footer */}
+      <div className="absolute left-0 right-0 top-0 z-30 flex flex-col px-6 pt-[max(env(safe-area-inset-top),1.5rem)]">
+        <div className="relative flex h-12 items-center rounded-[6px] border border-[#C3C8DB] bg-white px-4 shadow-[0px_4px_5px_0px_rgba(17,17,53,0.05),0px_1px_10px_0px_rgba(17,17,53,0.04),0px_2px_4px_-1px_rgba(17,17,53,0.04)]">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -343,7 +334,7 @@ export default function AddressMapScreen() {
             data-1p-ignore="true"
             data-lpignore="true"
             data-form-type="other"
-            className="flex-1 bg-transparent font-sans text-[14px] text-finery-purple-400 outline-none placeholder:text-finery-textSecondary"
+            className="flex-1 bg-transparent font-sans text-[14px] font-light leading-[20px] tracking-[0.1px] text-finery-purple-400 outline-none placeholder:text-finery-textSecondary"
           />
           {search ? (
             <button
@@ -354,11 +345,13 @@ export default function AddressMapScreen() {
                 setSearch("");
               }}
               aria-label="Clear search"
-              className="press-effect flex h-6 w-6 items-center justify-center"
+              className="press-effect flex h-6 w-6 shrink-0 items-center justify-center"
             >
               <X className="h-4 w-4 text-finery-purple-400" />
             </button>
-          ) : null}
+          ) : (
+            <Search className="h-4 w-4 shrink-0 text-finery-textSecondary" />
+          )}
         </div>
 
         {showSuggestions ? (
@@ -392,13 +385,13 @@ export default function AddressMapScreen() {
         ) : null}
       </div>
 
-      {/* Locate-me FAB */}
+      {/* Locate-me FAB — circular per Figma (carve-out from 0-radius rule) */}
       <button
         type="button"
         onClick={onLocateMe}
         aria-label="Locate me"
         aria-pressed={isAtUserLocation}
-        className="press-effect absolute bottom-44 right-4 z-30 flex h-12 w-12 items-center justify-center bg-finery-beige-100 shadow-lg"
+        className="press-effect absolute bottom-44 right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-lg"
       >
         {locating ? (
           <Loader2 className="h-5 w-5 animate-spin text-finery-purple-400" />
@@ -414,7 +407,7 @@ export default function AddressMapScreen() {
         )}
       </button>
 
-      {/* Bottom: warning + footer */}
+      {/* Bottom: address label + back + confirm */}
       <div className="absolute bottom-0 left-0 right-0 z-30">
         <div className="flex flex-col gap-3 bg-white px-6 pt-4 pb-[max(env(safe-area-inset-bottom),1.25rem)]">
           {isFarFromGps ? (
@@ -440,9 +433,14 @@ export default function AddressMapScreen() {
               </span>
             </div>
           )}
-          <FineryButton onClick={onConfirm} disabled={!mapReady} className="w-full">
-            Confirm Pin
-          </FineryButton>
+          <div className="flex items-center gap-2">
+            <FineryButton variant="tiny" onClick={onBack} aria-label="Back" />
+            <div className="flex-1">
+              <FineryButton onClick={onConfirm} disabled={!mapReady} className="w-full">
+                Confirm Pin
+              </FineryButton>
+            </div>
+          </div>
         </div>
       </div>
     </div>
