@@ -5,6 +5,20 @@ export type FlowType = "nu" | "eu";
 
 export type AddressType = "apartment" | "villa" | "hotel" | "office";
 
+export type ValetPickupPreference =
+  | "no_preference"
+  | "ring_doorbell"
+  | "knock_door"
+  | "do_not_disturb_bags_outside"
+  | "call_when_arrive";
+
+export type ValetDeliveryPreference =
+  | "no_preference"
+  | "hang_door_handle"
+  | "at_concierge"
+  | "knock_door"
+  | "call_when_arrive";
+
 export interface ApartmentFields {
   building: string;
   aptNumber: string;
@@ -86,6 +100,8 @@ export interface OrderState {
   notes: Note[];
   payment: PaymentState | null;
   promocode: string | null;
+  valetPickupPreference: ValetPickupPreference;
+  valetDeliveryPreference: ValetDeliveryPreference;
 
   setFlowType: (t: FlowType) => void;
   addAddress: (a: Address) => void;
@@ -99,6 +115,7 @@ export interface OrderState {
   setNotes: (notes: Note[]) => void;
   setPayment: (p: PaymentState | null) => void;
   setPromocode: (c: string | null) => void;
+  setValetPreferences: (pickup: ValetPickupPreference, delivery: ValetDeliveryPreference) => void;
   reset: () => void;
 }
 
@@ -124,6 +141,8 @@ const initialState = {
   notes: [] as Note[],
   payment: null,
   promocode: null,
+  valetPickupPreference: "no_preference" as ValetPickupPreference,
+  valetDeliveryPreference: "no_preference" as ValetDeliveryPreference,
 };
 
 export const useOrderStore = create<OrderState>()(
@@ -180,6 +199,8 @@ export const useOrderStore = create<OrderState>()(
       setNotes: (notes) => set({ notes }),
       setPayment: (payment) => set({ payment }),
       setPromocode: (promocode) => set({ promocode }),
+      setValetPreferences: (pickup, delivery) =>
+        set({ valetPickupPreference: pickup, valetDeliveryPreference: delivery }),
 
       reset: () =>
         set((state) => ({
@@ -192,6 +213,8 @@ export const useOrderStore = create<OrderState>()(
           notes: [],
           payment: null,
           promocode: null,
+          valetPickupPreference: "no_preference",
+          valetDeliveryPreference: "no_preference",
         })),
     }),
     {
@@ -206,6 +229,8 @@ export const useOrderStore = create<OrderState>()(
         notes: s.notes,
         payment: s.payment,
         promocode: s.promocode,
+        valetPickupPreference: s.valetPickupPreference,
+        valetDeliveryPreference: s.valetDeliveryPreference,
       }),
     },
   ),
