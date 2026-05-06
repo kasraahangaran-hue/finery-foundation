@@ -315,7 +315,7 @@ export default function AddressMapScreen() {
 
       {/* Centered pin */}
       <div className="pointer-events-none absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-full">
-        <RawSvg svg={locationPinSvg} className="h-12 w-auto" />
+        <RawSvg svg={locationPinSvg} className="h-12 w-auto" preserveAspect />
       </div>
 
       {/* Top: search bar — back lives in the footer */}
