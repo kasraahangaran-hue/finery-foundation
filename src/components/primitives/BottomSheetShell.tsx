@@ -8,9 +8,9 @@ import { SHEET_CTA_ROW_CLASSES } from "@/components/finery/ctaRowClasses";
 /**
  * BottomSheetShell — Finery-themed bottom sheet primitive.
  *
- * Footer uses shared CTA_ROW_CLASSES (ctaRowClasses.ts) so the button
- * row is pixel-identical to the page footer.  The beige.300 band
- * extends through the safe-area zone.
+ * Footer uses SHEET_CTA_ROW_CLASSES (ctaRowClasses.ts) — same base
+ * geometry as page footer but with a bumped bottom-padding floor to
+ * compensate for the fixed Vaul drawer context in mobile viewports.
  */
 
 type FooterVariant = "apply-only" | "back-and-apply" | "dual-apply" | "none";
