@@ -80,7 +80,7 @@ export function FineryWidgetRow({
         <Icon className="h-5 w-5" />
       </span>
 
-      <span className="flex min-w-0 flex-1 flex-col">
+      <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span
           className={cn(
             "font-display text-[16px] font-bold leading-[17px] tracking-[0.4px] truncate",
