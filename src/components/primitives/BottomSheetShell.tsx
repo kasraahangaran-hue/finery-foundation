@@ -90,7 +90,7 @@ export function BottomSheetShell({
 
           {/* Footer */}
           {footer !== "none" && (
-            <div className="bg-finery-beige-300 px-6 pt-3 pb-4">
+            <div className="bg-finery-beige-300 px-6 pt-3 pb-5">
               {footer === "apply-only" && (
                 <button
                   className={primaryBtnClass}
