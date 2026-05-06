@@ -1,25 +1,14 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { CTA_ROW_CLASSES } from "@/components/finery/ctaRowClasses";
 
 /**
- * FineryFooter — sticky bottom band, two-row layout.
+ * FineryFooter — page-level bottom band, two-row layout.
  *
- * Row 1 (top): Insurance strip — full-width purple.200 band, 30px tall,
- *   Roboto 13/18 in textSecondary. Optional via insuranceCopy=null.
- * Row 2 (bottom): Button row — beige.300 bg, holds tiny back + primary CTA.
- *   This row's bg extends through the iOS safe-area zone so the home
- *   indicator sits on the same beige.300 color, not the page bg.
- *
- * Dimensions match laundry baseline:
- *   - shrink-0 (not mt-auto) so it pins correctly inside an
- *     overflow-hidden flex-col parent
- *   - Button row: gap-2 px-6 pt-3 pb-4
- *   - Safe-area: pb-[max(env(safe-area-inset-bottom),1rem)]
- *   - Drop shadow: shadow-[0px_-1px_8px_rgba(0,0,0,0.06)]
- *
- * Differs from laundry only in:
- *   - Two-row layout with the bespoke insurance strip (Finery-only pattern)
- *   - bg-finery-beige-300 on the button row instead of the laundry footer-tint
+ * Row 1: Insurance strip (purple.200, optional).
+ * Row 2: Button row — uses shared CTA_ROW_CLASSES so page and sheet
+ *   footers are pixel-identical.  The beige.300 band extends through
+ *   the iOS safe-area zone.
  */
 
 interface FineryFooterProps {
@@ -58,7 +47,7 @@ export function FineryFooter({
         </div>
       ) : null}
 
-      <div className="flex items-center gap-2 bg-finery-beige-300 px-6 pt-3 pb-[max(env(safe-area-inset-bottom),1.25rem)]">
+      <div className={CTA_ROW_CLASSES}>
         {children}
       </div>
     </footer>
