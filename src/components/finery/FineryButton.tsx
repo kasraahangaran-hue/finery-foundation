@@ -1,7 +1,6 @@
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
 import { ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { haptics } from "@/utils/haptics";
 
 /**
  * FineryButton — primary CTA, outline, and tiny back-button variants.
@@ -48,18 +47,12 @@ const variantClasses: Record<Variant, string> = {
 
 export const FineryButton = forwardRef<HTMLButtonElement, FineryButtonProps>(
   ({ variant = "primary", className, children, onClick, disabled, type = "button", ...rest }, ref) => {
-    const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-      if (disabled) return;
-      haptics.light();
-      onClick?.(e);
-    };
-
     return (
       <button
         ref={ref}
         type={type}
         disabled={disabled}
-        onClick={handleClick}
+        onClick={onClick}
         className={cn(baseClasses, variantClasses[variant], className)}
         {...rest}
       >
