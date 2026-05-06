@@ -21,7 +21,7 @@ const TYPE_TITLE: Record<AddressType, string> = {
 };
 
 const inputClass =
-  "h-[46px] w-full rounded-[6px] border border-[#C3C8DB] bg-white px-4 font-sans text-[14px] font-light leading-[20px] tracking-[0.1px] text-finery-purple-400 shadow-[0px_4px_5px_0px_rgba(17,17,53,0.05),0px_1px_10px_0px_rgba(17,17,53,0.04),0px_2px_4px_-1px_rgba(17,17,53,0.04)] placeholder:text-[#C3C8DB] focus:border-finery-purple-400 focus:outline-none focus:ring-2 focus:ring-finery-purple-400/20";
+  "h-[46px] w-full rounded-[6px] border border-[#E8E1D6] bg-white px-4 font-sans text-[14px] font-light leading-[20px] tracking-[0.1px] text-finery-purple-400 placeholder:text-finery-disabledText focus:border-finery-purple-400 focus:outline-none focus:ring-2 focus:ring-finery-purple-400/20";
 
 const noAutofill = {
   autoComplete: "new-password",
@@ -369,7 +369,7 @@ function NotesField({ notes, setNotes }: NotesFieldProps) {
       autoCorrect="off"
       autoCapitalize="sentences"
       spellCheck
-      className="h-[46px] w-full rounded-[6px] border border-[#C3C8DB] bg-white px-4 font-sans text-[14px] font-light leading-[20px] tracking-[0.1px] text-finery-purple-400 shadow-[0px_4px_5px_0px_rgba(17,17,53,0.05),0px_1px_10px_0px_rgba(17,17,53,0.04),0px_2px_4px_-1px_rgba(17,17,53,0.04)] placeholder:text-[#C3C8DB] focus:border-finery-purple-400 focus:outline-none focus:ring-2 focus:ring-finery-purple-400/20"
+      className="h-[46px] w-full rounded-[6px] border border-[#E8E1D6] bg-white px-4 font-sans text-[14px] font-light leading-[20px] tracking-[0.1px] text-finery-purple-400 placeholder:text-finery-disabledText focus:border-finery-purple-400 focus:outline-none focus:ring-2 focus:ring-finery-purple-400/20"
     />
   );
 }
