@@ -50,19 +50,14 @@ export default function AddressTypeScreen() {
   };
 
   return (
-    <div className="flex h-[100dvh] flex-col bg-finery-beige-100">
-      {/* Back button */}
-      <div className="px-4 pt-[max(env(safe-area-inset-top),1.5rem)]">
-        <FineryButton variant="tiny" onClick={onBack} />
-      </div>
-
-      {/* Title + grid */}
-      <div className="flex flex-1 flex-col items-center px-6 pt-6">
-        <h1 className="font-display text-[20px] font-bold leading-7 text-finery-purple-400">
+    <div className="flex min-h-[100dvh] flex-col bg-finery-beige-200">
+      {/* Title + grid (no back button at top — back lives in footer) */}
+      <div className="flex-1 px-6 pt-[max(env(safe-area-inset-top),54px)] pb-4">
+        <h1 className="mb-6 font-display text-[18px] font-bold leading-[21px] tracking-[0.4px] text-finery-purple-400">
           Select Address Type
         </h1>
 
-        <div className="mt-8 grid w-full max-w-sm grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2">
           {TYPES.map((type) => (
             <AddressTypeTile
               key={type}
@@ -75,15 +70,18 @@ export default function AddressTypeScreen() {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="px-4 pb-[max(env(safe-area-inset-bottom),1rem)] pt-3">
-        <FineryButton
-          className="w-full"
-          disabled={!selectedType}
-          onClick={onContinue}
-        >
-          Continue
-        </FineryButton>
+      {/* Footer — back button + continue CTA inline */}
+      <div className="flex items-center gap-2 bg-finery-beige-200 px-6 pt-3 pb-[max(env(safe-area-inset-bottom),1.25rem)]">
+        <FineryButton variant="tiny" onClick={onBack} aria-label="Back" />
+        <div className="flex-1">
+          <FineryButton
+            onClick={onContinue}
+            disabled={!selectedType}
+            className="w-full"
+          >
+            Continue
+          </FineryButton>
+        </div>
       </div>
     </div>
   );
