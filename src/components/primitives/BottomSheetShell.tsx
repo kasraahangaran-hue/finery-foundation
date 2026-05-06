@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { ArrowLeft } from "lucide-react";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
+import { FineryButton } from "@/components/finery/FineryButton";
 import { haptics } from "@/utils/haptics";
 import { cn } from "@/lib/utils";
 
@@ -11,9 +11,9 @@ import { cn } from "@/lib/utils";
  *   - max-h-[92vh] rounded-t-none
  *   - Header: px-6 pt-4
  *   - Body:   flex-1 overflow-y-auto no-scrollbar px-6 pt-2 pb-4
- *   - Footer: px-6 pt-3 pb-4
+ *   - Footer: px-6 pt-3 pb-5
  *   - Title:  text-[20px] font-bold leading-[24px] tracking-[0.4px]
- *   - Bottom safe-area: pb-[max(env(safe-area-inset-bottom),1rem)]
+ *   - Bottom safe-area: pb-[max(env(safe-area-inset-bottom),1.25rem)]
  */
 
 type FooterVariant = "apply-only" | "back-and-apply" | "dual-apply" | "none";
@@ -59,13 +59,6 @@ export function BottomSheetShell({
     cb?.();
   };
 
-  const primaryBtnClass = cn(
-    "press-effect h-[42px] w-full bg-finery-purple-400 text-finery-beige-100",
-    "font-display text-sm font-bold transition-colors hover:bg-finery-purple-400/90",
-    "flex items-center justify-center",
-    "disabled:bg-finery-disabledBg disabled:text-finery-disabledText disabled:cursor-not-allowed",
-  );
-
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
         <DrawerContent className="border-none rounded-t-none max-h-[92vh] bg-finery-beige-200 pb-[max(env(safe-area-inset-bottom),1.25rem)]">
@@ -92,50 +85,48 @@ export function BottomSheetShell({
           {footer !== "none" && (
             <div className="bg-finery-beige-300 px-6 pt-3 pb-5">
               {footer === "apply-only" && (
-                <button
-                  className={primaryBtnClass}
+                <FineryButton
                   onClick={() => fire(onPrimary)}
                   disabled={primaryDisabled}
+                  className="w-full"
                 >
                   {primaryLabel ?? "Apply"}
-                </button>
+                </FineryButton>
               )}
 
               {footer === "back-and-apply" && (
                 <div className="flex items-center gap-2">
-                  <button
+                  <FineryButton
+                    variant="tiny"
                     onClick={() => fire(onBack ?? (() => onOpenChange(false)))}
-                    className="press-effect flex h-[42px] w-12 shrink-0 items-center justify-center border border-finery-purple-400 bg-finery-beige-100"
                     aria-label="Back"
-                  >
-                    <ArrowLeft className="h-5 w-5 text-finery-purple-400" />
-                  </button>
-                  <button
-                    className={primaryBtnClass}
+                  />
+                  <FineryButton
                     onClick={() => fire(onPrimary)}
                     disabled={primaryDisabled}
                   >
                     {primaryLabel ?? "Apply"}
-                  </button>
+                  </FineryButton>
                 </div>
               )}
 
               {footer === "dual-apply" && (
                 <div className="flex flex-col gap-2">
-                  <button
-                    className={primaryBtnClass}
+                  <FineryButton
                     onClick={() => fire(onPrimary)}
                     disabled={primaryDisabled}
+                    className="w-full"
                   >
                     {primaryLabel ?? "Apply"}
-                  </button>
-                  <button
-                    className={cn(primaryBtnClass, "bg-finery-beige-100 text-finery-purple-400 border border-finery-purple-400 hover:bg-finery-beige-100/80")}
+                  </FineryButton>
+                  <FineryButton
+                    variant="outline"
                     onClick={() => fire(onSecondary)}
                     disabled={primaryDisabled}
+                    className="w-full"
                   >
                     {secondaryLabel ?? "Apply Alt"}
-                  </button>
+                  </FineryButton>
                 </div>
               )}
             </div>
