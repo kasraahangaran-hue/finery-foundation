@@ -3,6 +3,7 @@ import PlaceholderPage from "@/pages/PlaceholderPage";
 import DevAtoms from "@/pages/DevAtoms";
 import OrderStep1 from "@/pages/finery/OrderStep1";
 import AddressMapScreen from "@/pages/finery/AddressMapScreen";
+import AddressTypeScreen from "@/pages/finery/AddressTypeScreen";
 import { OrderShell } from "@/components/primitives/OrderShell";
 import { StateInspector } from "@/components/dev/StateInspector";
 
@@ -16,7 +17,7 @@ const AppRouter = () => (
       </Route>
 
       <Route path="/address/map" element={<AddressMapScreen />} />
-      <Route path="/address/type" element={<PlaceholderPage name="AddressType" />} />
+      <Route path="/address/type" element={<AddressTypeScreen />} />
       <Route path="/address/details" element={<PlaceholderPage name="AddressDetails" />} />
       <Route path="/addresses" element={<PlaceholderPage name="SavedAddresses" />} />
 
