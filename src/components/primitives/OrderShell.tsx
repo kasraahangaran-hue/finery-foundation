@@ -1,4 +1,4 @@
-import { type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { FineryFooter } from "@/components/finery/FineryFooter";
@@ -54,10 +54,12 @@ export function useOrderChrome(config: OrderChrome) {
     throw new Error("useOrderChrome must be used inside <OrderShell />");
   }
   const { setChrome } = ctx;
-  const { title, step, totalSteps, onBack, cta, ctaKey, supportSlot, insuranceCopy } = config;
+  const ref = useRef(config);
+  ref.current = config;
+  const { title, step, totalSteps, ctaKey } = config;
   useEffect(() => {
-    setChrome({ title, step, totalSteps, onBack, cta, ctaKey, supportSlot, insuranceCopy });
-  }, [setChrome, title, step, totalSteps, onBack, cta, ctaKey, supportSlot, insuranceCopy]);
+    setChrome(ref.current);
+  }, [setChrome, title, step, totalSteps, ctaKey]);
 }
 
 export function OrderShell() {
