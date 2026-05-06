@@ -71,7 +71,7 @@ export function BottomSheetShell({
           )}
 
           {/* Scrollable body */}
-          <div className="flex-1 overflow-y-auto px-6 pt-2 pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className={cn("flex-1 overflow-y-auto px-6 pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]", !hideHeader && "pt-2")}>
             {children}
           </div>
 
