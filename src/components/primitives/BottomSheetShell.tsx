@@ -70,7 +70,7 @@ export function BottomSheetShell({
           {/* Header */}
           <div className="flex flex-col gap-2 px-6 pt-6 pb-7">
             <div className="flex items-center justify-between gap-2">
-              <h2 className="font-display text-[18px] font-normal leading-[21px] tracking-[0.4px] text-finery-purple-400">
+              <h2 className="font-display text-[18px] font-bold leading-[21px] tracking-[0.4px] text-finery-purple-400">
                 {title}
               </h2>
               {titleSlot}
