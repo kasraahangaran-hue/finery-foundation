@@ -55,7 +55,7 @@ export function BottomSheetShell({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="border-none rounded-t-none max-h-[92vh] bg-finery-beige-200 pb-[max(env(safe-area-inset-bottom),1rem)]">
+      <DrawerContent className="border-none rounded-t-none max-h-[92vh] bg-finery-beige-200">
         <div className="flex max-h-[92vh] flex-col">
           {/* Header */}
           {!hideHeader && (
@@ -77,7 +77,7 @@ export function BottomSheetShell({
 
           {/* Footer — inline block, laundry pattern */}
           {footer !== "none" && (
-            <div className="flex items-center gap-2 bg-finery-beige-300 px-6 pt-3 pb-4">
+            <div className="flex items-center gap-2 bg-finery-beige-300 px-6 pt-3 pb-[max(env(safe-area-inset-bottom),1rem)]">
               {footer === "apply-only" && (
                 <FineryButton
                   onClick={() => fire(onPrimary)}
