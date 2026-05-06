@@ -22,7 +22,10 @@ interface BottomSheetShellProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
+  /** Right-side slot in the title row (next to the close X). */
   titleSlot?: ReactNode;
+  /** Content rendered below the title row, INSIDE the header block. */
+  titleAccessory?: ReactNode;
   children: ReactNode;
   footer: FooterVariant;
   primaryLabel?: string;
@@ -38,6 +41,7 @@ export function BottomSheetShell({
   onOpenChange,
   title,
   titleSlot,
+  titleAccessory,
   children,
   footer,
   primaryLabel,
@@ -66,23 +70,27 @@ export function BottomSheetShell({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="border-none rounded-t-none max-h-[92vh] bg-finery-beige-200">
+      <DrawerContent className="border-none rounded-t-none max-h-[92vh] bg-finery-beige-200 pb-[max(env(safe-area-inset-bottom),1rem)]">
         <div className="flex flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between px-6 pt-4">
-            <h2 className="font-display text-[20px] font-bold leading-[24px] tracking-[0.4px] text-finery-purple-400">
-              {title}
-            </h2>
-            <div className="flex items-center gap-2">
-              {titleSlot}
-              <button
-                onClick={handleClose}
-                className="press-effect flex h-8 w-8 items-center justify-center"
-                aria-label="Close"
-              >
-                <X className="h-5 w-5 text-finery-purple-400" />
-              </button>
+          <div className="flex flex-col gap-2 px-6 pt-6 pb-7">
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="font-display text-[16px] font-bold leading-[17px] tracking-[0.4px] text-finery-purple-400">
+                {title}
+              </h2>
+              <div className="flex items-center gap-2">
+                {titleSlot}
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  aria-label="Close"
+                  className="press-effect flex h-8 w-8 items-center justify-center"
+                >
+                  <X className="h-5 w-5 text-finery-purple-400" />
+                </button>
+              </div>
             </div>
+            {titleAccessory}
           </div>
 
           {/* Scrollable body */}
@@ -92,7 +100,7 @@ export function BottomSheetShell({
 
           {/* Footer */}
           {footer !== "none" && (
-            <div className="px-6 pt-3 pb-[max(env(safe-area-inset-bottom),1rem)]">
+            <div className="px-6 pt-3 pb-4">
               {footer === "apply-only" && (
                 <button
                   className={primaryBtnClass}
