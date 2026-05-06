@@ -49,7 +49,7 @@ export function AddressTypeTile({
         type="button"
         onClick={handleClick}
         className={cn(
-          "press-effect flex h-[77px] w-[78px] shrink-0 flex-col items-center justify-center gap-1 border p-[9px] transition-colors",
+          "press-effect flex h-[77px] min-w-0 flex-1 flex-col items-center justify-center gap-1 border p-[9px] transition-colors",
           selected
             ? "border-finery-purple-400 bg-finery-teal-300"
             : "border-[#F2F3F8] bg-white",
