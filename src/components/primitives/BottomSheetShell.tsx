@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { FineryButton } from "@/components/finery/FineryButton";
+import { FineryFooter } from "@/components/finery/FineryFooter";
 import { haptics } from "@/utils/haptics";
 import { cn } from "@/lib/utils";
 
@@ -83,31 +84,34 @@ export function BottomSheetShell({
 
           {/* Footer */}
           {footer !== "none" && (
-            <div className="bg-finery-beige-300 px-6 pt-3 pb-[max(env(safe-area-inset-bottom),1.25rem)]">
+            <FineryFooter insuranceCopy={null}>
               {footer === "apply-only" && (
                 <FineryButton
                   onClick={() => fire(onPrimary)}
                   disabled={primaryDisabled}
-                  className="w-full"
+                  className="flex-1"
                 >
                   {primaryLabel ?? "Apply"}
                 </FineryButton>
               )}
 
               {footer === "back-and-apply" && (
-                <div className="flex items-center gap-2">
+                <>
                   <FineryButton
                     variant="tiny"
                     onClick={() => fire(onBack ?? (() => onOpenChange(false)))}
                     aria-label="Back"
                   />
-                  <FineryButton
-                    onClick={() => fire(onPrimary)}
-                    disabled={primaryDisabled}
-                  >
-                    {primaryLabel ?? "Apply"}
-                  </FineryButton>
-                </div>
+                  <div className="flex-1">
+                    <FineryButton
+                      onClick={() => fire(onPrimary)}
+                      disabled={primaryDisabled}
+                      className="w-full"
+                    >
+                      {primaryLabel ?? "Apply"}
+                    </FineryButton>
+                  </div>
+                </>
               )}
 
               {footer === "dual-apply" && (
@@ -129,7 +133,7 @@ export function BottomSheetShell({
                   </FineryButton>
                 </div>
               )}
-            </div>
+            </FineryFooter>
           )}
         </div>
       </DrawerContent>
