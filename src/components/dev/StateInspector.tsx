@@ -63,7 +63,7 @@ function StateInspectorInner() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="press-effect fixed bottom-4 right-4 z-[100] flex h-10 w-10 items-center justify-center rounded-full bg-finery-purple-400 text-finery-beige-100 shadow-lg"
+        className="press-effect fixed bottom-4 left-4 z-[100] flex h-10 w-10 items-center justify-center rounded-full bg-finery-purple-400 text-finery-beige-100 shadow-lg"
         aria-label="Open State Inspector"
       >
         <SlidersHorizontal className="h-5 w-5" />
