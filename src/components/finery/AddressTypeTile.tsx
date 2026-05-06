@@ -77,7 +77,7 @@ export function AddressTypeTile({
       <span className="font-display text-[14px] font-bold leading-[18px] tracking-[0.4px] text-finery-purple-400">
         {label}
       </span>
-      <RawSvg svg={iconRaw} className="h-[68px] w-[68px] select-none" />
+      <RawSvg svg={iconRaw} className="h-16 w-16 select-none" />
     </button>
   );
 }
