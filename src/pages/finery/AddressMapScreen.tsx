@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   AlertCircle,
+  ChevronLeft,
   Loader2,
   MapPin,
   Navigation,
@@ -318,15 +319,17 @@ export default function AddressMapScreen() {
       </div>
 
       {/* Top: back + search */}
-      <div className="absolute left-0 right-0 top-0 z-30 flex flex-col pt-[max(env(safe-area-inset-top),0.75rem)] px-4">
-        <div className="flex items-center gap-2 bg-white px-4 py-3 shadow-md">
+      <div className="absolute left-0 right-0 top-0 z-30 flex flex-col px-4 pt-[max(env(safe-area-inset-top),1.5rem)]">
+        <div className="flex items-center gap-2 bg-white px-3 py-2 shadow-md">
           <button
             type="button"
             onClick={onBack}
-            className="press-effect flex h-6 w-6 items-center justify-center"
+            aria-label="Back"
+            className="press-effect flex h-8 w-8 shrink-0 items-center justify-center"
           >
-            <Search className="h-4 w-4 text-finery-purple-400" />
+            <ChevronLeft className="h-5 w-5 text-finery-purple-400" />
           </button>
+          <Search className="h-4 w-4 shrink-0 text-finery-textSecondary" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
