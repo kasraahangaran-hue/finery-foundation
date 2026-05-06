@@ -396,7 +396,9 @@ export default function AddressMapScreen() {
       <button
         type="button"
         onClick={onLocateMe}
-        className="press-effect absolute bottom-[200px] right-4 z-30 flex h-11 w-11 items-center justify-center bg-white shadow-md"
+        aria-label="Locate me"
+        aria-pressed={isAtUserLocation}
+        className="press-effect absolute bottom-44 right-4 z-30 flex h-12 w-12 items-center justify-center bg-finery-beige-100 shadow-lg"
       >
         {locating ? (
           <Loader2 className="h-5 w-5 animate-spin text-finery-purple-400" />
