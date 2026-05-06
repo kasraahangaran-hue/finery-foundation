@@ -25,13 +25,13 @@ const baseClasses =
 
 const variantClasses: Record<Variant, string> = {
   primary: cn(
-    "h-[42px] flex-1 text-sm font-bold",
+    "h-[42px] shrink-0 text-sm font-bold",
     "bg-finery-purple-400 text-finery-beige-100",
     "hover:bg-finery-purple-400/90",
     "disabled:bg-finery-disabledBg disabled:text-finery-disabledText",
   ),
   outline: cn(
-    "h-[42px] flex-1 text-sm font-bold",
+    "h-[42px] shrink-0 text-sm font-bold",
     "bg-finery-beige-100 text-finery-purple-400",
     "border border-finery-purple-400",
     "hover:bg-finery-beige-100/80",
