@@ -3,7 +3,7 @@ import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { FineryButton } from "@/components/finery/FineryButton";
 import { haptics } from "@/utils/haptics";
 import { cn } from "@/lib/utils";
-import { CTA_ROW_CLASSES } from "@/components/finery/ctaRowClasses";
+import { SHEET_CTA_ROW_CLASSES } from "@/components/finery/ctaRowClasses";
 
 /**
  * BottomSheetShell — Finery-themed bottom sheet primitive.
@@ -77,7 +77,7 @@ export function BottomSheetShell({
 
           {/* Footer — inline block, laundry pattern */}
           {footer !== "none" && (
-            <div className={CTA_ROW_CLASSES}>
+            <div className={SHEET_CTA_ROW_CLASSES}>
               {footer === "apply-only" && (
                 <FineryButton
                   onClick={() => fire(onPrimary)}

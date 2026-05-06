@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { CTA_ROW_CLASSES } from "@/components/finery/ctaRowClasses";
+import { PAGE_CTA_ROW_CLASSES } from "@/components/finery/ctaRowClasses";
 
 /**
  * FineryFooter — page-level bottom band, two-row layout.
@@ -47,7 +47,7 @@ export function FineryFooter({
         </div>
       ) : null}
 
-      <div className={CTA_ROW_CLASSES}>
+      <div className={PAGE_CTA_ROW_CLASSES}>
         {children}
       </div>
     </footer>
