@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
 import { useOrderStore } from "@/stores/orderStore";
-import { FineryStepper } from "@/components/finery/FineryStepper";
 import { FineryWidgetRow, type FineryWidgetRowState } from "@/components/finery/FineryWidgetRow";
 import { FineryButton } from "@/components/finery/FineryButton";
 import { SelectAddressSheet } from "@/components/finery/SelectAddressSheet";
@@ -31,9 +29,7 @@ export default function OrderStep1() {
   const hasDelivery = deliveryTimesAcknowledged;
 
   const addressState: FineryWidgetRowState = hasAddress ? "populated" : "current";
-  // Pickup auto-populates from the moment address is set — never "current".
   const pickupState: FineryWidgetRowState = !hasAddress ? "disabled" : "populated";
-  // Delivery gates on address (since pickup auto-fills with address).
   const deliveryState: FineryWidgetRowState = !hasAddress
     ? "disabled"
     : hasDelivery
@@ -43,11 +39,11 @@ export default function OrderStep1() {
   const allComplete =
     addressState === "populated" && pickupState === "populated" && deliveryState === "populated";
 
-  const [addressSheetOpen, setAddressSheetOpen] = useState(false);
-
   const addressSubtitle = selectedAddress ? summarizeAddress(selectedAddress) : undefined;
   const pickupSubtitle = pickupSlot ? `${pickupSlot.date}, ${pickupSlot.window}` : undefined;
   const deliverySubtitle = hasDelivery ? DELIVERY_COPY : undefined;
+
+  const [addressSheetOpen, setAddressSheetOpen] = useState(false);
 
   const onAddressTap = () => {
     if (addresses.length === 0) {
@@ -76,31 +72,20 @@ export default function OrderStep1() {
   };
 
   useOrderChrome({
-    footerKey: `step1-${allComplete ? "active" : "inactive"}`,
-    footer: (
-      <div className="flex w-full items-center gap-2">
-        <FineryButton variant="tiny" onClick={onBack}>
-          <ArrowLeft className="h-4 w-4" />
-        </FineryButton>
-        <FineryButton disabled={!allComplete} onClick={onContinue}>
-          {allComplete ? "Continue to Order" : "Continue"}
-        </FineryButton>
-      </div>
+    title: "The Finery® Order",
+    step: 1,
+    totalSteps: 3,
+    onBack,
+    ctaKey: `step1-${allComplete ? "active" : "inactive"}`,
+    cta: (
+      <FineryButton disabled={!allComplete} onClick={onContinue} className="w-full">
+        {allComplete ? "Continue to Order" : "Continue"}
+      </FineryButton>
     ),
   });
 
   return (
-    <div className="flex flex-col">
-      <div className="px-6 pt-[18px]">
-        <h1 className="font-display text-[20px] font-bold leading-[28px] tracking-normal text-finery-purple-400">
-          The Finery® Order
-        </h1>
-
-        <div className="mt-[13px]">
-          <FineryStepper step={1} />
-        </div>
-      </div>
-
+    <>
       <div className="mt-[22px] flex flex-col">
         <FineryWidgetRow state={addressState} icon="address" title={hasAddress ? "Address" : "Add Address"} subtitle={addressSubtitle} onPress={onAddressTap} />
         <FineryWidgetRow state={pickupState} icon="pickup" title={hasPickup ? "Pickup in Person" : "Schedule your collection"} subtitle={pickupSubtitle} onPress={onPickupTap} />
@@ -108,6 +93,6 @@ export default function OrderStep1() {
       </div>
 
       <SelectAddressSheet open={addressSheetOpen} onOpenChange={setAddressSheetOpen} />
-    </div>
+    </>
   );
 }
