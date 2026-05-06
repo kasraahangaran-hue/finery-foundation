@@ -1,52 +1,32 @@
-Answer: the page CTA container is not `sticky` or `fixed`. It is a normal footer at the end of a full-height flex column.
+I found the issue: the shared CTA row class is identical in code, but mobile drawer geometry is not identical to the page footer context. The sheet is rendered in Vaul's fixed portal at the viewport edge, and on mobile that bottom-fixed drawer is getting a different effective safe-area/viewport treatment than the normal page footer. So the shared class kept the CSS string aligned, but it also hid the fact that the two containers need slightly different safe-area handling.
 
-Current structure:
+Plan:
+
+1. Keep the existing shared CTA row base geometry
+   - Preserve the shared horizontal padding, top padding, gap, beige.300 background, and button sizing.
+   - Do not go back to duplicated random footer classes.
+
+2. Split only the bottom padding token by context
+   - Page footer keeps the current page-safe behavior.
+   - Bottom sheet footer gets its own sheet-safe bottom padding so it visually matches the page footer in mobile preview, not just desktop.
+   - This should be done with named constants, e.g. shared base row classes plus `PAGE_CTA_ROW_CLASSES` and `SHEET_CTA_ROW_CLASSES`, so future edits are intentional.
+
+3. Apply the sheet-specific class only in `BottomSheetShell`
+   - `FineryFooter` continues using the page CTA row class.
+   - `BottomSheetShell` uses the sheet CTA row class.
+   - `SelectAddressSheet` remains unaffected because it uses `footer="none"`.
+
+4. Verify in the mobile viewport
+   - Check `/` at the 390-ish mobile viewport.
+   - Compare the page footer CTA and Delivery bottom-sheet CTA.
+   - Confirm the distance under the button reads cohesive in mobile view and desktop still remains matched.
+
+Technical detail:
+
+The previous shared class currently uses:
 
 ```text
-OrderShell
-└─ div.flex.min-h-[100dvh].flex-col
-   ├─ header: shrink-0
-   ├─ body: flex-1
-   └─ FineryFooter: shrink-0
-      ├─ insurance strip
-      └─ CTA row: beige.300 px-6 pt-3 pb-[max(safe-area,1.25rem)]
+pb-[max(env(safe-area-inset-bottom),1.25rem)]
 ```
 
-So the page footer is aligned to the bottom because the body has `flex-1` and pushes `FineryFooter` down. It is not floating independently.
-
-The sheet CTA is different by nature because Vaul drawers render in a portal and `DrawerContent` is `fixed inset-x-0 bottom-0`. Inside that fixed drawer, the sheet footer is a normal final flex child:
-
-```text
-Drawer portal
-└─ DrawerContent: fixed bottom-0
-   └─ div.flex.max-h-[92vh].flex-col
-      ├─ header/body
-      └─ sheet CTA row: beige.300 px-6 pt-3 pb-[max(safe-area,1.25rem)]
-```
-
-So yes: the sheet's outer container is fixed to the viewport bottom. The CTA row itself is not sticky; it sits at the bottom of that fixed drawer.
-
-Why this has been hard: we were matching padding numbers, but the two footers are not in identical parent contexts:
-- Page footer includes the insurance strip and a shadow.
-- Sheet footer has no insurance strip/shadow and lives inside a fixed drawer portal.
-- The page screenshot also has the floating dev/state-inspector button overlapping the bottom-right CTA area, which makes visual comparison noisier.
-- `BottomSheetShell` comments are now stale and still mention the old safe-area ownership, even though the code was patched.
-
-Plan to make this cohesive and easier to reason about:
-
-1. Introduce a shared CTA row primitive/style used by both page footer and sheet footer.
-   - Same classes: `flex items-center gap-2 bg-finery-beige-300 px-6 pt-3 pb-[max(env(safe-area-inset-bottom),1.25rem)]`.
-   - This keeps the button row geometry exactly identical in one place.
-
-2. Keep different outer containers only where they are genuinely different.
-   - Page: `FineryFooter` remains a normal `shrink-0` footer in `OrderShell`.
-   - Sheet: `DrawerContent` remains `fixed bottom-0` via Vaul, and the shared CTA row remains the final child inside the drawer.
-   - Do not make the sheet CTA sticky unless we need a very tall sheet body where the CTA must remain visible while internal content scrolls. The current flex layout already keeps it visible.
-
-3. Clean up stale comments in `BottomSheetShell` and `FineryFooter`.
-   - Update docs so they match the current ownership: safe-area padding belongs to the beige CTA row, not the drawer background.
-
-4. Optional visual-debug pass after the code change.
-   - At 390x844, capture the page footer and delivery sheet footer.
-   - Verify the CTA row uses identical horizontal padding, top padding, button height, and bottom safe-area floor.
-   - Verify the beige.300 band reaches the bottom edge for both contexts.
+That is correct for the normal page footer, but inside the fixed Vaul drawer mobile preview it produces a different visible result. I’ll keep the shared base classes and adjust only the sheet footer’s bottom padding floor/handling so the visible CTA alignment matches the page footer in the actual mobile context.
