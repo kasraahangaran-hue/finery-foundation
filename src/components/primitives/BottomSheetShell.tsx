@@ -61,7 +61,7 @@ export function BottomSheetShell({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="border-none rounded-t-none max-h-[92vh] bg-finery-beige-200 pb-[max(env(safe-area-inset-bottom),1.25rem)]">
+        <DrawerContent className="border-none rounded-t-none max-h-[92vh] bg-finery-beige-200">
         <div className="flex max-h-[92vh] flex-col">
           {/* Header */}
           {!hideHeader && (
@@ -83,7 +83,7 @@ export function BottomSheetShell({
 
           {/* Footer */}
           {footer !== "none" && (
-            <div className="bg-finery-beige-300 px-6 pt-3 pb-5">
+            <div className="bg-finery-beige-300 px-6 pt-3 pb-[max(env(safe-area-inset-bottom),1.25rem)]">
               {footer === "apply-only" && (
                 <FineryButton
                   onClick={() => fire(onPrimary)}
