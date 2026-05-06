@@ -142,13 +142,13 @@ function AddressRow({
     >
       <div className="flex items-start gap-5">
         <div className="flex min-w-0 flex-1 flex-col gap-3">
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-1">
             <p className="font-display text-[12px] font-bold leading-[14px] tracking-[0.4px] text-[#585871]">
               {lines.primaryLabel}
             </p>
             <p className={valueClass}>{lines.primaryValue}</p>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-1">
             <p className="font-display text-[12px] font-bold leading-[14px] tracking-[0.4px] text-[#585871]">
               {lines.secondaryLabel}
             </p>
