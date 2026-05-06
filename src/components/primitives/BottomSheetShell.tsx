@@ -77,7 +77,7 @@ export function BottomSheetShell({
 
           {/* Footer — inline block, laundry pattern */}
           {footer !== "none" && (
-            <div className="flex items-center gap-2 bg-finery-beige-300 px-6 pt-3 pb-[max(env(safe-area-inset-bottom),1rem)]">
+            <div className="flex items-center gap-2 bg-finery-beige-300 px-6 pt-3 pb-[max(env(safe-area-inset-bottom),1.25rem)]">
               {footer === "apply-only" && (
                 <FineryButton
                   onClick={() => fire(onPrimary)}
