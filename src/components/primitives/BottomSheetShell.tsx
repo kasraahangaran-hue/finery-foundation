@@ -3,14 +3,14 @@ import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { FineryButton } from "@/components/finery/FineryButton";
 import { haptics } from "@/utils/haptics";
 import { cn } from "@/lib/utils";
+import { CTA_ROW_CLASSES } from "@/components/finery/ctaRowClasses";
 
 /**
  * BottomSheetShell — Finery-themed bottom sheet primitive.
  *
- * Reverted to laundry's inline-footer pattern:
- *   - DrawerContent owns the safe-area inset (pb-[max(env(safe-area-inset-bottom),1rem)])
- *   - Footer is an inline div: bg-finery-beige-300 px-6 pt-3 pb-4
- *   - No drop shadow on the sheet footer (unnecessary — sheet is already layered)
+ * Footer uses shared CTA_ROW_CLASSES (ctaRowClasses.ts) so the button
+ * row is pixel-identical to the page footer.  The beige.300 band
+ * extends through the safe-area zone.
  */
 
 type FooterVariant = "apply-only" | "back-and-apply" | "dual-apply" | "none";
@@ -77,7 +77,7 @@ export function BottomSheetShell({
 
           {/* Footer — inline block, laundry pattern */}
           {footer !== "none" && (
-            <div className="flex items-center gap-2 bg-finery-beige-300 px-6 pt-3 pb-[max(env(safe-area-inset-bottom),1.25rem)]">
+            <div className={CTA_ROW_CLASSES}>
               {footer === "apply-only" && (
                 <FineryButton
                   onClick={() => fire(onPrimary)}
