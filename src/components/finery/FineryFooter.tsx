@@ -1,14 +1,13 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { CTA_ROW_CLASSES } from "@/components/finery/ctaRowClasses";
+import { PAGE_CTA_ROW_CLASSES } from "@/components/finery/ctaRowClasses";
 
 /**
  * FineryFooter — page-level bottom band, two-row layout.
  *
  * Row 1: Insurance strip (purple.200, optional).
- * Row 2: Button row — uses shared CTA_ROW_CLASSES so page and sheet
- *   footers are pixel-identical.  The beige.300 band extends through
- *   the iOS safe-area zone.
+ * Row 2: Button row — uses PAGE_CTA_ROW_CLASSES (ctaRowClasses.ts).
+ *   The beige.300 band extends through the iOS safe-area zone.
  */
 
 interface FineryFooterProps {
@@ -47,7 +46,7 @@ export function FineryFooter({
         </div>
       ) : null}
 
-      <div className={CTA_ROW_CLASSES}>
+      <div className={PAGE_CTA_ROW_CLASSES}>
         {children}
       </div>
     </footer>
