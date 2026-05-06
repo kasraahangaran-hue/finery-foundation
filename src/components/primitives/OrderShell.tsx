@@ -43,6 +43,11 @@ interface ChromeContextValue {
 
 const ChromeContext = createContext<ChromeContextValue | null>(null);
 
+/** Returns true when rendered inside <OrderShell />. */
+export function useIsInsideOrderShell(): boolean {
+  return useContext(ChromeContext) != null;
+}
+
 export function useOrderChrome(config: OrderChrome) {
   const ctx = useContext(ChromeContext);
   if (!ctx) {
