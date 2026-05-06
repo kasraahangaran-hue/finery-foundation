@@ -1,0 +1,445 @@
+/// <reference types="@types/google.maps" />
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  AlertCircle,
+  Loader2,
+  MapPin,
+  Navigation,
+  Search,
+  X,
+} from "lucide-react";
+import { useOrderStore } from "@/stores/orderStore";
+import { haptics } from "@/utils/haptics";
+import { toast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import {
+  loadMaps,
+  DUBAI_CENTER,
+  DUBAI_BOUNDS,
+  FAR_PIN_THRESHOLD_METERS,
+  distanceMeters,
+} from "@/lib/google-maps";
+import { RawSvg } from "@/lib/RawSvg";
+import { FineryButton } from "@/components/finery/FineryButton";
+import locationPinSvg from "@/assets/icons/location-pin.svg?raw";
+
+interface Suggestion {
+  placeId: string;
+  primary: string;
+  secondary: string;
+}
+
+export default function AddressMapScreen() {
+  const navigate = useNavigate();
+  const pendingDraft = useOrderStore((s) => s.pendingAddressDraft);
+  const setPendingAddressDraft = useOrderStore(
+    (s) => s.setPendingAddressDraft,
+  );
+
+  const mapDivRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<google.maps.Map | null>(null);
+  const geocoderRef = useRef<google.maps.Geocoder | null>(null);
+  const sessionTokenRef =
+    useRef<google.maps.places.AutocompleteSessionToken | null>(null);
+  const idleListenerRef = useRef<google.maps.MapsEventListener | null>(null);
+  const reverseTimerRef = useRef<number | null>(null);
+  const autocompleteReqIdRef = useRef(0);
+  const userGpsRef = useRef<{ lat: number; lng: number } | null>(null);
+
+  const [search, setSearch] = useState("");
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [center, setCenter] = useState<{
+    lat: number;
+    lng: number;
+    label: string;
+  }>({
+    ...DUBAI_CENTER,
+    label: "Dubai, United Arab Emirates",
+  });
+  const [locating, setLocating] = useState(false);
+  const [mapReady, setMapReady] = useState(false);
+  const [reverseLoading, setReverseLoading] = useState(false);
+
+  const reverseGeocode = (lat: number, lng: number) => {
+    if (!geocoderRef.current) return;
+    setReverseLoading(true);
+    geocoderRef.current.geocode(
+      { location: { lat, lng } },
+      (results, status) => {
+        setReverseLoading(false);
+        if (status === "OK" && results && results[0]) {
+          setCenter({ lat, lng, label: results[0].formatted_address });
+        } else {
+          setCenter({
+            lat,
+            lng,
+            label: `${lat.toFixed(5)}, ${lng.toFixed(5)}`,
+          });
+        }
+      },
+    );
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        await loadMaps();
+        if (cancelled || !mapDivRef.current) return;
+
+        const initial = pendingDraft
+          ? { lat: pendingDraft.lat, lng: pendingDraft.lng }
+          : DUBAI_CENTER;
+
+        const map = new google.maps.Map(mapDivRef.current, {
+          center: initial,
+          zoom: 17,
+          minZoom: 6,
+          disableDefaultUI: true,
+          gestureHandling: "greedy",
+          clickableIcons: false,
+        });
+        mapRef.current = map;
+        geocoderRef.current = new google.maps.Geocoder();
+        sessionTokenRef.current =
+          new google.maps.places.AutocompleteSessionToken();
+
+        idleListenerRef.current = map.addListener("idle", () => {
+          const c = map.getCenter();
+          if (!c) return;
+          const lat = c.lat();
+          const lng = c.lng();
+          if (reverseTimerRef.current)
+            window.clearTimeout(reverseTimerRef.current);
+          reverseTimerRef.current = window.setTimeout(
+            () => reverseGeocode(lat, lng),
+            250,
+          );
+        });
+
+        if (pendingDraft) {
+          setCenter({
+            lat: pendingDraft.lat,
+            lng: pendingDraft.lng,
+            label: pendingDraft.formattedAddress,
+          });
+        } else {
+          reverseGeocode(initial.lat, initial.lng);
+          if ("geolocation" in navigator) {
+            setLocating(true);
+            navigator.geolocation.getCurrentPosition(
+              (pos) => {
+                if (cancelled || !mapRef.current) return;
+                setLocating(false);
+                userGpsRef.current = {
+                  lat: pos.coords.latitude,
+                  lng: pos.coords.longitude,
+                };
+                mapRef.current.panTo(userGpsRef.current);
+                mapRef.current.setZoom(18);
+              },
+              () => {
+                setLocating(false);
+              },
+              { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
+            );
+          }
+        }
+
+        setMapReady(true);
+      } catch (e) {
+        console.error("Failed to load Google Maps", e);
+        toast({
+          title: "Map failed to load",
+          description: "Please check your connection and reload.",
+        });
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      if (idleListenerRef.current) idleListenerRef.current.remove();
+      if (reverseTimerRef.current)
+        window.clearTimeout(reverseTimerRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const q = search.trim();
+    if (!q) {
+      setSuggestions([]);
+      return;
+    }
+    const reqId = ++autocompleteReqIdRef.current;
+    const handle = window.setTimeout(async () => {
+      try {
+        const { suggestions: preds } =
+          await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions(
+            {
+              input: q,
+              sessionToken: sessionTokenRef.current!,
+              includedRegionCodes: ["ae"],
+              locationBias: DUBAI_BOUNDS,
+            },
+          );
+        if (reqId !== autocompleteReqIdRef.current) return;
+        setSuggestions(
+          preds.slice(0, 6).flatMap((s) => {
+            const p = s.placePrediction;
+            if (!p) return [];
+            return [
+              {
+                placeId: p.placeId,
+                primary: p.mainText?.text ?? p.text?.text ?? "",
+                secondary: p.secondaryText?.text ?? "",
+              },
+            ];
+          }),
+        );
+      } catch (e) {
+        console.error("Autocomplete error", e);
+        if (reqId === autocompleteReqIdRef.current) setSuggestions([]);
+      }
+    }, 200);
+    return () => window.clearTimeout(handle);
+  }, [search]);
+
+  const onPickSuggestion = async (s: Suggestion) => {
+    if (!mapRef.current) return;
+    try {
+      const place = new google.maps.places.Place({ id: s.placeId });
+      await place.fetchFields({ fields: ["location", "formattedAddress"] });
+      const loc = place.location;
+      if (!loc) {
+        toast({ title: "Could not load place" });
+        return;
+      }
+      mapRef.current.panTo(loc);
+      mapRef.current.setZoom(18);
+      setSearch("");
+      setSuggestions([]);
+      sessionTokenRef.current =
+        new google.maps.places.AutocompleteSessionToken();
+    } catch (e) {
+      console.error("Place details error", e);
+      toast({ title: "Could not load place" });
+    }
+  };
+
+  const onLocateMe = () => {
+    haptics.light();
+    if (!("geolocation" in navigator)) {
+      toast({ title: "Location not supported" });
+      return;
+    }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setLocating(false);
+        userGpsRef.current = {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        };
+        if (mapRef.current) {
+          mapRef.current.panTo(userGpsRef.current);
+          mapRef.current.setZoom(18);
+        }
+      },
+      (err) => {
+        setLocating(false);
+        toast({
+          title: "Could not get location",
+          description:
+            err.code === err.PERMISSION_DENIED
+              ? "Permission denied. Enable location access in your browser settings."
+              : "Please try again.",
+        });
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 },
+    );
+  };
+
+  const isFarFromGps = useMemo(() => {
+    if (!userGpsRef.current) return false;
+    return (
+      distanceMeters(
+        { lat: center.lat, lng: center.lng },
+        userGpsRef.current,
+      ) > FAR_PIN_THRESHOLD_METERS
+    );
+  }, [center.lat, center.lng]);
+
+  const isAtUserLocation = useMemo(() => {
+    if (!userGpsRef.current) return false;
+    return (
+      distanceMeters(
+        { lat: center.lat, lng: center.lng },
+        userGpsRef.current,
+      ) < 30
+    );
+  }, [center.lat, center.lng]);
+
+  const onBack = () => {
+    haptics.light();
+    setPendingAddressDraft(null);
+    navigate("/");
+  };
+
+  const onConfirm = () => {
+    if (!mapReady) return;
+    haptics.medium();
+    setPendingAddressDraft({
+      ...(pendingDraft ?? {}),
+      lat: center.lat,
+      lng: center.lng,
+      formattedAddress: center.label,
+    });
+    navigate("/address/type");
+  };
+
+  const showSuggestions = suggestions.length > 0;
+
+  return (
+    <div className="fixed inset-0 z-50 flex flex-col bg-white">
+      {/* Real Google Map */}
+      <div ref={mapDivRef} className="absolute inset-0" />
+
+      {!mapReady && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-finery-beige-300">
+          <Loader2 className="h-8 w-8 animate-spin text-finery-purple-400" />
+        </div>
+      )}
+
+      {/* Centered pin */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-full">
+        <RawSvg svg={locationPinSvg} className="h-12 w-auto" />
+      </div>
+
+      {/* Top: back + search */}
+      <div className="absolute left-0 right-0 top-0 z-30 flex flex-col pt-[max(env(safe-area-inset-top),0.75rem)] px-4">
+        <div className="flex items-center gap-2 bg-white px-4 py-3 shadow-md">
+          <button
+            type="button"
+            onClick={onBack}
+            className="press-effect flex h-6 w-6 items-center justify-center"
+          >
+            <Search className="h-4 w-4 text-finery-purple-400" />
+          </button>
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search for a building or community"
+            type="search"
+            autoComplete="new-password"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
+            name="no-autofill-search"
+            data-1p-ignore="true"
+            data-lpignore="true"
+            data-form-type="other"
+            className="flex-1 bg-transparent font-sans text-[14px] text-finery-purple-400 outline-none placeholder:text-finery-textSecondary"
+          />
+          {search ? (
+            <button
+              type="button"
+              onPointerDown={(e) => e.preventDefault()}
+              onClick={() => {
+                haptics.light();
+                setSearch("");
+              }}
+              aria-label="Clear search"
+              className="press-effect flex h-6 w-6 items-center justify-center"
+            >
+              <X className="h-4 w-4 text-finery-purple-400" />
+            </button>
+          ) : null}
+        </div>
+
+        {showSuggestions ? (
+          <div className="max-h-[280px] overflow-y-auto bg-white shadow-md">
+            {suggestions.map((m, i) => (
+              <button
+                key={m.placeId}
+                type="button"
+                onClick={() => onPickSuggestion(m)}
+                className={cn(
+                  "press-effect flex w-full items-start gap-3 px-4 py-3 text-left",
+                  i < suggestions.length - 1 && "border-b border-finery-disabledBg",
+                )}
+              >
+                <div className="flex h-5 w-5 shrink-0 items-center justify-center">
+                  <MapPin className="h-4 w-4 text-finery-purple-400" />
+                </div>
+                <div className="flex min-w-0 flex-1 flex-col">
+                  <span className="truncate font-display text-[14px] font-bold text-finery-purple-400">
+                    {m.primary}
+                  </span>
+                  {m.secondary ? (
+                    <span className="truncate text-[12px] text-finery-textSecondary">
+                      {m.secondary}
+                    </span>
+                  ) : null}
+                </div>
+              </button>
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      {/* Locate-me FAB */}
+      <button
+        type="button"
+        onClick={onLocateMe}
+        className="press-effect absolute bottom-[200px] right-4 z-30 flex h-11 w-11 items-center justify-center bg-white shadow-md"
+      >
+        {locating ? (
+          <Loader2 className="h-5 w-5 animate-spin text-finery-purple-400" />
+        ) : (
+          <Navigation
+            className={cn(
+              "h-5 w-5",
+              isAtUserLocation
+                ? "fill-finery-purple-400 text-finery-purple-400"
+                : "text-finery-purple-400",
+            )}
+          />
+        )}
+      </button>
+
+      {/* Bottom: warning + footer */}
+      <div className="absolute bottom-0 left-0 right-0 z-30">
+        <div className="flex flex-col gap-3 bg-white px-6 pt-4 pb-[max(env(safe-area-inset-bottom),1.25rem)]">
+          {isFarFromGps ? (
+            <div className="flex items-center gap-2 text-amber-600">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              <span className="text-[13px] font-medium">
+                You seem far away from this pin
+              </span>
+            </div>
+          ) : null}
+          {reverseLoading ? (
+            <div className="flex items-center gap-2">
+              <Loader2 className="h-4 w-4 shrink-0 animate-spin text-finery-purple-400" />
+              <span className="text-[13px] text-finery-textSecondary">
+                Looking up location…
+              </span>
+            </div>
+          ) : (
+            <div className="flex items-start gap-2">
+              <MapPin className="h-4 w-4 shrink-0 text-finery-purple-400 mt-0.5" />
+              <span className="text-[13px] font-medium text-finery-purple-400">
+                {center.label}
+              </span>
+            </div>
+          )}
+          <FineryButton onClick={onConfirm} disabled={!mapReady} className="w-full">
+            Confirm Pin
+          </FineryButton>
+        </div>
+      </div>
+    </div>
+  );
+}
