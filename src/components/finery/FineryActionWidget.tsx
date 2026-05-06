@@ -8,7 +8,7 @@ type FineryActionWidgetAction = "plus" | "edit";
 interface FineryActionWidgetProps {
   icon: ReactNode;
   title: string;
-  subtitle?: string;
+  subtitle?: ReactNode;
   action?: FineryActionWidgetAction;
   onPress?: () => void;
   className?: string;
