@@ -127,10 +127,11 @@ export default function DevAtoms() {
         <div className="h-32" />
       </main>
 
-      <FineryFooter animate>
-        <FineryButton variant="tiny" />
-        <FineryButton>Place Order</FineryButton>
-      </FineryFooter>
+      <FineryFooter
+        animate
+        onBack={() => console.log("back")}
+        cta={<FineryButton className="w-full">Place Order</FineryButton>}
+      />
     </div>
   );
 }
