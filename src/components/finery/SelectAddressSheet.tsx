@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useOrderStore } from "@/stores/orderStore";
 import type { Address } from "@/stores/orderStore";
@@ -22,15 +23,16 @@ export function SelectAddressSheet({
   const selectAddress = useOrderStore((s) => s.selectAddress);
   const setPendingAddressDraft = useOrderStore((s) => s.setPendingAddressDraft);
 
+  const navigate = useNavigate();
+
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
 
   const onAddNew = () => {
     haptics.light();
     setPendingAddressDraft(null);
-    console.log("[SelectAddressSheet] + Add New Address — would navigate to /address/map");
     onOpenChange(false);
+    navigate("/address/map");
   };
-
   const onSelect = (id: string) => {
     haptics.light();
     selectAddress(id);
@@ -47,8 +49,8 @@ export function SelectAddressSheet({
       type: address.type,
       fields: address.fields,
     });
-    console.log("[SelectAddressSheet] edit — would navigate to /address/map (edit mode)");
     onOpenChange(false);
+    navigate("/address/map");
   };
 
   return (

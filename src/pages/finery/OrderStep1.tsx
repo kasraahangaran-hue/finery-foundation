@@ -49,7 +49,7 @@ export default function OrderStep1() {
 
   const onAddressTap = () => {
     if (addresses.length === 0) {
-      console.log("[OrderStep1] address tap (no saved) — would navigate to /address/map");
+      navigate("/address/map");
     } else {
       setAddressSheetOpen(true);
     }
