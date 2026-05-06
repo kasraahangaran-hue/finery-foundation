@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Truck, Camera, MessageSquare } from "lucide-react";
 import { FineryButton } from "@/components/finery/FineryButton";
 import { FineryActionWidget } from "@/components/finery/FineryActionWidget";
+import { ValetInstructionsSheet } from "@/components/finery/ValetInstructionsSheet";
 import { useOrderChrome } from "@/components/primitives/OrderShell";
 import { useOrderStore, type ValetPickupPreference, type ValetDeliveryPreference } from "@/stores/orderStore";
 import { haptics } from "@/utils/haptics";
@@ -30,6 +32,9 @@ export default function OrderStep2() {
 
   const valetPickup = useOrderStore((s) => s.valetPickupPreference);
   const valetDelivery = useOrderStore((s) => s.valetDeliveryPreference);
+  const setValetPreferences = useOrderStore((s) => s.setValetPreferences);
+
+  const [valetSheetOpen, setValetSheetOpen] = useState(false);
 
   const valetPopulated =
     valetPickup !== "no_preference" || valetDelivery !== "no_preference";
@@ -50,7 +55,12 @@ export default function OrderStep2() {
   };
 
   const onValetTap = () => {
-    navigate("/order/instructions/valet");
+    setValetSheetOpen(true);
+  };
+
+  const onValetApply = (pickup: ValetPickupPreference, delivery: ValetDeliveryPreference) => {
+    haptics.medium();
+    setValetPreferences(pickup, delivery);
   };
 
   const onPhotosTap = () => {
@@ -93,6 +103,7 @@ export default function OrderStep2() {
   });
 
   return (
+    <>
     <div className="mt-[22px] flex flex-col gap-2">
       <FineryActionWidget
         icon={<Truck className="h-5 w-5" />}
@@ -115,5 +126,14 @@ export default function OrderStep2() {
         onPress={onCommentsTap}
       />
     </div>
+
+    <ValetInstructionsSheet
+      open={valetSheetOpen}
+      onOpenChange={setValetSheetOpen}
+      initialPickup={valetPickup}
+      initialDelivery={valetDelivery}
+      onApply={onValetApply}
+    />
+    </>
   );
 }
