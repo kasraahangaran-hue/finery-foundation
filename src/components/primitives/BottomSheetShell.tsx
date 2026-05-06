@@ -26,6 +26,8 @@ interface BottomSheetShellProps {
   titleSlot?: ReactNode;
   /** Content rendered below the title row, INSIDE the header block. */
   titleAccessory?: ReactNode;
+  /** When true, the entire header block (title + accessory) is omitted. */
+  hideHeader?: boolean;
   children: ReactNode;
   footer: FooterVariant;
   primaryLabel?: string;
@@ -42,6 +44,7 @@ export function BottomSheetShell({
   title,
   titleSlot,
   titleAccessory,
+  hideHeader = false,
   children,
   footer,
   primaryLabel,
@@ -68,15 +71,17 @@ export function BottomSheetShell({
       <DrawerContent className="border-none rounded-t-none max-h-[92vh] bg-finery-beige-200 pb-[max(env(safe-area-inset-bottom),1rem)]">
         <div className="flex max-h-[92vh] flex-col">
           {/* Header */}
-          <div className="flex flex-col gap-2 px-6 pt-6 pb-7">
-            <div className="flex items-center justify-between gap-2">
-              <h2 className="font-display text-[18px] font-bold leading-[21px] tracking-[0.4px] text-finery-purple-400">
-                {title}
-              </h2>
-              {titleSlot}
+          {!hideHeader && (
+            <div className="flex flex-col gap-2 px-6 pt-6 pb-7">
+              <div className="flex items-center justify-between gap-2">
+                <h2 className="font-display text-[18px] font-bold leading-[21px] tracking-[0.4px] text-finery-purple-400">
+                  {title}
+                </h2>
+                {titleSlot}
+              </div>
+              {titleAccessory}
             </div>
-            {titleAccessory}
-          </div>
+          )}
 
           {/* Scrollable body */}
           <div className="flex-1 overflow-y-auto px-6 pt-2 pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
@@ -85,7 +90,7 @@ export function BottomSheetShell({
 
           {/* Footer */}
           {footer !== "none" && (
-            <div className="px-6 pt-3 pb-4">
+            <div className="bg-finery-beige-300 px-6 pt-3 pb-4">
               {footer === "apply-only" && (
                 <button
                   className={primaryBtnClass}
