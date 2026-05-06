@@ -1,4 +1,4 @@
-import { type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState, type Key } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { FineryFooter } from "@/components/finery/FineryFooter";
 import { FineryPageTitle } from "@/components/finery/FineryPageTitle";
@@ -22,7 +22,7 @@ import { FineryStepper } from "@/components/finery/FineryStepper";
  */
 
 export interface OrderChrome {
-  title: string;
+  title: ReactNode;
   step?: 1 | 2 | 3;
   totalSteps?: number;
   onBack?: () => void;
@@ -69,7 +69,7 @@ export function OrderShell() {
   const value = useMemo(() => ({ chrome, setChrome }), [chrome, setChrome]);
   const location = useLocation();
 
-  const title = chrome?.title ?? "";
+  const title = chrome?.title ?? null;
   const step = chrome?.step;
   const totalSteps = chrome?.totalSteps ?? 3;
   const showProgress = typeof step === "number";
@@ -83,7 +83,7 @@ export function OrderShell() {
         <header className="shrink-0">
           <div className="px-6 pt-[max(env(safe-area-inset-top),24px)] pb-3">
             <div className="flex items-center justify-between">
-              <div key={title} className="animate-page-in">
+              <div key={location.pathname} className="animate-page-in">
                 <FineryPageTitle>{title}</FineryPageTitle>
               </div>
               {chrome?.supportSlot ? <div>{chrome.supportSlot}</div> : null}
