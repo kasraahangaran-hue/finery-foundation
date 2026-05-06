@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PlaceholderPage from "@/pages/PlaceholderPage";
 import DevAtoms from "@/pages/DevAtoms";
 import OrderStep1 from "@/pages/finery/OrderStep1";
+import OrderStep2 from "@/pages/finery/OrderStep2";
 import AddressMapScreen from "@/pages/finery/AddressMapScreen";
 import AddressTypeScreen from "@/pages/finery/AddressTypeScreen";
 import AddressDetailsScreen from "@/pages/finery/AddressDetailsScreen";
@@ -13,7 +14,7 @@ const AppRouter = () => (
     <Routes>
       <Route element={<OrderShell />}>
         <Route path="/" element={<OrderStep1 />} />
-        <Route path="/order/instructions" element={<PlaceholderPage name="Instructions" />} />
+        <Route path="/order/instructions" element={<OrderStep2 />} />
         <Route path="/order/last-step" element={<PlaceholderPage name="LastStep" />} />
       </Route>
 
