@@ -4,6 +4,7 @@ import { useOrderStore } from "@/stores/orderStore";
 import { FineryWidgetRow, type FineryWidgetRowState } from "@/components/finery/FineryWidgetRow";
 import { FineryButton } from "@/components/finery/FineryButton";
 import { SelectAddressSheet } from "@/components/finery/SelectAddressSheet";
+import { DeliveryTimesSheet } from "@/components/finery/DeliveryTimesSheet";
 import { useOrderChrome } from "@/components/primitives/OrderShell";
 import { summarizeAddress } from "@/lib/addressFormatting";
 import { haptics } from "@/utils/haptics";
@@ -44,6 +45,7 @@ export default function OrderStep1() {
   const deliverySubtitle = hasDelivery ? DELIVERY_COPY : undefined;
 
   const [addressSheetOpen, setAddressSheetOpen] = useState(false);
+  const [deliverySheetOpen, setDeliverySheetOpen] = useState(false);
 
   const onAddressTap = () => {
     if (addresses.length === 0) {
@@ -56,7 +58,7 @@ export default function OrderStep1() {
     console.log("[OrderStep1] pickup tap — would open Pickup bottom sheet");
   };
   const onDeliveryTap = () => {
-    console.log("[OrderStep1] delivery tap — would open Delivery Times bottom sheet");
+    setDeliverySheetOpen(true);
   };
 
   const onBack = () => {
@@ -93,6 +95,7 @@ export default function OrderStep1() {
       </div>
 
       <SelectAddressSheet open={addressSheetOpen} onOpenChange={setAddressSheetOpen} />
+      <DeliveryTimesSheet open={deliverySheetOpen} onOpenChange={setDeliverySheetOpen} />
     </>
   );
 }

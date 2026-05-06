@@ -1,38 +1,28 @@
-## Problem
+## Plan: Delivery Times Bottom Sheet (Block 3D)
 
-`useOrderChrome` passes its config object's properties as `useEffect` dependencies (line 60). Properties like `onBack`, `cta`, and `supportSlot` are new references every render, causing an infinite update loop.
+### 1. Create `src/components/finery/DeliveryTimesSheet.tsx`
 
-## Fix
+New component using `BottomSheetShell` with `footer="apply-only"` and `primaryLabel="Done"`. On Done, calls `setDeliveryTimesAcknowledged(true)` then closes.
 
-Two changes in `src/components/primitives/OrderShell.tsx`:
+Contents (top to bottom inside the shell body):
+- **Hero placeholder**: 150px tall div with a beige/teal gradient (real image later)
+- **"Assessment Call" section**: h5 header + two paragraphs of explainer copy + `CallbackCheckboxRow` (existing component, default props — always shows checked)
+- **0.4px purple hairline divider**
+- **"Turnaround Time" section**: h5 header + explainer paragraph + four timing rows (Garments 3d, Bridal 8+d, Shoes & Bags 5-8d, Household 3d)
 
-1. **`useOrderChrome`** — Replace the `useEffect` with a `useRef` + render-time assignment pattern. Store the config in a ref and sync it to state only when values actually change (using a shallow-compare helper or `JSON.stringify` for primitive fields + `useRef` for stable callback/ReactNode identity).
+Timing rows: flex row with category (14px Inter Medium) and duration (16px Inria Regular tracking 0.6), beige-100 bg, p-2.
 
-   Simplest correct approach: use a `useRef` to hold the latest config and call `setChrome` with the ref's current value only on mount/unmount. The shell reads from the ref via a getter. This avoids dependency-array issues entirely.
+`CallbackCheckboxRow` already hardcodes label and checked state — no changes needed to that component.
 
-   **Alternative (simpler):** Keep the `useEffect` but remove non-primitive deps (`onBack`, `cta`, `supportSlot`, `insuranceCopy`) from the dependency array. Store them in a ref so the shell always reads the latest value, while only re-running the effect when primitive values (`title`, `step`, `totalSteps`, `ctaKey`) change.
+### 2. Update `src/pages/finery/OrderStep1.tsx`
 
-2. **`setChrome` callback** — Already tries `prev === next` bail-out but it never matches because `next` is always a new object. With approach above this becomes unnecessary, but we can also add a shallow-compare bail-out as a safety net.
-
-### Concrete implementation (approach 2 — minimal diff)
-
-```tsx
-export function useOrderChrome(config: OrderChrome) {
-  const ctx = useContext(ChromeContext);
-  if (!ctx) throw new Error("useOrderChrome must be used inside <OrderShell />");
-  const { setChrome } = ctx;
-  const ref = useRef(config);
-  ref.current = config;
-
-  const { title, step, totalSteps, ctaKey } = config;
-  useEffect(() => {
-    setChrome(ref.current);
-  }, [setChrome, title, step, totalSteps, ctaKey]);
-}
-```
-
-This way only primitive/stable values trigger the effect. The ref ensures `onBack`/`cta`/etc. are always fresh when read.
+- Import `DeliveryTimesSheet`
+- Add `deliverySheetOpen` state
+- Replace `onDeliveryTap` console.log with `setDeliverySheetOpen(true)`
+- Render `<DeliveryTimesSheet>` alongside `<SelectAddressSheet>`
 
 ### Files touched
+- `src/components/finery/DeliveryTimesSheet.tsx` — **new**
+- `src/pages/finery/OrderStep1.tsx` — **edit** (import, state, handler, JSX)
 
-- `src/components/primitives/OrderShell.tsx` — update `useOrderChrome` (lines 51-61)
+No changes to BottomSheetShell, CallbackCheckboxRow, FineryWidgetRow, or orderStore.
