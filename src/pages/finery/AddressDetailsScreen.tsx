@@ -199,7 +199,7 @@ export default function AddressDetailsScreen() {
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-finery-beige-200">
-      <div className="flex-1 overflow-y-auto px-6 pt-[max(env(safe-area-inset-top),54px)] pb-4">
+      <div className="flex-1 overflow-y-auto px-6 pt-[max(env(safe-area-inset-top),1.5rem)] pb-4">
         <div className="mb-6 flex flex-col gap-[14px]">
           <h1 className="font-display text-[18px] font-bold leading-[21px] tracking-[0.4px] text-finery-purple-400">
             {titleVerb} {TYPE_TITLE[type]}
