@@ -1,9 +1,8 @@
-import { type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
 import { FineryFooter } from "@/components/finery/FineryFooter";
+import { FineryPageTitle } from "@/components/finery/FineryPageTitle";
 import { cn } from "@/lib/utils";
-import { haptics } from "@/utils/haptics";
 
 /**
  * OrderShell — persistent chrome for the Finery order flow.
@@ -28,6 +27,8 @@ export interface OrderChrome {
   totalSteps?: number;
   onBack?: () => void;
   cta?: ReactNode;
+  /** Optional content rendered above the back+cta row in the footer. */
+  footerAboveSlot?: ReactNode;
   /** Stable key used to crossfade the CTA between screens. Defaults to pathname. */
   ctaKey?: string;
   /** Right-side slot in the header title row (e.g. price chip). Empty by default for Finery. */
@@ -54,12 +55,10 @@ export function useOrderChrome(config: OrderChrome) {
     throw new Error("useOrderChrome must be used inside <OrderShell />");
   }
   const { setChrome } = ctx;
-  const ref = useRef(config);
-  ref.current = config;
-  const { title, step, totalSteps, ctaKey } = config;
   useEffect(() => {
-    setChrome(ref.current);
-  }, [setChrome, title, step, totalSteps, ctaKey]);
+    setChrome(config);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
 }
 
 export function OrderShell() {
@@ -78,32 +77,37 @@ export function OrderShell() {
 
   return (
     <ChromeContext.Provider value={value}>
-      <div className="flex min-h-[100dvh] flex-col bg-finery-beige-200">
+      <div className="flex h-[100dvh] flex-col overflow-hidden bg-finery-beige-200">
 
         {/* Persistent header */}
-        <div className="shrink-0">
-          <div className="px-6 pt-[max(env(safe-area-inset-top),18px)]">
+        <header className="shrink-0">
+          <div className="px-6 pt-[max(env(safe-area-inset-top),24px)] pb-3">
             <div className="flex items-center justify-between">
               <div key={title} className="animate-page-in">
-                <h1 className="font-display text-[20px] font-bold leading-[28px] tracking-normal text-finery-purple-400">
-                  {title}
-                </h1>
+                <FineryPageTitle>{title}</FineryPageTitle>
               </div>
               {chrome?.supportSlot ? <div>{chrome.supportSlot}</div> : null}
             </div>
 
             {showProgress && (
-              <div className="mt-[13px] flex w-full gap-[6px]">
+              <div
+                className="mt-3 flex w-full gap-1"
+                role="progressbar"
+                aria-valuenow={step}
+                aria-valuemin={1}
+                aria-valuemax={totalSteps}
+                aria-label={`Step ${step} of ${totalSteps}`}
+              >
                 {Array.from({ length: totalSteps }).map((_, i) => {
                   const idx = i + 1;
                   const filled = idx <= step!;
                   return (
-                    <div key={i} className="h-[2px] flex-1 bg-finery-disabledBg">
+                    <div key={i} className="h-[2px] flex-1 rounded-full bg-finery-disabledBg">
                       <div
                         className={cn(
-                          "h-full bg-finery-purple-400 transition-transform duration-500 origin-left",
-                          filled ? "scale-x-100" : "scale-x-0",
+                          "h-full rounded-full bg-finery-purple-400 transition-transform duration-500 origin-left",
                         )}
+                        style={{ transform: filled ? "scaleX(1)" : "scaleX(0)" }}
                       />
                     </div>
                   );
@@ -111,38 +115,27 @@ export function OrderShell() {
               </div>
             )}
           </div>
-        </div>
+        </header>
 
-        {/* Body — remounts on route change */}
-        <div key={location.pathname} className="animate-page-in flex-1">
+        {/* Body — remounts on route change, scrolls independently */}
+        <main key={location.pathname} className="animate-page-in flex-1 overflow-y-auto overscroll-contain">
           <Outlet />
-        </div>
+        </main>
 
         {/* Persistent footer */}
         {chrome?.cta && (
-          <FineryFooter insuranceCopy={chrome.insuranceCopy}>
-            {chrome.onBack ? <BackButtonInline onBack={chrome.onBack} /> : null}
-            <div key={ctaKey} className="animate-page-in flex-1">
-              {chrome.cta}
-            </div>
-          </FineryFooter>
+          <FineryFooter
+            onBack={chrome.onBack}
+            cta={
+              <div key={ctaKey} className="animate-page-in">
+                {chrome.cta}
+              </div>
+            }
+            aboveSlot={chrome.footerAboveSlot}
+            insuranceCopy={chrome.insuranceCopy}
+          />
         )}
       </div>
     </ChromeContext.Provider>
-  );
-}
-
-function BackButtonInline({ onBack }: { onBack: () => void }) {
-  return (
-    <button
-      onClick={() => {
-        haptics.light();
-        onBack();
-      }}
-      className="press-effect flex h-[42px] w-12 shrink-0 items-center justify-center border border-finery-purple-400 bg-finery-beige-100"
-      aria-label="Back"
-    >
-      <ArrowLeft className="h-5 w-5 text-finery-purple-400" />
-    </button>
   );
 }

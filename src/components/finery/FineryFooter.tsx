@@ -1,17 +1,26 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { FineryButton } from "@/components/finery/FineryButton";
 import { PAGE_CTA_ROW_CLASSES } from "@/components/finery/ctaRowClasses";
+import { haptics } from "@/utils/haptics";
 
 /**
- * FineryFooter — page-level bottom band, two-row layout.
+ * FineryFooter — page-level bottom band, multi-row layout.
  *
  * Row 1: Insurance strip (purple.200, optional).
- * Row 2: Button row — uses PAGE_CTA_ROW_CLASSES (ctaRowClasses.ts).
- *   The beige.300 band extends through the iOS safe-area zone.
+ * Row 2 (optional): aboveSlot — content above the button row, e.g. tip
+ *                   selector on Last Step. Sits inside the beige.300 band.
+ * Row 3: Button row — uses PAGE_CTA_ROW_CLASSES. Contains the optional
+ *        back button on the left and the CTA on the right.
  */
 
 interface FineryFooterProps {
-  children: ReactNode;
+  /** Primary action element. Sits flex-1 next to the optional back button. */
+  cta: ReactNode;
+  /** When provided, renders a tiny back button to the left of the CTA. */
+  onBack?: () => void;
+  /** Optional content rendered above the back+cta row, inside the beige.300 band. */
+  aboveSlot?: ReactNode;
   insuranceCopy?: ReactNode | null;
   animate?: boolean;
   className?: string;
@@ -22,7 +31,9 @@ const DEFAULT_INSURANCE: ReactNode = (
 );
 
 export function FineryFooter({
-  children,
+  cta,
+  onBack,
+  aboveSlot,
   insuranceCopy = DEFAULT_INSURANCE,
   animate = false,
   className,
@@ -46,8 +57,21 @@ export function FineryFooter({
         </div>
       ) : null}
 
+      {aboveSlot ? (
+        <div className="bg-finery-beige-300 px-6 pt-3">{aboveSlot}</div>
+      ) : null}
+
       <div className={PAGE_CTA_ROW_CLASSES}>
-        {children}
+        {onBack ? (
+          <FineryButton
+            variant="tiny"
+            onClick={() => {
+              haptics.light();
+              onBack();
+            }}
+          />
+        ) : null}
+        <div className="flex-1">{cta}</div>
       </div>
     </footer>
   );

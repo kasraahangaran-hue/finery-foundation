@@ -1,4 +1,5 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { FineryButton } from "@/components/finery/FineryButton";
 import { haptics } from "@/utils/haptics";
 
 interface DeleteAddressDialogProps {
@@ -21,16 +22,16 @@ export function DeleteAddressDialog({
         <p className="mt-1 font-sans text-[13px] font-light leading-[18px] text-finery-textSecondary">
           Are you sure you want to delete this address?
         </p>
-        <button
+        <FineryButton
           onClick={() => {
             haptics.warning();
             onConfirm();
             onOpenChange(false);
           }}
-          className="press-effect mt-2 h-[42px] w-full bg-finery-purple-400 font-display text-sm font-bold leading-[20px] text-finery-beige-100"
+          className="mt-2 w-full"
         >
           Yes, delete address
-        </button>
+        </FineryButton>
         <button
           onClick={() => {
             haptics.light();
