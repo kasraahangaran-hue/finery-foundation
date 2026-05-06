@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PlaceholderPage from "@/pages/PlaceholderPage";
 import DevAtoms from "@/pages/DevAtoms";
 import OrderStep1 from "@/pages/finery/OrderStep1";
+import AddressMapScreen from "@/pages/finery/AddressMapScreen";
 import { OrderShell } from "@/components/primitives/OrderShell";
 import { StateInspector } from "@/components/dev/StateInspector";
 
@@ -14,7 +15,7 @@ const AppRouter = () => (
         <Route path="/order/last-step" element={<PlaceholderPage name="LastStep" />} />
       </Route>
 
-      <Route path="/address/map" element={<PlaceholderPage name="AddressMap" />} />
+      <Route path="/address/map" element={<AddressMapScreen />} />
       <Route path="/address/type" element={<PlaceholderPage name="AddressType" />} />
       <Route path="/address/details" element={<PlaceholderPage name="AddressDetails" />} />
       <Route path="/addresses" element={<PlaceholderPage name="SavedAddresses" />} />
