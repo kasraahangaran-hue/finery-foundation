@@ -1,28 +1,25 @@
-## Plan: Delivery Times Bottom Sheet (Block 3D)
 
-### 1. Create `src/components/finery/DeliveryTimesSheet.tsx`
+## Problem
 
-New component using `BottomSheetShell` with `footer="apply-only"` and `primaryLabel="Done"`. On Done, calls `setDeliveryTimesAcknowledged(true)` then closes.
+The app uses `env(safe-area-inset-top)` and `env(safe-area-inset-bottom)` in the header and footer, but `index.html` is missing `viewport-fit=cover` on the viewport meta tag. Without it, iOS/Android WebViews ignore those environment variables entirely — they always resolve to `0px`.
 
-Contents (top to bottom inside the shell body):
-- **Hero placeholder**: 150px tall div with a beige/teal gradient (real image later)
-- **"Assessment Call" section**: h5 header + two paragraphs of explainer copy + `CallbackCheckboxRow` (existing component, default props — always shows checked)
-- **0.4px purple hairline divider**
-- **"Turnaround Time" section**: h5 header + explainer paragraph + four timing rows (Garments 3d, Bridal 8+d, Shoes & Bags 5-8d, Household 3d)
+## Changes
 
-Timing rows: flex row with category (14px Inter Medium) and duration (16px Inria Regular tracking 0.6), beige-100 bg, p-2.
+### 1. `index.html` — enable safe area insets
 
-`CallbackCheckboxRow` already hardcodes label and checked state — no changes needed to that component.
+Change the viewport meta to:
+```
+width=device-width, initial-scale=1.0, viewport-fit=cover
+```
 
-### 2. Update `src/pages/finery/OrderStep1.tsx`
+This is the single critical fix. Once enabled, the existing `env(safe-area-inset-*)` references in OrderShell header (`pt-[max(env(safe-area-inset-top),18px)]`) and FineryFooter (`pb-[max(env(safe-area-inset-bottom),1rem)]`) will start working correctly on notched/dynamic-island devices.
 
-- Import `DeliveryTimesSheet`
-- Add `deliverySheetOpen` state
-- Replace `onDeliveryTap` console.log with `setDeliverySheetOpen(true)`
-- Render `<DeliveryTimesSheet>` alongside `<SelectAddressSheet>`
+### 2. `FineryFooter.tsx` — increase minimum bottom padding
 
-### Files touched
-- `src/components/finery/DeliveryTimesSheet.tsx` — **new**
-- `src/pages/finery/OrderStep1.tsx` — **edit** (import, state, handler, JSX)
+The current fallback `1rem` (16px) is tight for the iOS home indicator area. Bump to `1.25rem` (20px) so the CTA row has comfortable clearance even on older devices where the inset is small.
 
-No changes to BottomSheetShell, CallbackCheckboxRow, FineryWidgetRow, or orderStore.
+### 3. `BottomSheetShell.tsx` — same bottom padding bump
+
+The sheet footer also uses `pb-[max(env(safe-area-inset-bottom),1rem)]`. Bump to `1.25rem` for consistency.
+
+No other files need changes — `FineryHeader` uses `pt-safe` (which maps to `env(safe-area-inset-top)`) and the OrderShell header already has the correct `max()` pattern.
