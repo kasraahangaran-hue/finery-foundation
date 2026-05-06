@@ -49,15 +49,17 @@ export function AddressTypeTile({
         type="button"
         onClick={handleClick}
         className={cn(
-          "press-effect flex shrink-0 items-center gap-2 border px-3 py-2 transition-colors",
+          "press-effect flex h-[77px] w-[78px] shrink-0 flex-col items-center justify-center gap-1 border p-[9px] transition-colors",
           selected
-            ? "border-finery-purple-400 bg-finery-purple-400 text-finery-beige-100"
-            : "border-finery-disabledBg bg-finery-beige-100 text-finery-purple-400",
+            ? "border-finery-purple-400 bg-finery-teal-300"
+            : "border-[#F2F3F8] bg-white",
         )}
         aria-pressed={selected}
       >
-        <RawSvg svg={iconRaw} className="h-5 w-5 shrink-0 select-none" />
-        <span className="font-display text-[13px] font-bold">{label}</span>
+        <span className="font-display text-[12px] font-bold leading-[14px] tracking-[0.4px] text-finery-purple-400">
+          {label}
+        </span>
+        <RawSvg svg={iconRaw} className="h-[34px] w-[34px] select-none" />
       </button>
     );
   }
