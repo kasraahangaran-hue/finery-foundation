@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ArrowLeft, X } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { haptics } from "@/utils/haptics";
 import { cn } from "@/lib/utils";
@@ -56,11 +56,6 @@ export function BottomSheetShell({
     cb?.();
   };
 
-  const handleClose = () => {
-    haptics.light();
-    onOpenChange(false);
-  };
-
   const primaryBtnClass = cn(
     "press-effect h-[42px] w-full bg-finery-purple-400 text-finery-beige-100",
     "font-display text-sm font-bold transition-colors hover:bg-finery-purple-400/90",
@@ -75,20 +70,10 @@ export function BottomSheetShell({
           {/* Header */}
           <div className="flex flex-col gap-2 px-6 pt-6 pb-7">
             <div className="flex items-center justify-between gap-2">
-              <h2 className="font-display text-[16px] font-bold leading-[17px] tracking-[0.4px] text-finery-purple-400">
+              <h2 className="font-display text-[18px] font-normal leading-[21px] tracking-[0.4px] text-finery-purple-400">
                 {title}
               </h2>
-              <div className="flex items-center gap-2">
-                {titleSlot}
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  aria-label="Close"
-                  className="press-effect flex h-8 w-8 items-center justify-center"
-                >
-                  <X className="h-5 w-5 text-finery-purple-400" />
-                </button>
-              </div>
+              {titleSlot}
             </div>
             {titleAccessory}
           </div>
