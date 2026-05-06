@@ -167,7 +167,7 @@ function AddressRow({
                 onDelete();
               }}
               aria-label="Delete address"
-              className="press-effect flex h-[14px] w-[14px] items-center justify-center"
+              className="press-effect flex h-8 w-8 -m-2 items-center justify-center"
             >
               <Trash2 className="h-3.5 w-3.5 text-[#C83C3E]" />
             </button>
@@ -179,7 +179,7 @@ function AddressRow({
               onEdit();
             }}
             aria-label="Edit address"
-            className="press-effect flex h-[14px] w-[14px] items-center justify-center"
+            className="press-effect flex h-8 w-8 -m-2 items-center justify-center"
           >
             <Pencil className="h-3.5 w-3.5 text-finery-purple-400" />
           </button>
