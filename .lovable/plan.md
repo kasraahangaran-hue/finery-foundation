@@ -1,16 +1,20 @@
-I found the mismatch: the main page footer applies the safe-area padding on the actual beige CTA band, but the bottom sheet currently applies safe-area padding on the outer DrawerContent and only `pb-5` on the CTA band. That leaves extra beige space outside the footer structure and makes the button sit closer to the visible bottom than the main page footer.
+## Problem
 
-Plan:
-1. Update `BottomSheetShell.tsx` so the footer CTA band uses the exact same bottom padding expression as `FineryFooter`:
-   - `pb-[max(env(safe-area-inset-bottom),1.25rem)]`
-   - keep `px-6 pt-3` the same.
+The bottom sheet CTA area doesn't visually match the main page footer. The root cause is structural: the main page uses `FineryFooter` (which has a `flex items-center gap-2` button row + top shadow), while the bottom sheet uses a plain `<div>` wrapper for its buttons. This creates subtle differences in button layout and visual weight.
 
-2. Remove the duplicate bottom padding from the outer `DrawerContent`:
-   - remove `pb-[max(env(safe-area-inset-bottom),1.25rem)]` from `DrawerContent`
-   - this prevents the sheet from having a separate safe-area spacer outside the CTA band.
+## Plan
 
-3. Keep the bottom-sheet CTA buttons as `FineryButton`, so button height, typography, horizontal padding, and variants continue matching the main order page.
+### 1. Update `BottomSheetShell.tsx` — use `FineryFooter` for the footer band
 
-4. Update the comments in `BottomSheetShell.tsx` to reflect the new source of truth: safe-area spacing belongs to the beige footer band, matching `FineryFooter`.
+Replace the current plain `<div className="bg-finery-beige-300 px-6 pt-3 pb-[...]">` footer with the actual `FineryFooter` component (with `insuranceCopy={null}` to hide the insurance strip). This guarantees:
+- Identical `flex items-center gap-2` button row layout
+- Same shadow, same bg, same padding expression
+- Single source of truth for footer styling
 
-Expected result: when opening a bottom sheet, the CTA area will feel identical to the main page footer—the beige band owns the safe-area/home-indicator space and the button’s distance from the bottom matches the outside page.
+### 2. Adjust button wrappers inside the footer
+
+Wrap each footer variant's buttons the same way `OrderShell` does — inside a `flex-1` div — so the `flex-1` on `FineryButton` behaves identically in both contexts.
+
+### Expected result
+
+The bottom sheet CTA band will be pixel-identical to the main page footer (minus the insurance strip), with matching shadow, padding, button sizing, and spacing from the bottom of the screen.
