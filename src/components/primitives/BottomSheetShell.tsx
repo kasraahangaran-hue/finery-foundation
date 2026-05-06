@@ -1,20 +1,16 @@
 import type { ReactNode } from "react";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { FineryButton } from "@/components/finery/FineryButton";
-import { FineryFooter } from "@/components/finery/FineryFooter";
 import { haptics } from "@/utils/haptics";
 import { cn } from "@/lib/utils";
 
 /**
  * BottomSheetShell — Finery-themed bottom sheet primitive.
  *
- * Dimensions match laundry baseline:
- *   - max-h-[92vh] rounded-t-none
- *   - Header: px-6 pt-4
- *   - Body:   flex-1 overflow-y-auto no-scrollbar px-6 pt-2 pb-4
- *   - Footer: px-6 pt-3 pb-5
- *   - Title:  text-[20px] font-bold leading-[24px] tracking-[0.4px]
- *   - Bottom safe-area: pb-[max(env(safe-area-inset-bottom),1.25rem)]
+ * Reverted to laundry's inline-footer pattern:
+ *   - DrawerContent owns the safe-area inset (pb-[max(env(safe-area-inset-bottom),1rem)])
+ *   - Footer is an inline div: bg-finery-beige-300 px-6 pt-3 pb-4
+ *   - No drop shadow on the sheet footer (unnecessary — sheet is already layered)
  */
 
 type FooterVariant = "apply-only" | "back-and-apply" | "dual-apply" | "none";
@@ -23,11 +19,8 @@ interface BottomSheetShellProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
-  /** Right-side slot in the title row (next to the close X). */
   titleSlot?: ReactNode;
-  /** Content rendered below the title row, INSIDE the header block. */
   titleAccessory?: ReactNode;
-  /** When true, the entire header block (title + accessory) is omitted. */
   hideHeader?: boolean;
   children: ReactNode;
   footer: FooterVariant;
@@ -62,7 +55,7 @@ export function BottomSheetShell({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="border-none rounded-t-none max-h-[92vh] bg-finery-beige-200">
+      <DrawerContent className="border-none rounded-t-none max-h-[92vh] bg-finery-beige-200 pb-[max(env(safe-area-inset-bottom),1rem)]">
         <div className="flex max-h-[92vh] flex-col">
           {/* Header */}
           {!hideHeader && (
@@ -82,14 +75,14 @@ export function BottomSheetShell({
             {children}
           </div>
 
-          {/* Footer */}
+          {/* Footer — inline block, laundry pattern */}
           {footer !== "none" && (
-            <FineryFooter insuranceCopy={null}>
+            <div className="flex items-center gap-2 bg-finery-beige-300 px-6 pt-3 pb-4">
               {footer === "apply-only" && (
                 <FineryButton
                   onClick={() => fire(onPrimary)}
                   disabled={primaryDisabled}
-                  className="flex-1"
+                  className="w-full"
                 >
                   {primaryLabel ?? "Apply"}
                 </FineryButton>
@@ -102,20 +95,18 @@ export function BottomSheetShell({
                     onClick={() => fire(onBack ?? (() => onOpenChange(false)))}
                     aria-label="Back"
                   />
-                  <div className="flex-1">
-                    <FineryButton
-                      onClick={() => fire(onPrimary)}
-                      disabled={primaryDisabled}
-                      className="w-full"
-                    >
-                      {primaryLabel ?? "Apply"}
-                    </FineryButton>
-                  </div>
+                  <FineryButton
+                    onClick={() => fire(onPrimary)}
+                    disabled={primaryDisabled}
+                    className="flex-1"
+                  >
+                    {primaryLabel ?? "Apply"}
+                  </FineryButton>
                 </>
               )}
 
               {footer === "dual-apply" && (
-                <div className="flex flex-col gap-2">
+                <div className="flex w-full flex-col gap-2">
                   <FineryButton
                     onClick={() => fire(onPrimary)}
                     disabled={primaryDisabled}
@@ -133,7 +124,7 @@ export function BottomSheetShell({
                   </FineryButton>
                 </div>
               )}
-            </FineryFooter>
+            </div>
           )}
         </div>
       </DrawerContent>
