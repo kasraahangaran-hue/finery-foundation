@@ -31,7 +31,8 @@ export function DeliveryTimesSheet({ open, onOpenChange }: DeliveryTimesSheetPro
     <BottomSheetShell
       open={open}
       onOpenChange={onOpenChange}
-      title="View Delivery Times"
+      title=""
+      hideHeader
       footer="apply-only"
       primaryLabel="Done"
       onPrimary={onDone}
@@ -39,7 +40,7 @@ export function DeliveryTimesSheet({ open, onOpenChange }: DeliveryTimesSheetPro
       <div className="flex flex-col gap-6">
         {/* Hero placeholder */}
         <div
-          className="-mx-6 h-[150px]"
+          className="-mx-6 -mt-2 h-[150px]"
           style={{
             background:
               "linear-gradient(135deg, hsl(36 30% 88%) 0%, hsl(174 25% 75%) 100%)",
