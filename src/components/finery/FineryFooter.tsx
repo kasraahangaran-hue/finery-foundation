@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { FineryButton } from "@/components/finery/FineryButton";
 import { PAGE_CTA_ROW_CLASSES } from "@/components/finery/ctaRowClasses";
-import { haptics } from "@/utils/haptics";
 
 /**
  * FineryFooter — page-level bottom band, multi-row layout.
@@ -63,13 +62,7 @@ export function FineryFooter({
 
       <div className={PAGE_CTA_ROW_CLASSES}>
         {onBack ? (
-          <FineryButton
-            variant="tiny"
-            onClick={() => {
-              haptics.light();
-              onBack();
-            }}
-          />
+          <FineryButton variant="tiny" onClick={onBack} aria-label="Back" />
         ) : null}
         <div className="flex-1">{cta}</div>
       </div>
