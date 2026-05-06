@@ -6,7 +6,7 @@ import { AddressTypeTile } from "@/components/finery/AddressTypeTile";
 import { FineryButton } from "@/components/finery/FineryButton";
 import type { AddressType } from "@/stores/orderStore";
 
-const TYPES: AddressType[] = ["office", "hotel", "villa", "apartment"];
+const TYPES: AddressType[] = ["apartment", "villa", "hotel", "office"];
 
 export default function AddressTypeScreen() {
   const navigate = useNavigate();
