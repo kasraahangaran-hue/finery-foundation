@@ -66,7 +66,7 @@ export function BottomSheetShell({
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent className="border-none rounded-t-none max-h-[92vh] bg-finery-beige-200 pb-[max(env(safe-area-inset-bottom),1rem)]">
-        <div className="flex flex-col">
+        <div className="flex max-h-[92vh] flex-col">
           {/* Header */}
           <div className="flex flex-col gap-2 px-6 pt-6 pb-7">
             <div className="flex items-center justify-between gap-2">
