@@ -56,30 +56,32 @@ export function SelectAddressSheet({
       <BottomSheetShell
         open={open}
         onOpenChange={onOpenChange}
-        title="Edit Address"
+        title="Select Address"
         footer="none"
+        titleAccessory={
+          <button
+            type="button"
+            onClick={onAddNew}
+            className="press-effect flex items-center gap-2"
+          >
+            <Plus className="h-3.5 w-3.5 text-finery-purple-400" strokeWidth={2.5} />
+            <span className="font-display text-[14px] font-bold leading-[18px] tracking-[0.4px] text-finery-purple-400">
+              Add New Address
+            </span>
+          </button>
+        }
       >
         <div className="flex flex-col gap-3">
-          <button
-            onClick={onAddNew}
-            className="press-effect flex items-center gap-1 self-end font-sans text-[14px] font-medium text-finery-purple-400 underline"
-          >
-            <Plus className="h-4 w-4" />
-            Add New Address
-          </button>
-
-          <div className="flex flex-col gap-3">
-            {addresses.map((address) => (
-              <AddressRow
-                key={address.id}
-                address={address}
-                selected={address.id === selectedAddressId}
-                onSelect={() => onSelect(address.id)}
-                onEdit={() => onEdit(address)}
-                onDelete={() => setPendingDeleteId(address.id)}
-              />
-            ))}
-          </div>
+          {addresses.map((address) => (
+            <AddressRow
+              key={address.id}
+              address={address}
+              selected={address.id === selectedAddressId}
+              onSelect={() => onSelect(address.id)}
+              onEdit={() => onEdit(address)}
+              onDelete={() => setPendingDeleteId(address.id)}
+            />
+          ))}
         </div>
       </BottomSheetShell>
 
@@ -115,6 +117,11 @@ function AddressRow({
   onDelete,
 }: AddressRowProps) {
   const lines = addressCardLines(address);
+
+  const valueClass = selected
+    ? "font-display text-[15px] font-bold leading-[20px] tracking-[0.2px] text-finery-purple-400"
+    : "font-display text-[14px] font-bold leading-[18px] tracking-[0.4px] text-finery-purple-400";
+
   return (
     <div
       role="button"
@@ -127,50 +134,52 @@ function AddressRow({
         }
       }}
       className={cn(
-        "press-effect relative cursor-pointer border bg-white p-4",
+        "press-effect relative cursor-pointer border px-4 py-3",
         selected
           ? "border-finery-purple-400 bg-finery-teal-300"
-          : "border-finery-disabledBg",
+          : "border-transparent bg-white",
       )}
     >
-      <div className="flex items-start justify-between">
-        <div className="flex flex-col gap-1">
-          <span className="font-sans text-[11px] font-light tracking-[0.3px] text-finery-textSecondary">
-            {lines.primaryLabel}
-          </span>
-          <span className="font-sans text-[14px] font-semibold text-finery-purple-400">
-            {lines.primaryValue}
-          </span>
-          <span className="mt-1 font-sans text-[11px] font-light tracking-[0.3px] text-finery-textSecondary">
-            {lines.secondaryLabel}
-          </span>
-          <span className="font-sans text-[14px] font-normal text-finery-purple-400">
-            {lines.secondaryValue}
-          </span>
+      <div className="flex items-start gap-5">
+        <div className="flex min-w-0 flex-1 flex-col gap-3">
+          <div className="flex flex-col">
+            <p className="font-display text-[12px] font-bold leading-[14px] tracking-[0.4px] text-[#585871]">
+              {lines.primaryLabel}
+            </p>
+            <p className={valueClass}>{lines.primaryValue}</p>
+          </div>
+          <div className="flex flex-col">
+            <p className="font-display text-[12px] font-bold leading-[14px] tracking-[0.4px] text-[#585871]">
+              {lines.secondaryLabel}
+            </p>
+            <p className={valueClass}>{lines.secondaryValue}</p>
+          </div>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex shrink-0 items-start gap-5 self-stretch">
           {!selected && (
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 haptics.warning();
                 onDelete();
               }}
               aria-label="Delete address"
-              className="press-effect flex h-8 w-8 items-center justify-center"
+              className="press-effect flex h-[14px] w-[14px] items-center justify-center"
             >
-              <Trash2 className="h-4 w-4 text-finery-purple-400" />
+              <Trash2 className="h-3.5 w-3.5 text-[#C83C3E]" />
             </button>
           )}
           <button
+            type="button"
             onClick={(e) => {
               e.stopPropagation();
               onEdit();
             }}
             aria-label="Edit address"
-            className="press-effect flex h-8 w-8 items-center justify-center"
+            className="press-effect flex h-[14px] w-[14px] items-center justify-center"
           >
-            <Pencil className="h-4 w-4 text-finery-purple-400" />
+            <Pencil className="h-3.5 w-3.5 text-finery-purple-400" />
           </button>
         </div>
       </div>
