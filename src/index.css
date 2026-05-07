@@ -64,7 +64,7 @@
 
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: #FBF9F6;
+   background: #FFFEFC;
     color: hsl(var(--foreground));
     -webkit-font-smoothing: antialiased;
     font-feature-settings: 'kern' 1;

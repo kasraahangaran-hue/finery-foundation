@@ -19,7 +19,7 @@ export default function OrderConfirmationScreen() {
   };
 
   return (
-    <div className="flex h-[100dvh] flex-col items-center justify-center bg-finery-beige-200 px-6">
+    <div className="flex h-[100dvh] flex-col items-center justify-center bg-finery-beige-100 px-6">
       <h1 className="font-display text-[24px] font-bold text-finery-purple-400">
         Order placed!
       </h1>

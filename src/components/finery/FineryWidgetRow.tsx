@@ -59,7 +59,7 @@ export function FineryWidgetRow({
   const iconUrl = ICON_MAP[icon];
   const Tag = isInteractive ? "button" : "div";
 
-  const bg = isCurrent ? "bg-finery-beige-300" : "bg-finery-beige-200";
+  const bg = isCurrent ? "bg-finery-beige-300" : "bg-finery-beige-100";
   const fg = isDisabled ? "text-finery-disabledBg" : "text-finery-purple-400";
   const py = subtitle ? "py-[13px]" : "py-[22px]";
 

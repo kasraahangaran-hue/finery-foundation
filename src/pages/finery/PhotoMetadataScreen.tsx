@@ -83,7 +83,7 @@ export default function PhotoMetadataScreen() {
   };
 
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-finery-beige-200">
+    <div className="flex min-h-[100dvh] flex-col bg-finery-beige-100">
       <div className="flex-1 overflow-y-auto">
         {/* Photo header */}
         <div className="relative h-[220px] w-full bg-finery-purple-400/10">
