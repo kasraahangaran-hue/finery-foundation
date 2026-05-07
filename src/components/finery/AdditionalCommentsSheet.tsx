@@ -38,7 +38,7 @@ export function AdditionalCommentsSheet({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Add any further instructions for our team"
-        className="w-full h-[166px] resize-none border border-finery-disabledBg bg-transparent px-3 py-2.5 text-[12px] font-light leading-[18px] tracking-[0.1px] text-finery-purple-400 placeholder:text-finery-disabledText focus:outline-none focus:border-finery-purple-400"
+       className="w-full h-[166px] resize-none border border-finery-disabledBg bg-transparent px-3 py-2.5 text-[16px] font-light leading-[22px] tracking-[0.1px] text-finery-purple-400 placeholder:text-finery-disabledText focus:outline-none focus:border-finery-purple-400"
       />
     </BottomSheetShell>
   );

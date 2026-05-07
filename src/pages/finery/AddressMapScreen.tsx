@@ -334,7 +334,7 @@ export default function AddressMapScreen() {
             data-1p-ignore="true"
             data-lpignore="true"
             data-form-type="other"
-            className="flex-1 bg-transparent font-sans text-[14px] font-light leading-[20px] tracking-[0.1px] text-finery-purple-400 outline-none placeholder:text-finery-textSecondary"
+            className="flex-1 bg-transparent font-sans text-[16px] font-light leading-[22px] tracking-[0.1px] text-finery-purple-400 outline-none placeholder:text-finery-textSecondary"
           />
           {search ? (
             <button
