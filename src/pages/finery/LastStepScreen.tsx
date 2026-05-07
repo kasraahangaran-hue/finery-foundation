@@ -5,6 +5,7 @@ import { useOrderStore } from "@/stores/orderStore";
 import { useOrderChrome } from "@/components/primitives/OrderShell";
 import { PromoCard } from "@/components/finery/PromoCard";
 import { PromoDetailsSheet } from "@/components/finery/PromoDetailsSheet";
+import { PaymentMethodSheet } from "@/components/finery/PaymentMethodSheet";
 import { AVAILABLE_PROMOS, calculatePromoDiscount, type PromoData } from "@/data/promos";
 import { summarizeAddress } from "@/lib/addressFormatting";
 import { haptics } from "@/utils/haptics";
@@ -62,6 +63,8 @@ export default function LastStepScreen() {
   const addresses = useOrderStore((s) => s.addresses);
   const selectedAddressId = useOrderStore((s) => s.selectedAddressId);
   const pickupSlot = useOrderStore((s) => s.pickupSlot);
+  const payment = useOrderStore((s) => s.payment);
+  const isApplePay = payment?.method === "apple_pay";
 
   const selectedAddress = useMemo(
     () =>
@@ -77,6 +80,7 @@ export default function LastStepScreen() {
   const [selectedPromoCode, setSelectedPromoCode] = useState<string | null>(null);
   const [promoInput, setPromoInput] = useState("");
   const [detailsPromo, setDetailsPromo] = useState<PromoData | null>(null);
+  const [paymentSheetOpen, setPaymentSheetOpen] = useState(false);
 
   const promoDiscount = calculatePromoDiscount(selectedPromoCode, STUB_ITEMS_TOTAL);
   void promoDiscount;
@@ -111,7 +115,7 @@ export default function LastStepScreen() {
 
   const onEditPayment = () => {
     haptics.light();
-    console.log("[LastStep] Edit payment tap — native flow, out of prototype scope");
+    setPaymentSheetOpen(true);
   };
 
   useOrderChrome({
@@ -119,7 +123,8 @@ export default function LastStepScreen() {
     step: 3,
     totalSteps: 3,
     onBack,
-    cta: (
+    ctaKey: isApplePay ? "cta-apple-pay" : "cta-place-order",
+    cta: isApplePay ? (
       <button
         type="button"
         onClick={onPay}
@@ -127,6 +132,14 @@ export default function LastStepScreen() {
       >
         <span className="font-display text-[14px] font-bold leading-[18px] tracking-[0.4px] text-white">Pay with</span>
         <img src={applePayWordmarkUrl} alt="Apple Pay" className="h-[20px] w-auto" />
+      </button>
+    ) : (
+      <button
+        type="button"
+        onClick={onPay}
+        className="press-effect flex h-[42px] w-full items-center justify-center rounded-none bg-finery-purple-400"
+      >
+        <span className="font-display text-[14px] font-bold leading-[18px] tracking-[0.4px] text-white">Place Order</span>
       </button>
     ),
   });
@@ -204,7 +217,7 @@ export default function LastStepScreen() {
               <div className="flex items-center gap-3">
                 <CreditCard className="h-5 w-5 text-finery-purple-400" />
                 <span className="font-display text-[14px] font-bold text-finery-purple-400">
-                  Apple Pay
+                  {isApplePay ? "Apple Pay" : `Credit Card •••• ${payment?.last4 ?? "4242"}`}
                 </span>
               </div>
               <button type="button" onClick={onEditPayment} className="press-effect">
@@ -225,6 +238,7 @@ export default function LastStepScreen() {
         }}
         promo={detailsPromo}
       />
+      <PaymentMethodSheet open={paymentSheetOpen} onOpenChange={setPaymentSheetOpen} />
     </>
   );
 }
