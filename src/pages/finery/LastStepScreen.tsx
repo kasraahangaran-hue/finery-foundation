@@ -133,7 +133,7 @@ export default function LastStepScreen() {
 
   return (
     <>
-      <div className="flex flex-col gap-3 pb-6">
+      <div className="flex flex-col gap-3 pb-6 stagger-children">
         {/* Order Summary */}
         <section className="flex flex-col">
           <SectionTitle>Order Summary</SectionTitle>
