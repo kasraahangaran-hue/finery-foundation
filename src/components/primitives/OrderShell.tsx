@@ -103,7 +103,7 @@ export function OrderShell() {
         </header>
 
         {/* Body — remounts on route change, scrolls independently */}
-        <main key={location.pathname} className="animate-page-in stagger-children flex-1 overflow-y-auto overscroll-contain pt-3">
+        <main key={location.pathname} className="animate-page-in flex-1 overflow-y-auto overscroll-contain pt-3">
           <Outlet />
         </main>
 
