@@ -151,6 +151,11 @@
     from { opacity: 0.6; }
     to { opacity: 1; }
   }
+
+  @keyframes title-in {
+    from { opacity: 0; filter: blur(4px); }
+    to { opacity: 1; filter: blur(0); }
+  }
 }
 
 @layer utilities {
@@ -180,6 +185,16 @@
 
   .animate-page-in {
     animation: page-in 220ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .animate-title-in {
+    animation: title-in 280ms cubic-bezier(0.32, 0.72, 0, 1) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-title-in {
+      animation: none;
+    }
   }
 
   @keyframes footer-in {

@@ -84,7 +84,14 @@ export function OrderShell() {
           <div className="px-6 pt-[max(env(safe-area-inset-top),24px)] pb-3">
             <div className="flex h-7 items-baseline justify-between">
               <div key={location.pathname} className="animate-page-in">
-                <FineryPageTitle>{title}</FineryPageTitle>
+              <FineryPageTitle>
+                <span
+                  key={String(title)}
+                  className="inline-block animate-title-in motion-reduce:animate-none"
+                >
+                  {title}
+                </span>
+              </FineryPageTitle>
               </div>
               {chrome?.supportSlot ? <div>{chrome.supportSlot}</div> : null}
             </div>
