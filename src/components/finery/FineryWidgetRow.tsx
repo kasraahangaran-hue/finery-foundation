@@ -1,4 +1,8 @@
-import { Plus, Pencil, Home, Package, ShoppingBag } from "lucide-react";
+import { Plus, Pencil } from "lucide-react";
+import { RawSvg } from "@/components/finery/RawSvg";
+import addressUrl from "@/assets/icons/finery/address.svg?raw";
+import pickupUrl from "@/assets/icons/finery/pickup.svg?raw";
+import deliveryUrl from "@/assets/icons/finery/delivery.svg?raw";
 import { cn } from "@/lib/utils";
 import { haptics } from "@/utils/haptics";
 
@@ -26,10 +30,10 @@ interface FineryWidgetRowProps {
   className?: string;
 }
 
-const ICON_MAP: Record<FineryWidgetRowIcon, typeof Home> = {
-  address: Home,
-  pickup: Package,
-  delivery: ShoppingBag,
+const ICON_MAP: Record<FineryWidgetRowIcon, string> = {
+  address: addressUrl,
+  pickup: pickupUrl,
+  delivery: deliveryUrl,
 };
 
 export function FineryWidgetRow({
@@ -51,7 +55,7 @@ export function FineryWidgetRow({
     onPress?.();
   };
 
-  const Icon = ICON_MAP[icon];
+  const iconUrl = ICON_MAP[icon];
   const Tag = isInteractive ? "button" : "div";
 
   const bg = isCurrent ? "bg-finery-beige-300" : "bg-finery-beige-200";
@@ -76,9 +80,7 @@ export function FineryWidgetRow({
         className,
       )}
     >
-      <span className={cn("flex h-[22px] w-[22px] shrink-0 items-center justify-center", fg)}>
-        <Icon className="h-5 w-5" />
-      </span>
+      <RawSvg svg={iconUrl} className="h-5 w-5 shrink-0" />
 
       <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span

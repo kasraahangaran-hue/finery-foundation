@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Truck, Camera, MessageSquare } from "lucide-react";
+import { RawSvg } from "@/components/finery/RawSvg";
+import valetUrl from "@/assets/icons/finery/valet.svg?raw";
+import photosNotesUrl from "@/assets/icons/finery/photos-notes.svg?raw";
+import messageSquareUrl from "@/assets/icons/finery/message-square.svg?raw";
 import { FineryButton } from "@/components/finery/FineryButton";
 import { FineryActionWidget } from "@/components/finery/FineryActionWidget";
 import { ValetInstructionsSheet } from "@/components/finery/ValetInstructionsSheet";
@@ -150,14 +153,14 @@ export default function OrderStep2() {
     <>
     <div className="flex flex-col gap-2 stagger-children">
       <FineryActionWidget
-        icon={<Truck className="h-5 w-5" />}
+        icon={<RawSvg svg={valetUrl} className="h-5 w-5" />}
         title="Valet Instructions"
         subtitle={valetSubtitle}
         action={valetPopulated ? "edit" : "plus"}
         onPress={onValetTap}
       />
       <FineryActionWidget
-        icon={<Camera className="h-5 w-5" />}
+        icon={<RawSvg svg={photosNotesUrl} className="h-5 w-5" />}
         title="Photos & Notes"
         subtitle={PHOTOS_NOTES_SUBTITLE}
         action="plus"
@@ -170,7 +173,7 @@ export default function OrderStep2() {
         onTapDelete={onThumbDeleteTap}
       />
       <FineryActionWidget
-        icon={<MessageSquare className="h-5 w-5" />}
+        icon={<RawSvg svg={messageSquareUrl} className="h-5 w-5" />}
         title="Additional Comments"
         subtitle={commentsSubtitle}
         action={commentsPopulated ? "edit" : "plus"}
