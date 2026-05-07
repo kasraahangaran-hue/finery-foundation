@@ -88,7 +88,7 @@ export default function OrderStep1() {
 
   return (
     <>
-      <div className="mt-[22px] flex flex-col">
+      <div className="flex flex-col">
         <FineryWidgetRow state={addressState} icon="address" title={hasAddress ? "Address" : "Add Address"} subtitle={addressSubtitle} onPress={onAddressTap} />
         <FineryWidgetRow state={pickupState} icon="pickup" title={hasPickup ? "Pickup in Person" : "Schedule your collection"} subtitle={pickupSubtitle} onPress={onPickupTap} />
         <FineryWidgetRow state={deliveryState} icon="delivery" title={hasDelivery ? "Delivery" : "View Delivery Times"} subtitle={deliverySubtitle} onPress={onDeliveryTap} />

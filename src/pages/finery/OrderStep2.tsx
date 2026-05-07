@@ -148,7 +148,7 @@ export default function OrderStep2() {
 
   return (
     <>
-    <div className="mt-[22px] flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
       <FineryActionWidget
         icon={<Truck className="h-5 w-5" />}
         title="Valet Instructions"
