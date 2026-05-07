@@ -102,6 +102,7 @@ export interface OrderState {
   promocode: string | null;
   valetPickupPreference: ValetPickupPreference;
   valetDeliveryPreference: ValetDeliveryPreference;
+  additionalComments: string;
 
   setFlowType: (t: FlowType) => void;
   addAddress: (a: Address) => void;
@@ -116,6 +117,7 @@ export interface OrderState {
   setPayment: (p: PaymentState | null) => void;
   setPromocode: (c: string | null) => void;
   setValetPreferences: (pickup: ValetPickupPreference, delivery: ValetDeliveryPreference) => void;
+  setAdditionalComments: (value: string) => void;
   reset: () => void;
 }
 
@@ -143,6 +145,7 @@ const initialState = {
   promocode: null,
   valetPickupPreference: "no_preference" as ValetPickupPreference,
   valetDeliveryPreference: "no_preference" as ValetDeliveryPreference,
+  additionalComments: "",
 };
 
 export const useOrderStore = create<OrderState>()(
@@ -201,6 +204,7 @@ export const useOrderStore = create<OrderState>()(
       setPromocode: (promocode) => set({ promocode }),
       setValetPreferences: (pickup, delivery) =>
         set({ valetPickupPreference: pickup, valetDeliveryPreference: delivery }),
+      setAdditionalComments: (additionalComments) => set({ additionalComments }),
 
       reset: () =>
         set((state) => ({
@@ -215,6 +219,7 @@ export const useOrderStore = create<OrderState>()(
           promocode: null,
           valetPickupPreference: "no_preference",
           valetDeliveryPreference: "no_preference",
+          additionalComments: "",
         })),
     }),
     {
@@ -231,6 +236,7 @@ export const useOrderStore = create<OrderState>()(
         promocode: s.promocode,
         valetPickupPreference: s.valetPickupPreference,
         valetDeliveryPreference: s.valetDeliveryPreference,
+        additionalComments: s.additionalComments,
       }),
     },
   ),

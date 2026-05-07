@@ -4,6 +4,7 @@ import { Truck, Camera, MessageSquare } from "lucide-react";
 import { FineryButton } from "@/components/finery/FineryButton";
 import { FineryActionWidget } from "@/components/finery/FineryActionWidget";
 import { ValetInstructionsSheet } from "@/components/finery/ValetInstructionsSheet";
+import { AdditionalCommentsSheet } from "@/components/finery/AdditionalCommentsSheet";
 import { useOrderChrome } from "@/components/primitives/OrderShell";
 import { useOrderStore, type ValetPickupPreference, type ValetDeliveryPreference } from "@/stores/orderStore";
 import { haptics } from "@/utils/haptics";
@@ -34,12 +35,16 @@ export default function OrderStep2() {
   const valetDelivery = useOrderStore((s) => s.valetDeliveryPreference);
   const setValetPreferences = useOrderStore((s) => s.setValetPreferences);
 
+  const additionalComments = useOrderStore((s) => s.additionalComments);
+  const setAdditionalComments = useOrderStore((s) => s.setAdditionalComments);
+
   const [valetSheetOpen, setValetSheetOpen] = useState(false);
+  const [commentsSheetOpen, setCommentsSheetOpen] = useState(false);
 
   const valetPopulated =
     valetPickup !== "no_preference" || valetDelivery !== "no_preference";
   const photosPopulated = false;
-  const commentsPopulated = false;
+  const commentsPopulated = additionalComments.trim().length > 0;
 
   const anyPopulated = valetPopulated || photosPopulated || commentsPopulated;
 
@@ -68,7 +73,12 @@ export default function OrderStep2() {
   };
 
   const onCommentsTap = () => {
-    console.log("[OrderStep2] comments tap — would open Additional Comments sheet");
+    setCommentsSheetOpen(true);
+  };
+
+  const onCommentsSave = (value: string) => {
+    haptics.medium();
+    setAdditionalComments(value);
   };
 
   const valetSubtitle = valetPopulated ? (
@@ -82,6 +92,10 @@ export default function OrderStep2() {
         <span className="font-light">{DELIVERY_LABELS[valetDelivery]}</span>
       </span>
     </span>
+  ) : undefined;
+
+  const commentsSubtitle = commentsPopulated ? (
+    <span className="line-clamp-1">{additionalComments}</span>
   ) : undefined;
 
   useOrderChrome({
@@ -122,7 +136,8 @@ export default function OrderStep2() {
       <FineryActionWidget
         icon={<MessageSquare className="h-5 w-5" />}
         title="Additional Comments"
-        action="plus"
+        subtitle={commentsSubtitle}
+        action={commentsPopulated ? "edit" : "plus"}
         onPress={onCommentsTap}
       />
     </div>
@@ -133,6 +148,13 @@ export default function OrderStep2() {
       initialPickup={valetPickup}
       initialDelivery={valetDelivery}
       onApply={onValetApply}
+    />
+
+    <AdditionalCommentsSheet
+      open={commentsSheetOpen}
+      onOpenChange={setCommentsSheetOpen}
+      initialValue={additionalComments}
+      onSave={onCommentsSave}
     />
     </>
   );
