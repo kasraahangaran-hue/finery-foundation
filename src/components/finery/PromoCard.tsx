@@ -26,7 +26,7 @@ export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCar
       type="button"
       onClick={handleToggle}
       className={cn(
-        "w-[260px] shrink-0 press-effect rounded-[8px] border border-finery-purple-400 p-3 text-left transition-colors",
+        "flex w-[260px] shrink-0 flex-col press-effect rounded-[8px] border border-finery-purple-400 p-3 text-left transition-colors",
         selected ? "bg-finery-teal-300" : "bg-white",
       )}
     >
@@ -50,7 +50,7 @@ export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCar
 
         <span
           className={cn(
-            "flex h-[26px] shrink-0 items-center rounded-[5px] border border-finery-purple-400 px-3 font-display text-[11px] font-medium tracking-[0.1px] transition-colors",
+            "flex h-[26px] w-[64px] shrink-0 items-center justify-center rounded-[5px] border border-finery-purple-400 font-display text-[11px] font-medium tracking-[0.1px] transition-colors",
             selected
               ? "bg-finery-purple-400 text-finery-beige-100"
               : "text-finery-purple-400",
@@ -60,7 +60,7 @@ export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCar
         </span>
       </div>
 
-      <div className="mt-2.5 flex items-center justify-between">
+      <div className="mt-auto pt-2.5 flex items-center justify-between">
         <div className="flex gap-1">
           {Array.from({ length: Math.min(promo.total, 5) }).map((_, i) => (
             <div
