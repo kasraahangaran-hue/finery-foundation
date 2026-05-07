@@ -9,11 +9,17 @@ interface PromoCardProps {
   onViewDetails: () => void;
 }
 
+/**
+ * PromoCard — fixed-width 179px tile used inside a horizontal carousel.
+ * Tap whole card to toggle selection; tap "View Details" to open sheet.
+ * Selected state: light teal bg + filled "Applied" pill.
+ */
 export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCardProps) {
   const handleToggle = () => {
     haptics.light();
     onToggle();
   };
+
   const handleDetails = (e: React.MouseEvent) => {
     e.stopPropagation();
     haptics.light();
@@ -22,47 +28,50 @@ export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCar
 
   return (
     <div
+      onClick={handleToggle}
       className={cn(
-        "rounded-[10px] border bg-white/60 p-4 transition-colors",
-        selected ? "border-finery-purple-400" : "border-finery-purple-400/20",
+        "w-[179px] shrink-0 cursor-pointer rounded-[10px] border p-3 transition-colors",
+        selected
+          ? "border-finery-purple-400 bg-[#E8F5F2]"
+          : "border-finery-purple-400/20 bg-white/60",
       )}
     >
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-start justify-between gap-2">
         <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-          <span className="font-display text-[14px] font-bold leading-[18px] text-finery-purple-400">
+          <span className="font-display text-[13px] font-bold leading-[16px] text-finery-purple-400">
             {promo.code}
           </span>
-          <span className="text-[12px] leading-[16px] text-finery-purple-400/70">
+          <span className="text-[11px] leading-[14px] text-finery-purple-400/70">
             {promo.subtitle}
           </span>
           <button
             type="button"
             onClick={handleDetails}
-            className="mt-1 self-start text-[12px] leading-[16px] text-finery-purple-400 underline"
+            className="mt-1 self-start text-[11px] leading-[14px] text-finery-purple-400 underline"
           >
             View Details
           </button>
         </div>
-        <button
-          type="button"
-          onClick={handleToggle}
+
+        <span
           className={cn(
-            "press-effect shrink-0 rounded-[8px] px-4 py-1.5 text-[12px] font-bold transition-colors",
+            "shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors",
             selected
               ? "bg-finery-purple-400 text-finery-beige-100"
               : "border border-finery-purple-400 text-finery-purple-400",
           )}
         >
           {selected ? "Applied" : "Apply"}
-        </button>
+        </span>
       </div>
-      <div className="mt-3 flex items-center justify-between">
+
+      <div className="mt-2.5 flex items-center justify-between">
         <div className="flex gap-1">
           {Array.from({ length: Math.min(promo.total, 5) }).map((_, i) => (
             <div
               key={i}
               className={cn(
-                "h-1.5 w-4 rounded-full",
+                "h-1 w-3 rounded-full",
                 i < promo.used ? "bg-finery-purple-400" : "bg-finery-purple-400/20",
               )}
             />
