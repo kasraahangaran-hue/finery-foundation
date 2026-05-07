@@ -222,19 +222,21 @@ export default function LastStepScreen() {
             <button
               type="button"
               onClick={onEditPayment}
-              className="press-effect flex w-full items-center justify-between"
+              className="press-effect flex w-full items-center justify-between gap-3"
             >
               <div className="flex items-center gap-3">
                 <RawSvg svg={creditCardUrl} className="h-6 w-6 shrink-0" />
-                <span className="font-display text-[14px] font-bold text-finery-purple-400">
-                  {isApplePay ? "Apple Pay" : `Credit Card •••• ${payment?.last4 ?? "4242"}`}
-                </span>
+                <div className="flex flex-col gap-1 text-left">
+                  <span className="font-display text-[14px] font-bold text-finery-purple-400">
+                    {isApplePay ? "Apple Pay" : `Credit Card •••• ${payment?.last4 ?? "4242"}`}
+                  </span>
+                  <span className="text-[12px] leading-[16px] text-finery-textSecondary">
+                    {PAYMENT_SUBTITLE}
+                  </span>
+                </div>
               </div>
-              <RawSvg svg={editUrl} className="h-4 w-4" />
+              <RawSvg svg={editUrl} className="h-4 w-4 shrink-0" />
             </button>
-            <p className="mt-2 text-[12px] leading-[16px] text-finery-textSecondary">
-              {PAYMENT_SUBTITLE}
-            </p>
           </div>
         </section>
       </div>
