@@ -156,6 +156,7 @@ export default function LastStepScreen() {
 
         {/* Promocode */}
         <section className="flex flex-col gap-3">
+          <div className="mx-6 h-px bg-finery-purple-400" />
           <SectionTitle icon={<Tag className="h-[22px] w-[22px]" />}>Promocode</SectionTitle>
 
           <div className="flex flex-col gap-3">
@@ -196,6 +197,7 @@ export default function LastStepScreen() {
 
         {/* Payment Method */}
         <section className="flex flex-col gap-3">
+          <div className="mx-6 h-px bg-finery-purple-400" />
           <SectionTitle>Payment Method</SectionTitle>
           <div className="px-6 py-[13px]">
             <div className="flex items-center justify-between">
