@@ -82,7 +82,7 @@ export function OrderShell() {
         {/* Persistent header */}
         <header className="shrink-0">
           <div className="px-6 pt-[max(env(safe-area-inset-top),24px)] pb-3">
-            <div className="flex items-center justify-between">
+            <div className="flex h-7 items-baseline justify-between">
               <div key={location.pathname} className="animate-page-in">
                 <FineryPageTitle>{title}</FineryPageTitle>
               </div>
