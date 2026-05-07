@@ -69,8 +69,8 @@ export function SelectAddressSheet({
             onClick={onAddNew}
             className="press-effect flex items-center gap-2"
           >
-            <RawSvg svg={addUrl} className="h-3.5 w-3.5" />
-          </button>
+            <RawSvg svg={addUrl} className="h-4 w-4" />
+            <span className="font-display text-[14px] font-bold leading-[18px] tracking-[0.4px] text-finery-purple-400">
               Add New Address
             </span>
           </button>
