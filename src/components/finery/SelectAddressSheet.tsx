@@ -172,7 +172,7 @@ function AddressRow({
               aria-label="Delete address"
               className="press-effect flex h-8 w-8 -m-2 items-center justify-center"
             >
-              <RawSvg svg={deleteUrl} className="h-3.5 w-3.5" />
+              <RawSvg svg={deleteUrl} className="h-4 w-4" />
             </button>
           )}
           <button
@@ -184,7 +184,7 @@ function AddressRow({
             aria-label="Edit address"
             className="press-effect flex h-8 w-8 -m-2 items-center justify-center"
           >
-            <RawSvg svg={editUrl} className="h-3.5 w-3.5" />
+            <RawSvg svg={editUrl} className="h-4 w-4" />
           </button>
         </div>
       </div>
