@@ -74,14 +74,14 @@ export function FineryWidgetRow({
       type={isInteractive ? "button" : undefined}
       onClick={isInteractive ? handlePress : undefined}
       className={cn(
-        "flex w-full items-center gap-4 px-6 text-left",
+        "flex w-full items-start gap-4 px-6 text-left",
         bg,
         py,
         isInteractive && "press-effect",
         className,
       )}
     >
-      <RawSvg svg={iconUrl} className="h-5 w-5 shrink-0" />
+      <RawSvg svg={iconUrl} className="mt-0.5 h-5 w-5 shrink-0" />
 
       <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span
@@ -99,7 +99,7 @@ export function FineryWidgetRow({
         ) : null}
       </span>
 
-      {trailing ? <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center">{trailing}</span> : null}
+      {trailing ? <span className="mt-0.5 flex h-[14px] w-[14px] shrink-0 items-center justify-center">{trailing}</span> : null}
     </Tag>
   );
 }

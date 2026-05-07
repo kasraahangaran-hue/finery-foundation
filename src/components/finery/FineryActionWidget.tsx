@@ -40,12 +40,12 @@ export function FineryActionWidget({
       type={isInteractive ? "button" : undefined}
       onClick={isInteractive ? handlePress : undefined}
       className={cn(
-        "flex w-full items-center gap-4 bg-finery-beige-200 px-6 py-[13px] text-left",
+        "flex w-full items-start gap-4 bg-finery-beige-200 px-6 py-[13px] text-left",
         isInteractive && "press-effect",
         className,
       )}
     >
-      <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center text-finery-purple-400">
+      <span className="mt-0.5 flex h-[22px] w-[22px] shrink-0 items-center justify-center text-finery-purple-400">
         {icon}
       </span>
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -58,7 +58,7 @@ export function FineryActionWidget({
           </span>
         ) : null}
       </span>
-      <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center text-finery-purple-400">
+      <span className="mt-0.5 flex h-[14px] w-[14px] shrink-0 items-center justify-center text-finery-purple-400">
         <RawSvg svg={actionIconUrl} className="h-3.5 w-3.5" />
       </span>
     </Tag>
