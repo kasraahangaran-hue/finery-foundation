@@ -213,17 +213,19 @@ export default function LastStepScreen() {
           <div className="mx-6 h-px bg-border" />
           <SectionTitle>Payment Method</SectionTitle>
           <div className="px-6">
-            <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={onEditPayment}
+              className="press-effect flex w-full items-center justify-between"
+            >
               <div className="flex items-center gap-3">
                 <CreditCard className="h-5 w-5 text-finery-purple-400" />
                 <span className="font-display text-[14px] font-bold text-finery-purple-400">
                   {isApplePay ? "Apple Pay" : `Credit Card •••• ${payment?.last4 ?? "4242"}`}
                 </span>
               </div>
-              <button type="button" onClick={onEditPayment} className="press-effect">
-                <Pencil className="h-4 w-4 text-finery-purple-400" />
-              </button>
-            </div>
+              <Pencil className="h-4 w-4 text-finery-purple-400" />
+            </button>
             <p className="mt-2 text-[12px] leading-[16px] text-finery-textSecondary">
               {PAYMENT_SUBTITLE}
             </p>
