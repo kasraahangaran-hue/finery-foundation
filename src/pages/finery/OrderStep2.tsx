@@ -6,6 +6,8 @@ import { FineryActionWidget } from "@/components/finery/FineryActionWidget";
 import { ValetInstructionsSheet } from "@/components/finery/ValetInstructionsSheet";
 import { AdditionalCommentsSheet } from "@/components/finery/AdditionalCommentsSheet";
 import { CameraCaptureSheet } from "@/components/finery/CameraCaptureSheet";
+import { PhotoNotesThumbnails } from "@/components/finery/PhotoNotesThumbnails";
+import { DeleteItemDialog } from "@/components/finery/DeleteItemDialog";
 import { useOrderChrome } from "@/components/primitives/OrderShell";
 import { useOrderStore, type ValetPickupPreference, type ValetDeliveryPreference } from "@/stores/orderStore";
 import { haptics } from "@/utils/haptics";
@@ -40,10 +42,12 @@ export default function OrderStep2() {
   const setAdditionalComments = useOrderStore((s) => s.setAdditionalComments);
   const photoNotesItems = useOrderStore((s) => s.photoNotesItems);
   const addPhotoNoteItem = useOrderStore((s) => s.addPhotoNoteItem);
+  const deletePhotoNoteItem = useOrderStore((s) => s.deletePhotoNoteItem);
 
   const [valetSheetOpen, setValetSheetOpen] = useState(false);
   const [commentsSheetOpen, setCommentsSheetOpen] = useState(false);
   const [cameraOpen, setCameraOpen] = useState(false);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
 
   const valetPopulated =
     valetPickup !== "no_preference" || valetDelivery !== "no_preference";
@@ -81,6 +85,21 @@ export default function OrderStep2() {
     setCameraOpen(false);
     const id = addPhotoNoteItem(dataUrl);
     navigate(`/order/instructions/photo?id=${id}`);
+  };
+
+  const onThumbTap = (id: string) => {
+    navigate(`/order/instructions/photo?id=${id}`);
+  };
+
+  const onThumbDeleteTap = (id: string) => {
+    setPendingDeleteId(id);
+  };
+
+  const onDeleteConfirm = () => {
+    if (pendingDeleteId) {
+      deletePhotoNoteItem(pendingDeleteId);
+    }
+    setPendingDeleteId(null);
   };
 
   const onCommentsTap = () => {
@@ -144,6 +163,11 @@ export default function OrderStep2() {
         action="plus"
         onPress={onPhotosTap}
       />
+      <PhotoNotesThumbnails
+        items={photoNotesItems}
+        onTapItem={onThumbTap}
+        onTapDelete={onThumbDeleteTap}
+      />
       <FineryActionWidget
         icon={<MessageSquare className="h-5 w-5" />}
         title="Additional Comments"
@@ -172,6 +196,14 @@ export default function OrderStep2() {
       open={cameraOpen}
       onClose={() => setCameraOpen(false)}
       onCapture={onPhotoCaptured}
+    />
+
+    <DeleteItemDialog
+      open={pendingDeleteId !== null}
+      onOpenChange={(open) => {
+        if (!open) setPendingDeleteId(null);
+      }}
+      onConfirm={onDeleteConfirm}
     />
     </>
   );
