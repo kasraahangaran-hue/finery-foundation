@@ -203,7 +203,7 @@ export default function LastStepScreen() {
                   }
                 }}
                 placeholder="Type your promocode here"
-                className="flex-1 bg-transparent text-[14px] leading-[20px] text-finery-purple-400 placeholder:text-[#c3c8db] focus:outline-none"
+                className="flex-1 bg-transparent text-[16px] leading-[22px] text-finery-purple-400 placeholder:text-[#c3c8db] focus:outline-none"
               />
               {promoInput.trim() ? (
                 <button type="button" onClick={tryApplyTypedCode} className="press-effect text-[13px] font-bold text-finery-purple-400">

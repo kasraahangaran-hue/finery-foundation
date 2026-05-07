@@ -114,7 +114,7 @@ export default function PhotoMetadataScreen() {
             onChange={(e) => setBrand(e.target.value.slice(0, 15))}
             maxLength={15}
             placeholder="Enter brand name"
-            className="mt-4 w-full border-b border-finery-disabledBg bg-transparent pb-2 text-[13px] font-light leading-[18px] tracking-[0.2px] text-finery-purple-400 placeholder:text-finery-disabledBg focus:border-finery-purple-400 focus:outline-none"
+            className="mt-4 w-full border-b border-finery-disabledBg bg-transparent pb-2 text-[16px] font-light leading-[22px] tracking-[0.2px] text-finery-purple-400 placeholder:text-finery-disabledBg focus:border-finery-purple-400 focus:outline-none"
           />
         </div>
 
@@ -127,7 +127,7 @@ export default function PhotoMetadataScreen() {
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             placeholder="Add notes"
-            className="mt-4 h-[166px] w-full resize-none border border-finery-disabledBg bg-transparent px-3 py-2.5 text-[13px] font-light leading-[18px] tracking-[0.2px] text-finery-purple-400 placeholder:text-finery-disabledText focus:border-finery-purple-400 focus:outline-none"
+            className="mt-4 h-[166px] w-full resize-none border border-finery-disabledBg bg-transparent px-3 py-2.5 text-[16px] font-light leading-[22px] tracking-[0.2px] text-finery-purple-400 placeholder:text-finery-disabledText focus:border-finery-purple-400 focus:outline-none"
           />
         </div>
       </div>
