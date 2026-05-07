@@ -188,7 +188,7 @@
   }
 
   .animate-title-in {
-    animation: title-in 280ms cubic-bezier(0.32, 0.72, 0, 1) both;
+    animation: title-in 500ms cubic-bezier(0.32, 0.72, 0, 1) both;
   }
 
   @media (prefers-reduced-motion: reduce) {
