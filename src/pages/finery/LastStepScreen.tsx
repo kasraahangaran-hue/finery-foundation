@@ -56,7 +56,7 @@ function SectionTitle({ icon, children }: SectionTitleProps) {
   return (
     <div className="flex items-center gap-3 px-6 py-[6px]">
       {icon ? <span className="shrink-0 text-finery-purple-400">{icon}</span> : null}
-      <p className="font-display text-[18px] leading-[21px] tracking-[0.4px] text-finery-purple-400">
+      <p className="font-display text-[18px] leading-none tracking-[0.4px] text-finery-purple-400">
         {children}
       </p>
     </div>
