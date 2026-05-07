@@ -222,7 +222,7 @@ export default function LastStepScreen() {
             <button
               type="button"
               onClick={onEditPayment}
-              className="press-effect flex w-full items-center justify-between gap-3"
+              className="press-effect flex w-full items-start justify-between gap-3"
             >
               <div className="flex items-start gap-3">
                 <RawSvg svg={creditCardUrl} className="mt-0.5 h-6 w-6 shrink-0" />
