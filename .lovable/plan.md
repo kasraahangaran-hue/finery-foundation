@@ -1,9 +1,10 @@
-After inspecting all three order flow pages side by side in the browser at 390×844:
+I found the likely cause: the stepper is positioned under the title row, and the instructions title mixes a 20px title with a 16px inline “(optional)” span. Even on one line, mixed inline font metrics can change the rendered line box by a few pixels, which makes the stepper appear lower only on that step.
 
-- **Page 1** (`/`) — "The Finery® Order" — single-line title, stepper below
-- **Page 2** (`/order/instructions`) — "Order Instructions (optional)" — single-line title, stepper below
-- **Page 3** (`/order/last-step`) — "Last Step" — single-line title, stepper below
+Plan:
+1. Update the order header title rendering so the title row has a fixed, consistent height/alignment across all steps.
+2. Keep “Order Instructions (optional)” on a single line, but render the optional text in a way that does not affect the parent title line box.
+3. Verify the header/stepper positions at the mobile viewport across step 1, step 2, and step 3.
 
-The stepper sits at the same vertical position on all three pages. The title text "(optional)" is indeed on the same line — no wrapping is happening. The header structure (`px-6 pt-[max(env(safe-area-inset-top),24px)] pb-3` → title → stepper with `mt-3`) is shared via `OrderShell`, so all pages render identically.
-
-**No code change is needed.** If you're seeing a difference on a specific device or browser, let me know and I can investigate further.
+Technical details:
+- Adjust `FineryPageTitle` and/or the step 2 title markup to use stable flex alignment and fixed line-height behavior.
+- Avoid changing order flow logic, footer behavior, or body spacing.
