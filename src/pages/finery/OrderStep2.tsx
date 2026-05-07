@@ -132,7 +132,7 @@ export default function OrderStep2() {
     title: (
       <>
         Order Instructions{" "}
-        <span className="font-normal text-[16px] leading-[28px]">(optional)</span>
+        <span className="inline-block align-baseline font-normal text-[16px] leading-[28px]">(optional)</span>
       </>
     ),
     step: 2,
