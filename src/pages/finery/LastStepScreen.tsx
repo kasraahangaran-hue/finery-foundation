@@ -160,7 +160,7 @@ export default function LastStepScreen() {
           <SectionTitle icon={<Tag className="h-[22px] w-[22px]" />}>Promocode</SectionTitle>
 
           <div className="flex flex-col gap-3">
-            <div className="flex items-stretch gap-2 overflow-x-auto overflow-y-hidden touch-pan-x px-6 pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="flex items-stretch gap-2 overflow-x-auto touch-pan-x px-6 pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {AVAILABLE_PROMOS.map((promo) => (
                 <PromoCard
                   key={promo.code}
