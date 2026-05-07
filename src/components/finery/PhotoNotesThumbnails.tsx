@@ -13,7 +13,7 @@ export function PhotoNotesThumbnails({ items, onTapAdd, onTapItem, onTapDelete }
   if (items.length === 0) return null;
 
   return (
-    <div className="flex flex-row flex-wrap gap-3 px-1 pt-1">
+    <div className="grid grid-cols-4 gap-2 px-6 pt-1">
       <button
         type="button"
         onClick={() => {
@@ -21,12 +21,12 @@ export function PhotoNotesThumbnails({ items, onTapAdd, onTapItem, onTapDelete }
           onTapAdd();
         }}
         aria-label="Add another photo"
-        className="press-effect flex aspect-square items-center justify-center rounded-md border-2 border-dashed border-finery-purple-200"
+        className="press-effect flex aspect-square items-center justify-center rounded-md border-2 border-dashed border-finery-purple-400"
       >
-        <Camera className="h-5 w-5 text-finery-purple-200" />
+        <Camera className="h-6 w-6 text-finery-purple-400" />
       </button>
       {items.map((item) => (
-        <div key={item.id} className="relative">
+        <div key={item.id} className="relative aspect-square overflow-hidden rounded-md">
           <button
             type="button"
             onClick={() => {
