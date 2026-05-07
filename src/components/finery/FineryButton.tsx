@@ -1,5 +1,6 @@
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
-import { ChevronLeft } from "lucide-react";
+import { RawSvg } from "@/components/finery/RawSvg";
+import backArrowUrl from "@/assets/icons/finery/back-arrow.svg?raw";
 import { cn } from "@/lib/utils";
 
 /**
@@ -56,7 +57,7 @@ export const FineryButton = forwardRef<HTMLButtonElement, FineryButtonProps>(
         className={cn(baseClasses, variantClasses[variant], className)}
         {...rest}
       >
-        {variant === "tiny" ? (children ?? <ChevronLeft className="h-5 w-5" />) : children}
+        {variant === "tiny" ? (children ?? <RawSvg svg={backArrowUrl} className="h-5 w-5" />) : children}
       </button>
     );
   },

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { ChevronLeft } from "lucide-react";
+import { RawSvg } from "@/components/finery/RawSvg";
+import backArrowUrl from "@/assets/icons/finery/back-arrow.svg?raw";
 import { cn } from "@/lib/utils";
 import { haptics } from "@/utils/haptics";
 
@@ -36,7 +37,7 @@ export function FineryHeader({
         <div className="flex w-10 shrink-0 items-center">
           {onBack ? (
             <button type="button" onClick={handleBack} className="press-effect flex h-10 w-10 items-center justify-center">
-              <ChevronLeft className="h-5 w-5 text-finery-purple-400" />
+              <RawSvg svg={backArrowUrl} className="h-5 w-5" />
             </button>
           ) : null}
         </div>
