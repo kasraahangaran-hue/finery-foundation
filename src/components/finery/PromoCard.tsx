@@ -35,14 +35,14 @@ export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCar
           <span className="font-display text-[14px] font-bold leading-[16px] tracking-[0.4px] text-finery-purple-400">
             {promo.code}
           </span>
-          <span className="font-display text-[11px] font-light leading-[14px] tracking-[0.3px] text-finery-purple-400 line-clamp-2">
+          <span className="font-display text-[12px] font-light leading-[16px] tracking-[0.3px] text-finery-purple-400 line-clamp-2">
             {promo.subtitle}
           </span>
           <span
             role="button"
             tabIndex={0}
             onClick={handleDetails}
-            className="mt-1 self-start font-display text-[10px] font-light leading-[14px] tracking-[0.3px] text-finery-purple-400 underline"
+            className="mt-1 self-start font-display text-[12px] font-light leading-[16px] tracking-[0.3px] text-finery-purple-400 underline"
           >
             View Details
           </span>
