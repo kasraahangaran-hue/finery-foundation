@@ -70,7 +70,7 @@ export function SelectAddressSheet({
             className="press-effect flex items-center gap-2"
           >
             <RawSvg svg={addUrl} className="h-3.5 w-3.5" />
-            <span className="font-display text-[14px] font-bold leading-[18px] tracking-[0.4px] text-finery-purple-400">
+          </button>
               Add New Address
             </span>
           </button>
