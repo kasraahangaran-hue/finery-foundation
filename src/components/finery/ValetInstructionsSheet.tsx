@@ -66,7 +66,7 @@ export function ValetInstructionsSheet({
     >
       {/* Pickup section */}
       <div>
-        <div className="flex items-start gap-3">
+        <div className="flex items-center gap-3">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center text-finery-purple-400">
             <RawSvg svg={pickupUrl} className="h-8 w-8" />
           </span>
@@ -97,7 +97,7 @@ export function ValetInstructionsSheet({
 
       {/* Delivery section */}
       <div>
-        <div className="flex items-start gap-3">
+        <div className="flex items-center gap-3">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center text-finery-purple-400">
             <RawSvg svg={deliveryUrl} className="h-8 w-8" />
           </span>
