@@ -1,10 +1,14 @@
 import Providers from '@/app/Providers';
 import AppRouter from '@/app/AppRouter';
+import { useGlobalPressFeedback } from '@/lib/usePressFeedback';
 
-const App = () => (
-  <Providers>
-    <AppRouter />
-  </Providers>
-);
+const App = () => {
+  useGlobalPressFeedback();
+  return (
+    <Providers>
+      <AppRouter />
+    </Providers>
+  );
+};
 
 export default App;
