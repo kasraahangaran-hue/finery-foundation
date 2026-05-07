@@ -1,18 +1,30 @@
-import { X } from "lucide-react";
+import { Camera, X } from "lucide-react";
 import { haptics } from "@/utils/haptics";
 import type { PhotoNoteItem } from "@/stores/orderStore";
 
 interface PhotoNotesThumbnailsProps {
   items: PhotoNoteItem[];
+  onTapAdd: () => void;
   onTapItem: (id: string) => void;
   onTapDelete: (id: string) => void;
 }
 
-export function PhotoNotesThumbnails({ items, onTapItem, onTapDelete }: PhotoNotesThumbnailsProps) {
+export function PhotoNotesThumbnails({ items, onTapAdd, onTapItem, onTapDelete }: PhotoNotesThumbnailsProps) {
   if (items.length === 0) return null;
 
   return (
     <div className="flex flex-row flex-wrap gap-3 px-1 pt-1">
+      <button
+        type="button"
+        onClick={() => {
+          haptics.light();
+          onTapAdd();
+        }}
+        aria-label="Add another photo"
+        className="press-effect flex aspect-square items-center justify-center rounded-md border-2 border-dashed border-finery-purple-200"
+      >
+        <Camera className="h-5 w-5 text-finery-purple-200" />
+      </button>
       {items.map((item) => (
         <div key={item.id} className="relative">
           <button
@@ -22,20 +34,20 @@ export function PhotoNotesThumbnails({ items, onTapItem, onTapDelete }: PhotoNot
               onTapItem(item.id);
             }}
             aria-label={`Edit ${item.brand || "photo"}`}
-            className="press-effect block h-[52px] w-[52px] overflow-hidden bg-finery-beige-300"
+            className="press-effect h-full w-full"
           >
             <img src={item.photo} alt="" className="h-full w-full object-cover" />
           </button>
           <button
             type="button"
             onClick={() => {
-              haptics.light();
+              haptics.warning();
               onTapDelete(item.id);
             }}
             aria-label={`Delete ${item.brand || "photo"}`}
-            className="press-effect absolute -right-[6px] -top-[6px] flex h-[16px] w-[16px] items-center justify-center rounded-full bg-[#C83C3E] text-white"
+            className="press-effect absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white"
           >
-            <X className="h-[10px] w-[10px]" />
+            <X className="h-3 w-3" />
           </button>
         </div>
       ))}
