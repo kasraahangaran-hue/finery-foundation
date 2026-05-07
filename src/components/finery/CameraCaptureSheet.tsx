@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { haptics } from "@/utils/haptics";
 
@@ -100,8 +101,8 @@ export function CameraCaptureSheet({ open, onClose, onCapture }: CameraCaptureSh
 
   if (!open) return null;
 
-  return (
-    <div className="fixed inset-0 z-[100] flex flex-col bg-black">
+  const sheet = (
+    <div className="fixed inset-0 z-[9999] flex flex-col bg-black">
       <div className="flex items-center justify-between px-4 pt-[max(env(safe-area-inset-top),0.75rem)] pb-2">
         <button
           type="button"
@@ -199,4 +200,6 @@ export function CameraCaptureSheet({ open, onClose, onCapture }: CameraCaptureSh
       </div>
     </div>
   );
+
+  return createPortal(sheet, document.body);
 }
