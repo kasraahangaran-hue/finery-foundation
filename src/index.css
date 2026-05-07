@@ -261,6 +261,24 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  /* Universal horizontal carousel utility.
+   * - Hides the scrollbar.
+   * - touch-action: pan-x means the element only captures horizontal
+   *   pan gestures. Vertical pans (and scroll-wheel events on desktop)
+   *   bubble up to the nearest scrolling ancestor — so the page can
+   *   still scroll up/down when the user swipes vertically over the
+   *   carousel. Apply this class to ANY horizontal-scrolling container.
+   */
+  .h-carousel {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  }
+  .h-carousel::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @layer components {
