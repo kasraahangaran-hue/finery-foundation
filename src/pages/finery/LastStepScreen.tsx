@@ -22,22 +22,17 @@ interface SummaryRowProps {
   subtitle: string;
 }
 
-/**
- * Full-bleed widget row matching Figma's couture/widget pattern.
- * 22px icon, 16px gap to text block, title 16/17 Inria Bold,
- * subtitle 12/18 Inter Light textSecondary. px-6 py-[13px].
- */
 function SummaryRow({ icon, title, subtitle }: SummaryRowProps) {
   return (
-    <div className="flex gap-4 px-6 py-[13px]">
-      <div className="flex h-[22px] w-[22px] shrink-0 items-center justify-center text-finery-purple-400">
+    <div className="flex items-start gap-4 px-6 py-[13px]">
+      <div className="h-[22px] w-[22px] shrink-0 text-finery-purple-400">
         {icon}
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <span className="font-display text-[16px] font-bold leading-[17px] text-finery-purple-400">
+        <span className="font-display text-[16px] font-bold leading-[17px] tracking-[0.4px] text-finery-purple-400">
           {title}
         </span>
-        <span className="text-[12px] font-light leading-[18px] text-finery-purple-400/70">
+        <span className="text-[12px] font-light leading-[18px] tracking-[0.1px] text-finery-textSecondary">
           {subtitle}
         </span>
       </div>
@@ -52,11 +47,11 @@ interface SectionTitleProps {
 
 function SectionTitle({ icon, children }: SectionTitleProps) {
   return (
-    <div className="flex items-center gap-2">
-      {icon ? <span className="text-finery-purple-400">{icon}</span> : null}
-      <h2 className="font-display text-[18px] leading-[21px] tracking-[0.4px] text-finery-purple-400">
+    <div className="flex items-center gap-3 px-6 py-[6px]">
+      {icon ? <span className="shrink-0 text-finery-purple-400">{icon}</span> : null}
+      <p className="font-display text-[18px] leading-[21px] tracking-[0.4px] text-finery-purple-400">
         {children}
-      </h2>
+      </p>
     </div>
   );
 }
@@ -128,45 +123,43 @@ export default function LastStepScreen() {
       <button
         type="button"
         onClick={onPay}
-        className="press-effect flex h-[42px] flex-1 items-center justify-center gap-2 rounded-[8px] bg-finery-purple-400 font-display text-sm font-bold text-finery-beige-100 transition-colors hover:bg-finery-purple-400/90"
+        className="press-effect flex h-[42px] w-full items-center justify-center gap-2 rounded-none bg-black"
       >
-        <span>Pay with</span>
-        <img src={applePayWordmarkUrl} alt="Apple Pay" className="h-5" />
+        <span className="font-display text-[14px] font-bold leading-[18px] tracking-[0.4px] text-white">Pay with</span>
+        <img src={applePayWordmarkUrl} alt="Apple Pay" className="h-[20px] w-auto" />
       </button>
     ),
   });
 
   return (
     <>
-      <div className="flex flex-col gap-6 pb-8 pt-2">
+      <div className="mt-[22px] flex flex-col gap-3 pb-6">
         {/* Order Summary */}
         <section className="flex flex-col">
-          <div className="px-6">
-            <SectionTitle>Order Summary</SectionTitle>
-          </div>
+          <SectionTitle>Order Summary</SectionTitle>
           <SummaryRow
-            icon={<Home className="h-[18px] w-[18px]" />}
+            icon={<Home className="h-[22px] w-[22px]" />}
             title="Address"
             subtitle={addressSubtitle}
           />
           <SummaryRow
-            icon={<Calendar className="h-[18px] w-[18px]" />}
+            icon={<Calendar className="h-[22px] w-[22px]" />}
             title="Collection in Person"
             subtitle={pickupSubtitle}
           />
           <SummaryRow
-            icon={<Package className="h-[18px] w-[18px]" />}
+            icon={<Package className="h-[22px] w-[22px]" />}
             title="Delivery"
             subtitle={DELIVERY_DISCLAIMER}
           />
         </section>
 
         {/* Promocode */}
-        <section className="flex flex-col gap-3 px-6">
-          <SectionTitle icon={<Tag className="h-4 w-4" />}>Promocode</SectionTitle>
+        <section className="flex flex-col gap-3">
+          <SectionTitle icon={<Tag className="h-[22px] w-[22px]" />}>Promocode</SectionTitle>
 
           <div className="flex flex-col gap-3">
-            <div className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="flex gap-2 overflow-x-auto overflow-y-hidden touch-pan-x px-6 pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {AVAILABLE_PROMOS.map((promo) => (
                 <PromoCard
                   key={promo.code}
@@ -178,7 +171,7 @@ export default function LastStepScreen() {
               ))}
             </div>
 
-            <div className="flex items-center gap-2 rounded-[10px] border border-finery-purple-400/20 bg-white/60 px-4 py-3">
+            <div className="mx-6 flex items-center gap-2 rounded-[6px] border border-finery-purple-400 bg-white px-4 py-3">
               <input
                 type="text"
                 value={promoInput}
@@ -202,9 +195,9 @@ export default function LastStepScreen() {
         </section>
 
         {/* Payment Method */}
-        <section className="flex flex-col gap-3 px-6">
+        <section className="flex flex-col gap-3">
           <SectionTitle>Payment Method</SectionTitle>
-          <div className="rounded-[10px] border border-finery-purple-400/20 bg-white/60 p-4">
+          <div className="px-6 py-[13px]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <CreditCard className="h-5 w-5 text-finery-purple-400" />
@@ -213,10 +206,10 @@ export default function LastStepScreen() {
                 </span>
               </div>
               <button type="button" onClick={onEditPayment} className="press-effect">
-                <Pencil className="h-4 w-4 text-finery-purple-400/50" />
+                <Pencil className="h-4 w-4 text-finery-purple-400" />
               </button>
             </div>
-            <p className="mt-2 text-[12px] leading-[16px] text-finery-purple-400/60">
+            <p className="mt-2 text-[12px] leading-[16px] text-finery-textSecondary">
               {PAYMENT_SUBTITLE}
             </p>
           </div>
