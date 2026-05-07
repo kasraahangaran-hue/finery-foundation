@@ -40,7 +40,7 @@ export function FineryActionWidget({
       type={isInteractive ? "button" : undefined}
       onClick={isInteractive ? handlePress : undefined}
       className={cn(
-        "flex w-full items-start gap-4 bg-finery-beige-200 px-6 py-[13px] text-left",
+        "flex w-full items-start gap-4 bg-finery-beige-100 px-6 py-[13px] text-left",
         isInteractive && "press-effect",
         className,
       )}

@@ -50,7 +50,7 @@ export default function AddressTypeScreen() {
   };
 
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-finery-beige-200">
+    <div className="flex min-h-[100dvh] flex-col bg-finery-beige-100">
       {/* Title + grid (no back button at top — back lives in footer) */}
       <div className="flex-1 px-6 pt-[max(env(safe-area-inset-top),1.5rem)] pb-4">
         <h1 className="mb-6 font-display text-[18px] font-bold leading-[21px] tracking-[0.4px] text-finery-purple-400">
