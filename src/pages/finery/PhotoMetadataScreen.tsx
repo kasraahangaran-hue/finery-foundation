@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Camera } from "lucide-react";
+import { RawSvg } from "@/components/finery/RawSvg";
+import photosNotesUrl from "@/assets/icons/finery/photos-notes.svg?raw";
 import { FineryButton } from "@/components/finery/FineryButton";
 import { CameraCaptureSheet } from "@/components/finery/CameraCaptureSheet";
 import { useOrderStore } from "@/stores/orderStore";
@@ -98,7 +99,7 @@ export default function PhotoMetadataScreen() {
             aria-label="Retake photo"
             className="press-effect absolute right-[24px] top-[174px] flex h-9 w-9 items-center justify-center rounded-full bg-[rgba(17,17,53,0.62)] text-white"
           >
-            <Camera className="h-4 w-4" />
+            <RawSvg svg={photosNotesUrl} className="h-5 w-5" />
           </button>
         </div>
 

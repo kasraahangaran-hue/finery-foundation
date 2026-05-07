@@ -1,8 +1,9 @@
-import { Plus, Pencil } from "lucide-react";
 import { RawSvg } from "@/components/finery/RawSvg";
 import addressUrl from "@/assets/icons/finery/address.svg?raw";
 import pickupUrl from "@/assets/icons/finery/pickup.svg?raw";
 import deliveryUrl from "@/assets/icons/finery/delivery.svg?raw";
+import addUrl from "@/assets/icons/finery/add.svg?raw";
+import editUrl from "@/assets/icons/finery/edit.svg?raw";
 import { cn } from "@/lib/utils";
 import { haptics } from "@/utils/haptics";
 
@@ -63,9 +64,9 @@ export function FineryWidgetRow({
   const py = subtitle ? "py-[13px]" : "py-[22px]";
 
   const trailing = isCurrent ? (
-    <Plus className="h-3.5 w-3.5 text-finery-purple-400" strokeWidth={2.5} />
+    <RawSvg svg={addUrl} className="h-3.5 w-3.5" />
   ) : isPopulated ? (
-    <Pencil className="h-3.5 w-3.5 text-finery-purple-400" />
+    <RawSvg svg={editUrl} className="h-3.5 w-3.5" />
   ) : null;
 
   return (
