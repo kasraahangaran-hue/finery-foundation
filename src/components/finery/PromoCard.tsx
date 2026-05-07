@@ -26,7 +26,7 @@ export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCar
       type="button"
       onClick={handleToggle}
       className={cn(
-        "flex w-[260px] shrink-0 flex-col press-effect rounded-[8px] border border-finery-purple-400 p-3 text-left transition-colors",
+        "flex w-[260px] shrink-0 flex-col press-effect rounded-[8px] border border-finery-purple-400 p-3 text-left transition-all duration-300 ease-out",
        selected ? "bg-finery-teal-300" : "bg-finery-beige-200",
       )}
     >
@@ -50,7 +50,7 @@ export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCar
 
         <span
           className={cn(
-           "flex h-[26px] w-[64px] shrink-0 items-center justify-center rounded-[5px] border border-finery-purple-400 font-display text-[13px] font-medium leading-none tracking-[0.1px] transition-colors",
+           "flex h-[26px] w-[64px] shrink-0 items-center justify-center rounded-[5px] border border-finery-purple-400 font-display text-[13px] font-medium leading-none tracking-[0.1px] transition-all duration-300 ease-out",
             selected
               ? "bg-finery-purple-400 text-finery-beige-100"
               : "text-finery-purple-400",
