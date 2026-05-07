@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useNativeBack } from "@/lib/useNativeBack";
 import PlaceholderPage from "@/pages/PlaceholderPage";
 import DevAtoms from "@/pages/DevAtoms";
 import OrderStep1 from "@/pages/finery/OrderStep1";
@@ -12,8 +13,9 @@ import AddressDetailsScreen from "@/pages/finery/AddressDetailsScreen";
 import { OrderShell } from "@/components/primitives/OrderShell";
 import { StateInspector } from "@/components/dev/StateInspector";
 
-const AppRouter = () => (
-  <BrowserRouter>
+const AppShell = () => {
+  useNativeBack();
+  return (
     <Routes>
       <Route element={<OrderShell />}>
         <Route path="/" element={<OrderStep1 />} />
@@ -33,6 +35,12 @@ const AppRouter = () => (
 
       <Route path="*" element={<PlaceholderPage name="NotFound" />} />
     </Routes>
+  );
+};
+
+const AppRouter = () => (
+  <BrowserRouter>
+    <AppShell />
     <StateInspector />
   </BrowserRouter>
 );
