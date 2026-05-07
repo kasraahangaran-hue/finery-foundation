@@ -165,6 +165,7 @@ export default function OrderStep2() {
       />
       <PhotoNotesThumbnails
         items={photoNotesItems}
+        onTapAdd={onPhotosTap}
         onTapItem={onThumbTap}
         onTapDelete={onThumbDeleteTap}
       />
