@@ -22,38 +22,38 @@ export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCar
   };
 
   return (
-    <div
+    <button
+      type="button"
       onClick={handleToggle}
       className={cn(
-        "w-[179px] shrink-0 cursor-pointer rounded-[10px] border p-3 transition-colors",
-        selected
-          ? "border-finery-purple-400 bg-[#E8F5F2]"
-          : "border-finery-purple-400/20 bg-white/60",
+        "w-[260px] shrink-0 press-effect rounded-[8px] border border-finery-purple-400 p-3 text-left transition-colors",
+        selected ? "bg-finery-teal-300" : "bg-white",
       )}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-          <span className="font-display text-[13px] font-bold leading-[16px] text-finery-purple-400">
+          <span className="font-display text-[14px] font-bold leading-[16px] tracking-[0.4px] text-finery-purple-400">
             {promo.code}
           </span>
-          <span className="text-[11px] leading-[14px] text-finery-purple-400/70">
+          <span className="font-display text-[11px] font-light leading-[14px] tracking-[0.3px] text-finery-purple-400 line-clamp-2">
             {promo.subtitle}
           </span>
-          <button
-            type="button"
+          <span
+            role="button"
+            tabIndex={0}
             onClick={handleDetails}
-            className="mt-1 self-start text-[11px] leading-[14px] text-finery-purple-400 underline"
+            className="mt-1 self-start font-display text-[10px] font-light leading-[14px] tracking-[0.3px] text-finery-purple-400 underline"
           >
             View Details
-          </button>
+          </span>
         </div>
 
         <span
           className={cn(
-            "shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors",
+            "flex h-[26px] shrink-0 items-center rounded-[5px] border border-finery-purple-400 px-3 font-display text-[11px] font-medium tracking-[0.1px] transition-colors",
             selected
               ? "bg-finery-purple-400 text-finery-beige-100"
-              : "border border-finery-purple-400 text-finery-purple-400",
+              : "text-finery-purple-400",
           )}
         >
           {selected ? "Applied" : "Apply"}
@@ -66,16 +66,16 @@ export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCar
             <div
               key={i}
               className={cn(
-                "h-1 w-3 rounded-full",
-                i < promo.used ? "bg-finery-purple-400" : "bg-finery-purple-400/20",
+                "h-[7px] w-[7px] rounded-full",
+                i < promo.used ? "bg-finery-purple-400" : "border border-finery-purple-400",
               )}
             />
           ))}
         </div>
-        <span className="text-[11px] text-finery-purple-400/50">
+        <span className="font-display text-[9px] font-light tracking-[0.3px] text-finery-purple-400">
           {promo.used}/{promo.total}
         </span>
       </div>
-    </div>
+    </button>
   );
 }
