@@ -50,7 +50,7 @@ export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCar
 
         <span
           className={cn(
-            "flex h-[26px] w-[64px] shrink-0 items-center justify-center rounded-[5px] border border-finery-purple-400 font-display text-[11px] font-medium tracking-[0.1px] transition-colors",
+           "flex h-[26px] w-[64px] shrink-0 items-center justify-center rounded-[5px] border border-finery-purple-400 font-display text-[13px] font-medium tracking-[0.1px] transition-colors",
             selected
               ? "bg-finery-purple-400 text-finery-beige-100"
               : "text-finery-purple-400",
