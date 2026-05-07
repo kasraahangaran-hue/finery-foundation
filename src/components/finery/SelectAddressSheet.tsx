@@ -69,7 +69,7 @@ export function SelectAddressSheet({
             onClick={onAddNew}
             className="press-effect flex items-center gap-2"
           >
-            <RawSvg svg={addUrl} className="h-3.5 w-3.5" />
+            <RawSvg svg={addUrl} className="h-4 w-4" />
             <span className="font-display text-[14px] font-bold leading-[18px] tracking-[0.4px] text-finery-purple-400">
               Add New Address
             </span>
@@ -172,7 +172,7 @@ function AddressRow({
               aria-label="Delete address"
               className="press-effect flex h-8 w-8 -m-2 items-center justify-center"
             >
-              <RawSvg svg={deleteUrl} className="h-3.5 w-3.5" />
+              <RawSvg svg={deleteUrl} className="h-4 w-4" />
             </button>
           )}
           <button
@@ -184,7 +184,7 @@ function AddressRow({
             aria-label="Edit address"
             className="press-effect flex h-8 w-8 -m-2 items-center justify-center"
           >
-            <RawSvg svg={editUrl} className="h-3.5 w-3.5" />
+            <RawSvg svg={editUrl} className="h-4 w-4" />
           </button>
         </div>
       </div>

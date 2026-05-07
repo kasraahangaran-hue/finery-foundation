@@ -32,7 +32,7 @@ interface SummaryRowProps {
 function SummaryRow({ icon, title, subtitle }: SummaryRowProps) {
   return (
     <div className="flex items-start gap-4 px-6 py-[13px]">
-      <div className="h-[22px] w-[22px] shrink-0 text-finery-purple-400">
+      <div className="h-8 w-8 shrink-0 text-finery-purple-400">
         {icon}
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -157,17 +157,17 @@ export default function LastStepScreen() {
         <section className="flex flex-col">
           <SectionTitle>Order Summary</SectionTitle>
           <SummaryRow
-            icon={<RawSvg svg={addressUrl} className="h-[22px] w-[22px]" />}
+            icon={<RawSvg svg={addressUrl} className="h-8 w-8 shrink-0" />}
             title="Address"
             subtitle={addressSubtitle}
           />
           <SummaryRow
-            icon={<RawSvg svg={pickupUrl} className="h-[22px] w-[22px]" />}
+            icon={<RawSvg svg={pickupUrl} className="h-8 w-8 shrink-0" />}
             title="Pick Up"
             subtitle={pickupSubtitle}
           />
           <SummaryRow
-            icon={<RawSvg svg={deliveryUrl} className="h-[22px] w-[22px]" />}
+            icon={<RawSvg svg={deliveryUrl} className="h-8 w-8 shrink-0" />}
             title="Delivery"
             subtitle={DELIVERY_DISCLAIMER}
           />
@@ -176,7 +176,7 @@ export default function LastStepScreen() {
         {/* Promocode */}
         <section className="flex flex-col gap-3">
           <div className="mx-6 h-px bg-border" />
-          <SectionTitle icon={<RawSvg svg={tagUrl} className="h-[22px] w-[22px]" />}>Promocode</SectionTitle>
+          <SectionTitle icon={<RawSvg svg={tagUrl} className="h-8 w-8 shrink-0" />}>Promocode</SectionTitle>
 
           <div className="flex flex-col gap-3">
             <div className="h-carousel flex items-stretch gap-2 overflow-x-auto px-6 pb-1">
@@ -225,7 +225,7 @@ export default function LastStepScreen() {
               className="press-effect flex w-full items-center justify-between"
             >
               <div className="flex items-center gap-3">
-                <RawSvg svg={creditCardUrl} className="h-5 w-5" />
+                <RawSvg svg={creditCardUrl} className="h-8 w-8 shrink-0" />
                 <span className="font-display text-[14px] font-bold text-finery-purple-400">
                   {isApplePay ? "Apple Pay" : `Credit Card •••• ${payment?.last4 ?? "4242"}`}
                 </span>

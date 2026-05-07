@@ -67,8 +67,8 @@ export function ValetInstructionsSheet({
       {/* Pickup section */}
       <div>
         <div className="flex items-start gap-3">
-          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center text-finery-purple-400">
-            <RawSvg svg={pickupUrl} className="h-5 w-5" />
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center text-finery-purple-400">
+            <RawSvg svg={pickupUrl} className="h-8 w-8" />
           </span>
           <div className="flex flex-col">
             <span className="font-display text-[16px] font-bold leading-[20px] tracking-[0.4px] text-finery-purple-400">
@@ -98,8 +98,8 @@ export function ValetInstructionsSheet({
       {/* Delivery section */}
       <div>
         <div className="flex items-start gap-3">
-          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center text-finery-purple-400">
-            <RawSvg svg={deliveryUrl} className="h-5 w-5" />
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center text-finery-purple-400">
+            <RawSvg svg={deliveryUrl} className="h-8 w-8" />
           </span>
           <div className="flex flex-col">
             <span className="font-display text-[16px] font-bold leading-[20px] tracking-[0.4px] text-finery-purple-400">
