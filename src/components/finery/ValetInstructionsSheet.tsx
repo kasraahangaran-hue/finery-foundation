@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { Truck, Package } from "lucide-react";
+import { RawSvg } from "@/components/finery/RawSvg";
+import pickupUrl from "@/assets/icons/finery/pickup.svg?raw";
+import deliveryUrl from "@/assets/icons/finery/delivery.svg?raw";
 import { BottomSheetShell } from "@/components/primitives/BottomSheetShell";
 import { FineryRadio } from "@/components/finery/FineryRadio";
 import {
@@ -66,7 +68,7 @@ export function ValetInstructionsSheet({
       <div>
         <div className="flex items-start gap-3">
           <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center text-finery-purple-400">
-            <Truck className="h-5 w-5" />
+            <RawSvg svg={pickupUrl} className="h-5 w-5" />
           </span>
           <div className="flex flex-col">
             <span className="font-display text-[16px] font-bold leading-[20px] tracking-[0.4px] text-finery-purple-400">
@@ -97,7 +99,7 @@ export function ValetInstructionsSheet({
       <div>
         <div className="flex items-start gap-3">
           <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center text-finery-purple-400">
-            <Package className="h-5 w-5" />
+            <RawSvg svg={deliveryUrl} className="h-5 w-5" />
           </span>
           <div className="flex flex-col">
             <span className="font-display text-[16px] font-bold leading-[20px] tracking-[0.4px] text-finery-purple-400">

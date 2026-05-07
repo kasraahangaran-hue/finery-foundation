@@ -1,6 +1,12 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, Calendar, Package, Tag, CreditCard, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
+import { RawSvg } from "@/components/finery/RawSvg";
+import addressUrl from "@/assets/icons/finery/address.svg?raw";
+import pickupUrl from "@/assets/icons/finery/pickup.svg?raw";
+import deliveryUrl from "@/assets/icons/finery/delivery.svg?raw";
+import tagUrl from "@/assets/icons/finery/tag.svg?raw";
+import creditCardUrl from "@/assets/icons/finery/credit-card.svg?raw";
 import { useOrderStore } from "@/stores/orderStore";
 import { useOrderChrome } from "@/components/primitives/OrderShell";
 import { PromoCard } from "@/components/finery/PromoCard";
@@ -151,17 +157,17 @@ export default function LastStepScreen() {
         <section className="flex flex-col">
           <SectionTitle>Order Summary</SectionTitle>
           <SummaryRow
-            icon={<Home className="h-[22px] w-[22px]" />}
+            icon={<RawSvg svg={addressUrl} className="h-[22px] w-[22px]" />}
             title="Address"
             subtitle={addressSubtitle}
           />
           <SummaryRow
-            icon={<Calendar className="h-[22px] w-[22px]" />}
-            title="Collection in Person"
+            icon={<RawSvg svg={pickupUrl} className="h-[22px] w-[22px]" />}
+            title="Pick Up"
             subtitle={pickupSubtitle}
           />
           <SummaryRow
-            icon={<Package className="h-[22px] w-[22px]" />}
+            icon={<RawSvg svg={deliveryUrl} className="h-[22px] w-[22px]" />}
             title="Delivery"
             subtitle={DELIVERY_DISCLAIMER}
           />
@@ -170,7 +176,7 @@ export default function LastStepScreen() {
         {/* Promocode */}
         <section className="flex flex-col gap-3">
           <div className="mx-6 h-px bg-border" />
-          <SectionTitle icon={<Tag className="h-[22px] w-[22px]" />}>Promocode</SectionTitle>
+          <SectionTitle icon={<RawSvg svg={tagUrl} className="h-[22px] w-[22px]" />}>Promocode</SectionTitle>
 
           <div className="flex flex-col gap-3">
             <div className="h-carousel flex items-stretch gap-2 overflow-x-auto px-6 pb-1">
@@ -219,7 +225,7 @@ export default function LastStepScreen() {
               className="press-effect flex w-full items-center justify-between"
             >
               <div className="flex items-center gap-3">
-                <CreditCard className="h-5 w-5 text-finery-purple-400" />
+                <RawSvg svg={creditCardUrl} className="h-5 w-5" />
                 <span className="font-display text-[14px] font-bold text-finery-purple-400">
                   {isApplePay ? "Apple Pay" : `Credit Card •••• ${payment?.last4 ?? "4242"}`}
                 </span>
