@@ -72,7 +72,7 @@ export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCar
             />
           ))}
         </div>
-        <span className="font-display text-[9px] font-light tracking-[0.3px] text-finery-purple-400">
+        <span className="font-display text-[10px] font-light tracking-[0.3px] text-finery-purple-400">
           {promo.used}/{promo.total}
         </span>
       </div>
