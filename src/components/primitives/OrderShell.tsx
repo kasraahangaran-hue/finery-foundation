@@ -77,7 +77,7 @@ export function OrderShell() {
 
   return (
     <ChromeContext.Provider value={value}>
-      <div className="flex h-[100dvh] flex-col overflow-hidden bg-finery-beige-200">
+     <div className="flex h-[100dvh] flex-col overflow-hidden bg-finery-beige-100">
 
         {/* Persistent header */}
         <header className="shrink-0">
