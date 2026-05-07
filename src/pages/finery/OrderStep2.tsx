@@ -5,6 +5,7 @@ import { FineryButton } from "@/components/finery/FineryButton";
 import { FineryActionWidget } from "@/components/finery/FineryActionWidget";
 import { ValetInstructionsSheet } from "@/components/finery/ValetInstructionsSheet";
 import { AdditionalCommentsSheet } from "@/components/finery/AdditionalCommentsSheet";
+import { CameraCaptureSheet } from "@/components/finery/CameraCaptureSheet";
 import { useOrderChrome } from "@/components/primitives/OrderShell";
 import { useOrderStore, type ValetPickupPreference, type ValetDeliveryPreference } from "@/stores/orderStore";
 import { haptics } from "@/utils/haptics";
@@ -37,13 +38,16 @@ export default function OrderStep2() {
 
   const additionalComments = useOrderStore((s) => s.additionalComments);
   const setAdditionalComments = useOrderStore((s) => s.setAdditionalComments);
+  const photoNotesItems = useOrderStore((s) => s.photoNotesItems);
+  const addPhotoNoteItem = useOrderStore((s) => s.addPhotoNoteItem);
 
   const [valetSheetOpen, setValetSheetOpen] = useState(false);
   const [commentsSheetOpen, setCommentsSheetOpen] = useState(false);
+  const [cameraOpen, setCameraOpen] = useState(false);
 
   const valetPopulated =
     valetPickup !== "no_preference" || valetDelivery !== "no_preference";
-  const photosPopulated = false;
+  const photosPopulated = photoNotesItems.length > 0;
   const commentsPopulated = additionalComments.trim().length > 0;
 
   const anyPopulated = valetPopulated || photosPopulated || commentsPopulated;
@@ -69,7 +73,14 @@ export default function OrderStep2() {
   };
 
   const onPhotosTap = () => {
-    console.log("[OrderStep2] photos tap — would open photo capture flow");
+    setCameraOpen(true);
+  };
+
+  const onPhotoCaptured = (dataUrl: string) => {
+    haptics.medium();
+    setCameraOpen(false);
+    const id = addPhotoNoteItem(dataUrl);
+    navigate(`/order/instructions/photo?id=${id}`);
   };
 
   const onCommentsTap = () => {
@@ -155,6 +166,12 @@ export default function OrderStep2() {
       onOpenChange={setCommentsSheetOpen}
       initialValue={additionalComments}
       onSave={onCommentsSave}
+    />
+
+    <CameraCaptureSheet
+      open={cameraOpen}
+      onClose={() => setCameraOpen(false)}
+      onCapture={onPhotoCaptured}
     />
     </>
   );

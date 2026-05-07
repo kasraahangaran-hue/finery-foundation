@@ -19,6 +19,13 @@ export type ValetDeliveryPreference =
   | "knock_door"
   | "call_when_arrive";
 
+export interface PhotoNoteItem {
+  id: string;
+  photo: string;
+  brand: string;
+  notes: string;
+}
+
 export interface ApartmentFields {
   building: string;
   aptNumber: string;
@@ -118,6 +125,10 @@ export interface OrderState {
   setPromocode: (c: string | null) => void;
   setValetPreferences: (pickup: ValetPickupPreference, delivery: ValetDeliveryPreference) => void;
   setAdditionalComments: (value: string) => void;
+  photoNotesItems: PhotoNoteItem[];
+  addPhotoNoteItem: (photo: string) => string;
+  updatePhotoNoteItem: (id: string, patch: { brand?: string; notes?: string; photo?: string }) => void;
+  deletePhotoNoteItem: (id: string) => void;
   reset: () => void;
 }
 
@@ -146,6 +157,7 @@ const initialState = {
   valetPickupPreference: "no_preference" as ValetPickupPreference,
   valetDeliveryPreference: "no_preference" as ValetDeliveryPreference,
   additionalComments: "",
+  photoNotesItems: [] as PhotoNoteItem[],
 };
 
 export const useOrderStore = create<OrderState>()(
@@ -205,6 +217,23 @@ export const useOrderStore = create<OrderState>()(
       setValetPreferences: (pickup, delivery) =>
         set({ valetPickupPreference: pickup, valetDeliveryPreference: delivery }),
       setAdditionalComments: (additionalComments) => set({ additionalComments }),
+      addPhotoNoteItem: (photo) => {
+        const id = `pn_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+        set((s) => ({
+          photoNotesItems: [...s.photoNotesItems, { id, photo, brand: "", notes: "" }],
+        }));
+        return id;
+      },
+      updatePhotoNoteItem: (id, patch) =>
+        set((s) => ({
+          photoNotesItems: s.photoNotesItems.map((it) =>
+            it.id === id ? { ...it, ...patch } : it,
+          ),
+        })),
+      deletePhotoNoteItem: (id) =>
+        set((s) => ({
+          photoNotesItems: s.photoNotesItems.filter((it) => it.id !== id),
+        })),
 
       reset: () =>
         set((state) => ({
@@ -220,6 +249,7 @@ export const useOrderStore = create<OrderState>()(
           valetPickupPreference: "no_preference",
           valetDeliveryPreference: "no_preference",
           additionalComments: "",
+          photoNotesItems: [],
         })),
     }),
     {
@@ -237,6 +267,7 @@ export const useOrderStore = create<OrderState>()(
         valetPickupPreference: s.valetPickupPreference,
         valetDeliveryPreference: s.valetDeliveryPreference,
         additionalComments: s.additionalComments,
+        photoNotesItems: s.photoNotesItems,
       }),
     },
   ),
