@@ -152,7 +152,7 @@ const initialState = {
   pickupSlot: null,
   deliveryTimesAcknowledged: false,
   notes: [] as Note[],
-  payment: null,
+  payment: { method: "apple_pay" } as PaymentState,
   promocode: null,
   valetPickupPreference: "no_preference" as ValetPickupPreference,
   valetDeliveryPreference: "no_preference" as ValetDeliveryPreference,
