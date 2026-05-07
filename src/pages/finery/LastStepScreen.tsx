@@ -46,18 +46,18 @@ function SummaryRow({ icon, title, subtitle }: SummaryRowProps) {
 }
 
 interface SectionTitleProps {
+  icon?: React.ReactNode;
   children: React.ReactNode;
 }
 
-/**
- * Section header: 18/21 Inria Regular tracking 0.4 — matches Figma h3.
- * Lives in a px-6 strip above each section's body.
- */
-function SectionTitle({ children }: SectionTitleProps) {
+function SectionTitle({ icon, children }: SectionTitleProps) {
   return (
-    <h2 className="font-display text-[18px] leading-[21px] tracking-[0.4px] text-finery-purple-400">
-      {children}
-    </h2>
+    <div className="flex items-center gap-2">
+      {icon ? <span className="text-finery-purple-400">{icon}</span> : null}
+      <h2 className="font-display text-[18px] leading-[21px] tracking-[0.4px] text-finery-purple-400">
+        {children}
+      </h2>
+    </div>
   );
 }
 
@@ -163,13 +163,7 @@ export default function LastStepScreen() {
 
         {/* Promocode */}
         <section className="flex flex-col gap-3 px-6">
-          <div className="flex items-center gap-2">
-            <SectionTitle>Promocode</SectionTitle>
-          </div>
-          <div className="flex items-center gap-2">
-            <Tag className="h-4 w-4 text-finery-purple-400" />
-            <span className="text-[13px] text-finery-purple-400/70">Promocode</span>
-          </div>
+          <SectionTitle icon={<Tag className="h-4 w-4" />}>Promocode</SectionTitle>
 
           <div className="flex flex-col gap-3">
             <div className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
