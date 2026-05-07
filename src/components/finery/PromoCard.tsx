@@ -9,11 +9,6 @@ interface PromoCardProps {
   onViewDetails: () => void;
 }
 
-/**
- * PromoCard — fixed-width 179px tile used inside a horizontal carousel.
- * Tap whole card to toggle selection; tap "View Details" to open sheet.
- * Selected state: light teal bg + filled "Applied" pill.
- */
 export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCardProps) {
   const handleToggle = () => {
     haptics.light();
