@@ -27,7 +27,7 @@ export function PromoCard({ promo, selected, onToggle, onViewDetails }: PromoCar
       onClick={handleToggle}
       className={cn(
         "flex w-[260px] shrink-0 flex-col press-effect rounded-[8px] border border-finery-purple-400 p-3 text-left transition-colors",
-        selected ? "bg-finery-teal-300" : "bg-white",
+       selected ? "bg-finery-teal-300" : "bg-finery-beige-200",
       )}
     >
       <div className="flex items-start justify-between gap-2">
