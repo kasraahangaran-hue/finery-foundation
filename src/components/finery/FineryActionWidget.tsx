@@ -1,5 +1,7 @@
-import { Plus, Pencil } from "lucide-react";
 import type { ReactNode } from "react";
+import { RawSvg } from "@/components/finery/RawSvg";
+import addUrl from "@/assets/icons/finery/add.svg?raw";
+import editUrl from "@/assets/icons/finery/edit.svg?raw";
 import { cn } from "@/lib/utils";
 import { haptics } from "@/utils/haptics";
 
@@ -31,7 +33,7 @@ export function FineryActionWidget({
   };
 
   const Tag = isInteractive ? "button" : "div";
-  const ActionIcon = action === "plus" ? Plus : Pencil;
+  const actionIconUrl = action === "plus" ? addUrl : editUrl;
 
   return (
     <Tag
@@ -57,7 +59,7 @@ export function FineryActionWidget({
         ) : null}
       </span>
       <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center text-finery-purple-400">
-        <ActionIcon className="h-3.5 w-3.5" strokeWidth={2.5} />
+        <RawSvg svg={actionIconUrl} className="h-3.5 w-3.5" />
       </span>
     </Tag>
   );

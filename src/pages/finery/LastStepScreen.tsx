@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Pencil } from "lucide-react";
 import { RawSvg } from "@/components/finery/RawSvg";
 import addressUrl from "@/assets/icons/finery/address.svg?raw";
 import pickupUrl from "@/assets/icons/finery/pickup.svg?raw";
 import deliveryUrl from "@/assets/icons/finery/delivery.svg?raw";
 import tagUrl from "@/assets/icons/finery/tag.svg?raw";
 import creditCardUrl from "@/assets/icons/finery/credit-card.svg?raw";
+import editUrl from "@/assets/icons/finery/edit.svg?raw";
 import { useOrderStore } from "@/stores/orderStore";
 import { useOrderChrome } from "@/components/primitives/OrderShell";
 import { PromoCard } from "@/components/finery/PromoCard";
@@ -230,7 +230,7 @@ export default function LastStepScreen() {
                   {isApplePay ? "Apple Pay" : `Credit Card •••• ${payment?.last4 ?? "4242"}`}
                 </span>
               </div>
-              <Pencil className="h-4 w-4 text-finery-purple-400" />
+              <RawSvg svg={editUrl} className="h-4 w-4" />
             </button>
             <p className="mt-2 text-[12px] leading-[16px] text-finery-textSecondary">
               {PAYMENT_SUBTITLE}

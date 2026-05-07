@@ -1,4 +1,6 @@
-import { Camera, X } from "lucide-react";
+import { X } from "lucide-react";
+import { RawSvg } from "@/components/finery/RawSvg";
+import photosNotesUrl from "@/assets/icons/finery/photos-notes.svg?raw";
 import { haptics } from "@/utils/haptics";
 import type { PhotoNoteItem } from "@/stores/orderStore";
 
@@ -23,7 +25,7 @@ export function PhotoNotesThumbnails({ items, onTapAdd, onTapItem, onTapDelete }
         aria-label="Add another photo"
         className="press-effect flex aspect-square items-center justify-center rounded-md border-2 border-dashed border-finery-purple-300"
       >
-        <Camera className="h-6 w-6 text-finery-purple-400" />
+        <RawSvg svg={photosNotesUrl} className="h-6 w-6" />
       </button>
       {items.map((item) => (
         <div key={item.id} className="relative aspect-square overflow-hidden rounded-md">
