@@ -21,7 +21,7 @@ export function PhotoNotesThumbnails({ items, onTapAdd, onTapItem, onTapDelete }
           onTapAdd();
         }}
         aria-label="Add another photo"
-        className="press-effect flex aspect-square items-center justify-center rounded-md border-2 border-dashed border-finery-purple-400"
+        className="press-effect flex aspect-square items-center justify-center rounded-md border-2 border-dashed border-finery-purple-200"
       >
         <Camera className="h-6 w-6 text-finery-purple-400" />
       </button>
